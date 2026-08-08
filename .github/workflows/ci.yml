@@ -32,3 +32,6 @@ jobs:
 
       - name: Build application
         run: mvn package -DskipTests
+
+      - name: Build Docker image
+        run: docker build -t shop-api:test .
