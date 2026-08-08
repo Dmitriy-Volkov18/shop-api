@@ -1,8 +1,6 @@
 package com.example.shopapi.productVariant.services;
 
 import com.example.shopapi.product.dto.ImageMetadata;
-import com.example.shopapi.product.dto.ProductImageResponse;
-import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.product.services.ImageUploadService;
 import com.example.shopapi.productVariant.dto.VariantImageResponse;
 import com.example.shopapi.productVariant.entities.ProductVariant;

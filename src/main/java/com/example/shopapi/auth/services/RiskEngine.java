@@ -43,8 +43,14 @@ public class RiskEngine {
     }
 
     private RiskLevel map(int score) {
-        if (score <= 30) return RiskLevel.LOW;
-        if (score <= 70) return RiskLevel.MEDIUM;
+        if (score <= 30) {
+            return RiskLevel.LOW;
+        }
+
+        if (score <= 70) {
+            return RiskLevel.MEDIUM;
+        }
+
         return RiskLevel.HIGH;
     }
 

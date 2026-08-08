@@ -3,7 +3,6 @@ package com.example.shopapi.category;
 import com.example.shopapi.common.exception.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

@@ -2,7 +2,10 @@ package com.example.shopapi.promotion.calculation;
 
 import com.example.shopapi.card.entities.Cart;
 import com.example.shopapi.product.services.ProductPricingService;
-import com.example.shopapi.promotion.engine.*;
+import com.example.shopapi.promotion.engine.AppliedPromotion;
+import com.example.shopapi.promotion.engine.PromotionContext;
+import com.example.shopapi.promotion.engine.PromotionDiscountLine;
+import com.example.shopapi.promotion.engine.PromotionEngine;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

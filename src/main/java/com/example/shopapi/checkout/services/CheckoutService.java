@@ -8,7 +8,6 @@ import com.example.shopapi.coupon.dto.CouponApplicationRequest;
 import com.example.shopapi.coupon.dto.CouponApplicationResult;
 import com.example.shopapi.order.mappers.OrderAddressMapper;
 import com.example.shopapi.payment.Payment;
-import com.example.shopapi.payment.enums.PaymentMethod;
 import com.example.shopapi.order.factory.CustomerOrderFactory;
 import com.example.shopapi.order.entities.CustomerOrder;
 import com.example.shopapi.order.entities.OrderAddressSnapshot;

@@ -1,6 +1,10 @@
 package com.example.shopapi.auth.services;
 
-import com.example.shopapi.auth.dto.*;
+import com.example.shopapi.auth.dto.ChangePasswordRequest;
+import com.example.shopapi.auth.dto.ForgotPasswordRequest;
+import com.example.shopapi.auth.dto.ResetPasswordRequest;
+import com.example.shopapi.auth.dto.SecurityAuditEvent;
+import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.enums.RateLimitType;
 import com.example.shopapi.auth.enums.RiskLevel;
 import com.example.shopapi.auth.enums.SecurityEventType;

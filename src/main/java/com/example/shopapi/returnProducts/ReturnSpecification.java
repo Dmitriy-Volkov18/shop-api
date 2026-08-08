@@ -1,6 +1,5 @@
 package com.example.shopapi.returnProducts;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.jpa.domain.Specification;
 

@@ -81,9 +81,13 @@ public class SuspiciousLoginService {
 
     public RiskLevel evaluate(int riskScore) {
 
-        if (riskScore <= 30) return RiskLevel.LOW;
+        if (riskScore <= 30) {
+            return RiskLevel.LOW;
+        }
 
-        if (riskScore <= 70) return RiskLevel.MEDIUM;
+        if (riskScore <= 70) {
+            return RiskLevel.MEDIUM;
+        }
 
         return RiskLevel.HIGH;
     }

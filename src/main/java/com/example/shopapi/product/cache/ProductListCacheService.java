@@ -2,10 +2,8 @@ package com.example.shopapi.product.cache;
 
 import com.example.shopapi.common.infrastructure.redis.RedisKeyBuilder;
 import com.example.shopapi.common.infrastructure.redis.RedisService;
-import com.example.shopapi.product.dto.ProductListResponse;
 import com.example.shopapi.product.dto.ProductListResponsePage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;

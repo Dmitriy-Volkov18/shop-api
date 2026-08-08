@@ -7,7 +7,6 @@ import com.example.shopapi.promotion.enums.PromotionActionType;
 import com.example.shopapi.promotion.interfaces.PromotionAction;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 
 @Component
 public class FixedDiscountPromotionAction

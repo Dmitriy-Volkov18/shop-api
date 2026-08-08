@@ -2,16 +2,29 @@ package com.example.shopapi.user.controllers;
 
 import com.example.shopapi.auth.services.CurrentUserService;
 import com.example.shopapi.user.CustomUserPrincipal;
+import com.example.shopapi.user.dto.MeResponse;
+import com.example.shopapi.user.dto.UpdateUserProfileRequest;
+import com.example.shopapi.user.dto.UserCreateRequest;
+import com.example.shopapi.user.dto.UserProfileResponse;
+import com.example.shopapi.user.dto.UserResponse;
+import com.example.shopapi.user.dto.UserUpdateRequest;
 import com.example.shopapi.user.facades.UserFacade;
 import com.example.shopapi.user.UserFilter;
-import com.example.shopapi.user.dto.*;
 import com.example.shopapi.user.enums.UserRole;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")

@@ -10,11 +10,13 @@ public class StrongPasswordValidator
     public boolean isValid(String password,
                            ConstraintValidatorContext context) {
 
-        if (password == null)
+        if (password == null){
             return false;
+        }
 
-        if (password.length() < 8)
+        if (password.length() < 8){
             return false;
+        }
 
         boolean upper = false;
         boolean lower = false;
@@ -23,17 +25,19 @@ public class StrongPasswordValidator
 
         for (char c : password.toCharArray()) {
 
-            if (Character.isUpperCase(c))
+            if (Character.isUpperCase(c)){
                 upper = true;
-
-            else if (Character.isLowerCase(c))
+            }
+            else if (Character.isLowerCase(c)){
                 lower = true;
-
-            else if (Character.isDigit(c))
+            }
+            else if (Character.isDigit(c)){
                 digit = true;
-
-            else
+            }
+            else{
                 special = true;
+            }
+
         }
 
         return upper && lower && digit && special;

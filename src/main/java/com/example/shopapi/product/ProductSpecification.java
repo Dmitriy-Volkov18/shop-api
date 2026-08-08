@@ -7,7 +7,12 @@ import com.example.shopapi.product.enums.ProductStatus;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.productVariant.entities.VariantAttribute;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;

@@ -3,7 +3,6 @@ package com.example.shopapi.order.services;
 import com.example.shopapi.order.entities.CustomerOrder;
 import com.example.shopapi.order.enums.OrderCancellationReason;
 import com.example.shopapi.shipment.Shipment;
-import com.example.shopapi.order.enums.CustomerOrderStatus;
 import com.example.shopapi.shipment.ShipmentStatus;
 import com.example.shopapi.common.exception.OrderStatusException;
 import com.example.shopapi.inventory.InventoryReservationService;

@@ -13,7 +13,7 @@ on:
 
 jobs:
   test:
-    name: Build and Test
+    name: Build, Test and Quality
     runs-on: ubuntu-latest
 
     steps:
@@ -28,10 +28,10 @@ jobs:
           cache: maven
 
       - name: Run tests
-        run: mvn clean verify
+        run: mvn clean test
 
-      - name: Build application
-        run: mvn package -DskipTests
+      - name: Check code quality
+        run: mvn verify -DskipTests
 
       - name: Build Docker image
         run: docker build -t shop-api:test .

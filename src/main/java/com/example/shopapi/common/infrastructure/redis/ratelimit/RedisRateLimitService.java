@@ -1,7 +1,6 @@
 package com.example.shopapi.common.infrastructure.redis.ratelimit;
 
 import com.example.shopapi.common.infrastructure.redis.RedisRateLimitScriptService;
-import com.example.shopapi.common.infrastructure.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

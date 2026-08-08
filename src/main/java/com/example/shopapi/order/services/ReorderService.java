@@ -10,7 +10,6 @@ import com.example.shopapi.order.enums.ReorderSkipReason;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.productVariant.enums.ProductVariantStatus;
 import com.example.shopapi.productVariant.services.ProductVariantService;
-import com.example.shopapi.user.entities.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

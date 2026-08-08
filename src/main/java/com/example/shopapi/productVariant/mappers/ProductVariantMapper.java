@@ -1,10 +1,18 @@
 package com.example.shopapi.productVariant.mappers;
 
 import com.example.shopapi.discounts.productDiscounts.ProductDiscountMapper;
-import com.example.shopapi.productVariant.dto.*;
+import com.example.shopapi.productVariant.dto.CreateProductVariantRequest;
+import com.example.shopapi.productVariant.dto.ProductVariantResponse;
+import com.example.shopapi.productVariant.dto.UpdateProductVariantRequest;
+import com.example.shopapi.productVariant.dto.VariantDimensionsRequest;
+import com.example.shopapi.productVariant.dto.VariantDimensionsResponse;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.productVariant.entities.VariantDimensions;
-import org.mapstruct.*;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValueMappingStrategy;
 
 @Mapper(
         componentModel = "spring",

@@ -4,8 +4,6 @@ import com.example.shopapi.product.dto.ProductListResponse;
 import com.example.shopapi.product.mappers.ProductMapper;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

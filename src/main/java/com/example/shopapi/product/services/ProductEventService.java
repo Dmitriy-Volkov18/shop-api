@@ -1,6 +1,5 @@
 package com.example.shopapi.product.services;
 
-import com.example.shopapi.common.config.TrendingProperties;
 import com.example.shopapi.common.infrastructure.redis.RedisTrendingService;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.product.entities.ProductEvent;

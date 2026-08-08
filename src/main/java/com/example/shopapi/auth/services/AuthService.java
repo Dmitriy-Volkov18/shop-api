@@ -1,6 +1,12 @@
 package com.example.shopapi.auth.services;
 
-import com.example.shopapi.auth.dto.*;
+import com.example.shopapi.auth.dto.AuthResponse;
+import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.dto.LoginRequest;
+import com.example.shopapi.auth.dto.RegisterRequest;
+import com.example.shopapi.auth.dto.RiskResult;
+import com.example.shopapi.auth.dto.SecurityAuditEvent;
+import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.auth.enums.RiskLevel;
