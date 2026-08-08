@@ -1,0 +1,125 @@
+# Shop API
+
+REST API интернет-магазина на Spring Boot.
+
+Проект представляет собой backend интернет-магазина с управлением пользователями, аутентификацией, товарами, вариантами товаров, корзиной, заказами, скидками и пользовательскими сессиями.
+
+Проект также включает JWT-аутентификацию, управление refresh-сессиями, контейнеризацию с Docker и CI-проверки через GitHub Actions.
+
+---
+
+## Стек технологий
+
+### Backend
+
+* Java 26
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* Bean Validation
+* MapStruct
+* Lombok
+* Maven
+
+### База данных и инфраструктура
+
+* PostgreSQL 17
+* Redis 8
+* Docker
+* Docker Compose
+
+### Документация API
+
+* OpenAPI
+* Swagger UI
+
+### Контроль качества и CI
+
+* JUnit
+* Checkstyle
+* SpotBugs
+* GitHub Actions
+* GitHub Container Registry (GHCR)
+
+---
+
+## Запуск через Docker Compose
+
+Убедитесь, что установлены Docker и Docker Compose.
+
+Настройте файл `.env`, затем выполните:
+
+```bash
+docker compose up -d --build
+```
+
+Проверить состояние контейнеров:
+
+```bash
+docker compose ps
+```
+
+Приложение будет доступно по адресу:
+
+```text
+http://localhost:8080
+```
+
+Остановить контейнеры:
+
+```bash
+docker compose down
+```
+
+Остановить контейнеры и удалить постоянные volumes:
+
+```bash
+docker compose down -v
+```
+
+> `docker compose down -v` удаляет volumes PostgreSQL и Redis, поэтому все сохранённые в них данные будут удалены.
+
+---
+
+## Переменные окружения
+
+Приложение использует переменные окружения для настройки подключения к PostgreSQL и Redis.
+
+Пример `.env`:
+
+```env
+POSTGRES_DB=shop
+POSTGRES_USER=user
+POSTGRES_PASSWORD=pass
+POSTGRES_PORT=5432
+
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=shop
+DB_USERNAME=user
+DB_PASSWORD=pass
+
+REDIS_HOST=localhost
+REDIS_PORT=6379
+```
+
+---
+
+## Документация API
+
+После запуска приложения Swagger UI доступен по адресу:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+OpenAPI спецификация:
+
+```text
+http://localhost:8080/v3/api-docs
+```
+
+Swagger UI позволяет просматривать и тестировать доступные REST API endpoints.
+
+---
