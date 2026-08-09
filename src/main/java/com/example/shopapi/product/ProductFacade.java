@@ -16,8 +16,6 @@ import com.example.shopapi.recentlyViewed.RecentlyViewedService;
 import com.example.shopapi.searchHistory.SearchHistoryService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
-import com.example.shopapi.wishlist.WishlistService;
-import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,10 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +34,6 @@ public class ProductFacade {
     private final ProductMapper productMapper;
     private final AuthorizationService authorizationService;
     private final CurrentUserService currentUserService;
-    private final WishlistService wishlistService;
     private final RecentlyViewedService recentlyViewedService;
     private final SearchHistoryService searchHistoryService;
     private final ProductResponseAssembler productResponseAssembler;
