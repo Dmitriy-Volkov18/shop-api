@@ -15,12 +15,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.example.shopapi.common.constants.ProductConstants.MAX_ATTRIBUTES;
+import static com.example.shopapi.common.constants.ProductConstants.MAX_VARIANTS;
+
 @Service
 @RequiredArgsConstructor
 public class ProductVariantValidator {
-
-    public static final int MAX_VARIANTS = 100;
-    public static final int MAX_ATTRIBUTES = 20;
 
     private final ProductVariantRepository variantRepository;
 

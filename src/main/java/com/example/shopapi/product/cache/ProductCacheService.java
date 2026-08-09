@@ -6,13 +6,11 @@ import com.example.shopapi.product.dto.ProductDetailResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
+import static com.example.shopapi.common.constants.RedisCacheTImeConstants.PRODUCT_TTL;
 
 @Service
 @RequiredArgsConstructor
 public class ProductCacheService {
-
-    private static final Duration PRODUCT_TTL = Duration.ofMinutes(30);
 
     private final RedisService redisService;
     private final RedisKeyBuilder keyBuilder;

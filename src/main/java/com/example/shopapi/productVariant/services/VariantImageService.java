@@ -17,11 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.shopapi.common.constants.ProductConstants.MAX_VARIANT_IMAGES;
+
 @Service
 @RequiredArgsConstructor
 public class VariantImageService {
-
-    private static final int MAX_VARIANT_IMAGES = 10;
 
     private final VariantImageMapper mapper;
     private final ImageRulesService rules;

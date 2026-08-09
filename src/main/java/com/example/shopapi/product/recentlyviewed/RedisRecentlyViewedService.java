@@ -5,16 +5,16 @@ import com.example.shopapi.common.infrastructure.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Set;
+
+import static com.example.shopapi.common.constants.RecentlyViewedConstants.RECENTLY_VIEWED_LIMIT;
+import static com.example.shopapi.common.constants.RedisCacheTImeConstants.RECENTLY_VIEWED_TTL;
 
 @Service
 @RequiredArgsConstructor
 public class RedisRecentlyViewedService {
 
-    private static final int LIMIT = 20;
-    private static final Duration TTL = Duration.ofDays(90);
 
     private final RedisService redisService;
     private final RedisKeyBuilder keyBuilder;
@@ -37,7 +37,7 @@ public class RedisRecentlyViewedService {
 
         redisService.expire(
                 key,
-                TTL
+                RECENTLY_VIEWED_TTL
         );
     }
 
@@ -50,7 +50,7 @@ public class RedisRecentlyViewedService {
                 redisService.zReverseRange(
                         key,
                         0,
-                        LIMIT - 1
+                        RECENTLY_VIEWED_LIMIT - 1
                 );
 
 
@@ -65,7 +65,7 @@ public class RedisRecentlyViewedService {
         Set<Object> extra =
                 redisService.zReverseRange(
                         key,
-                        LIMIT,
+                        RECENTLY_VIEWED_LIMIT,
                         -1
                 );
 

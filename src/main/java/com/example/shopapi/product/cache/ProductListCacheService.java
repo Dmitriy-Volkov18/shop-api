@@ -6,13 +6,11 @@ import com.example.shopapi.product.dto.ProductListResponsePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
+import static com.example.shopapi.common.constants.RedisCacheTImeConstants.PRODUCTS_LIST_TTL;
 
 @Service
 @RequiredArgsConstructor
 public class ProductListCacheService {
-
-    private static final Duration TTL = Duration.ofMinutes(10);
 
     private final RedisService redisService;
     private final RedisKeyBuilder keyBuilder;
@@ -33,7 +31,7 @@ public class ProductListCacheService {
         redisService.set(
                 keyBuilder.products(hash),
                 response,
-                TTL
+                PRODUCTS_LIST_TTL
         );
     }
 
