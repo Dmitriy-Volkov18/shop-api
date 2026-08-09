@@ -52,13 +52,9 @@ public class CartFacade {
                 );
 
         int newQuantity = item.getQuantity() + request.quantity();
-
         item.setQuantity(newQuantity);
 
-        validateStock(
-                variant,
-                newQuantity
-        );
+        validateStock(variant, newQuantity);
 
         cartService.save(cart);
 
@@ -74,10 +70,7 @@ public class CartFacade {
         Cart cart = currentCart();
         CartItem item = cartService.getItem(itemId);
 
-        validateItemOwner(
-                item,
-                cart
-        );
+        validateItemOwner(item, cart);
 
         validateStock(
                 item.getVariant(),
@@ -97,11 +90,7 @@ public class CartFacade {
         Cart cart = currentCart();
         CartItem item = cartService.getItem(itemId);
 
-        validateItemOwner(
-                item,
-                cart
-        );
-
+        validateItemOwner(item, cart);
         cart.removeItem(item);
 
         cartService.save(cart);
@@ -111,7 +100,6 @@ public class CartFacade {
 
     public CartResponse clearCart() {
         Cart cart = currentCart();
-
         cart.clearItems();
 
         cartService.save(cart);

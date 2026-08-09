@@ -37,9 +37,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public boolean existsByUserAndProduct(Long userId,
-                                          Long productId) {
-
+    public boolean existsByUserAndProduct(Long userId, Long productId) {
         return repository.existsByUserIdAndProductId(
                 userId,
                 productId
@@ -47,9 +45,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public Review getByUserAndProduct(Long userId,
-                                      Long productId) {
-
+    public Review getByUserAndProduct(Long userId, Long productId) {
         return repository.findByUserIdAndProductId(
                         userId,
                         productId)
@@ -62,7 +58,6 @@ public class ReviewService {
             Long productId,
             Pageable pageable
     ) {
-
         return repository.findByProductIdAndStatus(
                 productId,
                 ReviewStatus.APPROVED,

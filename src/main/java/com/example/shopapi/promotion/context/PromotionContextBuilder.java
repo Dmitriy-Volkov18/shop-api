@@ -15,9 +15,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class PromotionContextBuilder {
 
-
     private final CartSubtotalCalculator subtotalCalculator;
-
 
     public PromotionContext build(
             User user,
@@ -25,24 +23,15 @@ public class PromotionContextBuilder {
             CustomerOrder order,
             ProductVariant variant
     ) {
-
-
         return PromotionContext.builder()
-
                 .user(user)
-
                 .cart(cart)
-
                 .order(order)
-
                 .variant(variant)
-
                 .now(LocalDateTime.now())
-
                 .cartTotal(
                         subtotalCalculator.calculate(cart)
                 )
-
                 .build();
     }
 }

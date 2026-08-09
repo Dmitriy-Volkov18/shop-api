@@ -18,9 +18,7 @@ public class RedisSessionService {
             Long userId,
             Long refreshTokenId
     ) {
-
-        String key =
-                keyBuilder.userSessions(userId);
+        String key = keyBuilder.userSessions(userId);
 
         redisService.zAdd(
                 key,
@@ -37,7 +35,6 @@ public class RedisSessionService {
     public long count(
             Long userId
     ) {
-
         Long count =
                 redisService.zCard(
                         keyBuilder.userSessions(userId)
@@ -52,7 +49,6 @@ public class RedisSessionService {
             Long userId,
             Long refreshTokenId
     ) {
-
         redisService.zRemove(
                 keyBuilder.userSessions(userId),
                 refreshTokenId
@@ -62,7 +58,6 @@ public class RedisSessionService {
     public List<Long> getSessionIds(
             Long userId
     ) {
-
         Set<Object> values =
                 redisService.zRange(
                         keyBuilder.userSessions(userId),
@@ -82,7 +77,6 @@ public class RedisSessionService {
     public Long getOldestSessionId(
             Long userId
     ) {
-
         Set<Object> values =
                 redisService.zRange(
                         keyBuilder.userSessions(userId),
@@ -101,7 +95,6 @@ public class RedisSessionService {
             Long userId,
             Long refreshTokenId
     ) {
-
         redisService.zAdd(
                 keyBuilder.userSessions(userId),
                 refreshTokenId,

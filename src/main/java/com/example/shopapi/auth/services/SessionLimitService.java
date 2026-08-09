@@ -20,7 +20,6 @@ public class SessionLimitService {
     private final SecurityAuditService auditService;
 
     public void enforce(User user, SessionMeta meta) {
-
         List<RefreshToken> sessions = refreshTokenService.getActiveSessionsOrdered(user.getId());
 
         if (sessions.size() < MAX_SESSIONS) {
@@ -29,20 +28,13 @@ public class SessionLimitService {
 
         RefreshToken removed =
                 sessions.stream()
-
-                        // сначала удаляем нет доверенные
                         .filter(session -> !session.isTrusted())
-
                         .findFirst()
-
-                        // если все trusted - удаляем старейшее
-                        .orElse(sessions.get(0));
-
+                        .orElse(sessions.getFirst());
 
         refreshTokenService.revoke(
                 removed
         );
-
 
         auditService.log(
                 new SecurityAuditEvent(

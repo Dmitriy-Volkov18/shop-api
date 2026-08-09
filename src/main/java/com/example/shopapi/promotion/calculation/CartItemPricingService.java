@@ -23,15 +23,8 @@ public class CartItemPricingService {
             CartPriceResult priceResult,
             Cart cart
     ) {
-
-        /*BigDecimal originalUnitPrice =
-                pricingService.getBasePrice(
-                        item.getVariant()
-                );*/
-
         BigDecimal originalUnitPrice =
                 pricingService.calculateEffectivePrice(item.getVariant());
-
 
         BigDecimal originalSubtotal =
                 pricingService.calculateSubtotal(
@@ -39,16 +32,12 @@ public class CartItemPricingService {
                         item.getQuantity()
                 );
 
-
-        // скидки конкретно на этот товар
         BigDecimal lineDiscount =
                 calculateLineDiscount(
                         item,
                         priceResult
                 );
 
-
-        // распределённая скидка корзины
         BigDecimal cartDiscount =
                 discountAllocator.allocate(
                                 cart,
@@ -59,18 +48,15 @@ public class CartItemPricingService {
                                 BigDecimal.ZERO
                         );
 
-
         BigDecimal totalDiscount =
                 lineDiscount.add(
                         cartDiscount
                 );
 
-
         BigDecimal finalSubtotal =
                 originalSubtotal
                         .subtract(totalDiscount)
                         .max(BigDecimal.ZERO);
-
 
         BigDecimal finalUnitPrice =
                 finalSubtotal.divide(
@@ -91,17 +77,10 @@ public class CartItemPricingService {
     }
 
 
-    /**
-     * Скидки, которые принадлежат конкретному товару
-     *
-     * Например:
-     * Buy 2 Get 1 Free
-     */
     private BigDecimal calculateLineDiscount(
             CartItem item,
             CartPriceResult priceResult
     ) {
-
         return priceResult.appliedPromotions()
                 .stream()
 

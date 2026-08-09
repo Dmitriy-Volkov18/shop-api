@@ -25,24 +25,17 @@ public class PromotionValidationService {
     public void validate(
             Promotion promotion
     ) {
-
         validateName(promotion);
-
         validateDates(promotion);
-
         validatePriority(promotion);
-
         validateRule(promotion);
-
         validateTarget(promotion);
-
         validateActionConfig(promotion);
     }
 
     private void validateName(
             Promotion promotion
     ) {
-
         ValidationUtils.requireNotBlank(
                 promotion.getName(),
                 "Promotion name is required"
@@ -52,7 +45,6 @@ public class PromotionValidationService {
     private void validateDates(
             Promotion promotion
     ) {
-
         ValidationUtils.requireDateRange(
                 promotion.getStartsAt(),
                 promotion.getEndsAt(),
@@ -63,7 +55,6 @@ public class PromotionValidationService {
     private void validatePriority(
             Promotion promotion
     ) {
-
         ValidationUtils.requireNonNegative(
                 BigDecimal.valueOf(promotion.getPriority()),
                 "Promotion priority cannot be negative"
@@ -73,26 +64,19 @@ public class PromotionValidationService {
     private void validateRule(
             Promotion promotion
     ) {
-
-
         if(promotion.getRuleType()
                 == PromotionRuleType.FIRST_N_ORDERS
                 &&
-                promotion.getRuleValue() == null) {
-
-
+                promotion.getRuleValue() == null
+        ) {
             throw new BadRequestException(
                     "Rule value required"
             );
         }
 
-
         if(promotion.getRuleValue() != null
                 &&
-                promotion.getRuleValue()
-                        .compareTo(BigDecimal.ZERO) <= 0) {
-
-
+                promotion.getRuleValue().compareTo(BigDecimal.ZERO) <= 0) {
             throw new BadRequestException(
                     "Rule value must be positive"
             );
@@ -102,12 +86,10 @@ public class PromotionValidationService {
     private void validateTarget(
             Promotion promotion
     ) {
-
         PromotionTargetType type = promotion.getTargetType();
         Long targetId = promotion.getTargetId();
 
         if (type == PromotionTargetType.ALL) {
-
             if (targetId != null) {
                 throw new BadRequestException(
                         "ALL target must not have targetId"
@@ -170,7 +152,6 @@ public class PromotionValidationService {
     private void validateActionConfig(
             Promotion promotion
     ) {
-
         if(promotion.getActionType()
                 == PromotionActionType.BUY_X_GET_Y
                 &&
@@ -180,7 +161,6 @@ public class PromotionValidationService {
                     "Buy X Get Y configuration required"
             );
         }
-
 
         if(promotion.getActionType()
                 != PromotionActionType.BUY_X_GET_Y

@@ -9,16 +9,12 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class FixedDiscountPromotionAction
-        implements PromotionAction {
-
+public class FixedDiscountPromotionAction implements PromotionAction {
 
     @Override
     public PromotionActionType getType() {
-
         return PromotionActionType.FIXED_DISCOUNT;
     }
-
 
     @Override
     public PromotionResult apply(

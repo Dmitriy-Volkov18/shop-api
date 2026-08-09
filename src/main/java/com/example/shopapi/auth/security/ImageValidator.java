@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Component
 public class ImageValidator {
-
     private static final Set<String> ALLOWED_TYPES =
             Set.of(
                     "image/jpeg",
@@ -20,91 +19,45 @@ public class ImageValidator {
                     "image/webp"
             );
 
-
-
     public void validate(
             MultipartFile file
     ) {
-
-
         if(file == null || file.isEmpty()){
-
-            throw new BadRequestException(
-                    "Image file is empty"
-            );
+            throw new BadRequestException("Image file is empty");
         }
 
-
-
         validateSize(file);
-
-
         validateContentType(file);
-
-
         validateRealImage(file);
     }
-
-
-
 
     private void validateSize(
             MultipartFile file
     ){
-
         if(file.getSize() > ImageConstants.MAX_FILE_SIZE){
-
-            throw new BadRequestException(
-                    "Image size exceeds limit"
-            );
+            throw new BadRequestException("Image size exceeds limit");
         }
     }
-
-
-
 
     private void validateContentType(
             MultipartFile file
     ){
-
-        if(!ALLOWED_TYPES.contains(
-                file.getContentType()
-        )){
-
-            throw new BadRequestException(
-                    "Unsupported image type"
-            );
+        if(!ALLOWED_TYPES.contains(file.getContentType())){
+            throw new BadRequestException("Unsupported image type");
         }
     }
-
-
-
 
     private void validateRealImage(
             MultipartFile file
     ){
-
         try {
-
-            BufferedImage image =
-                    ImageIO.read(
-                            file.getInputStream()
-                    );
-
+            BufferedImage image = ImageIO.read(file.getInputStream());
 
             if(image == null){
-
-                throw new BadRequestException(
-                        "Invalid image file"
-                );
+                throw new BadRequestException("Invalid image file");
             }
-
-
         } catch (IOException e){
-
-            throw new BadRequestException(
-                    "Cannot read image"
-            );
+            throw new BadRequestException("Cannot read image");
         }
     }
 }

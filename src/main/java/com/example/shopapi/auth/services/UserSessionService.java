@@ -24,8 +24,6 @@ public class UserSessionService {
     private final TokenBlacklistService tokenBlacklistService;
     private final CurrentUserService currentUserService;
 
-
-
     @Transactional
     public void logoutCurrentSession(
             String refreshToken,
@@ -34,7 +32,6 @@ public class UserSessionService {
     ) {
         RefreshToken session = refreshTokenService.findByToken(refreshToken);
         User user = session.getUser();
-
         User currentUser = currentUserService.getCurrentUserEntity();
 
         if(!user.equals(currentUser)){
@@ -138,7 +135,6 @@ public class UserSessionService {
                 )
         );
     }
-
 
     @Transactional
     public void trustSession(

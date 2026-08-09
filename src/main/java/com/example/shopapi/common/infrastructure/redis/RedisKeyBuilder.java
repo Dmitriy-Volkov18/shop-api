@@ -31,7 +31,6 @@ public class RedisKeyBuilder {
     public String product(
             Long productId
     ) {
-
         return String.format(
                 "%s:cache:product:%d",
                 properties.getPrefix(),
@@ -54,7 +53,6 @@ public class RedisKeyBuilder {
     public String userSessions(
             Long userId
     ) {
-
         return String.format(
                 "%s:user:sessions:%d",
                 properties.getPrefix(),
@@ -64,7 +62,6 @@ public class RedisKeyBuilder {
 
 
     public String trendingProducts() {
-
         return String.format(
                 "%s:trending",
                 properties.getPrefix()
@@ -72,7 +69,6 @@ public class RedisKeyBuilder {
     }
 
     public String trendingProductsTemp() {
-
         return String.format(
                 "%s:trending:tmp",
                 properties.getPrefix()
@@ -82,7 +78,6 @@ public class RedisKeyBuilder {
     public String emailVerification(
             String tokenHash
     ) {
-
         return String.format(
                 "%s:verify-email:%s",
                 properties.getPrefix(),
@@ -94,7 +89,6 @@ public class RedisKeyBuilder {
     public String passwordReset(
             String tokenHash
     ) {
-
         return String.format(
                 "%s:password-reset:%s",
                 properties.getPrefix(),
@@ -105,7 +99,6 @@ public class RedisKeyBuilder {
     public String emailVerificationByUser(
             Long userId
     ) {
-
         return String.format(
                 "%s:verify-email:user:%s",
                 properties.getPrefix(),
@@ -116,7 +109,6 @@ public class RedisKeyBuilder {
     public String revokedJti(
             String jti
     ) {
-
         return String.format(
                 "%s:blacklist:%s",
                 properties.getPrefix(),
@@ -127,7 +119,6 @@ public class RedisKeyBuilder {
     public String products(
             String hash
     ) {
-
         return String.format(
                 "%s:cache:products:%s",
                 properties.getPrefix(),

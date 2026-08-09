@@ -11,18 +11,14 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CartSubtotalCalculator {
 
-
     private final ProductPricingService pricingService;
-
 
     public BigDecimal calculate(
             Cart cart
     ) {
-
         if(cart == null) {
             return BigDecimal.ZERO;
         }
-
 
         return cart.getItems()
                 .stream()

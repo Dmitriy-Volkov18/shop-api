@@ -10,12 +10,8 @@ public class ShipmentFactory {
             CustomerOrder order
     ){
         Shipment shipment = new Shipment();
-        shipment.setStatus(
-                ShipmentStatus.PENDING
-        );
-        shipment.setOrder(
-                order
-        );
+        shipment.setStatus(ShipmentStatus.PENDING);
+        shipment.setOrder(order);
 
         return shipment;
     }

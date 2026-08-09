@@ -27,9 +27,7 @@ public class BrandDiscountService {
     public List<BrandDiscount> getDiscounts(
             Brand brand
     ) {
-        return repository.findByBrandId(
-                brand.getId()
-        );
+        return repository.findByBrandId(brand.getId());
     }
 
     @Transactional(readOnly = true)
@@ -54,10 +52,7 @@ public class BrandDiscountService {
             CreateBrandDiscountRequest request,
             User user
     ) {
-        BrandDiscount discount =
-                mapper.toEntity(
-                        request
-                );
+        BrandDiscount discount = mapper.toEntity(request);
 
         validationService.validateDiscount(
                 request.type(),
@@ -72,9 +67,7 @@ public class BrandDiscountService {
                 user
         );
 
-        return repository.save(
-                discount
-        );
+        return repository.save(discount);
     }
 
 
@@ -101,9 +94,7 @@ public class BrandDiscountService {
                         )
         );
 
-        return repository.save(
-                discount
-        );
+        return repository.save(discount);
     }
 
 
@@ -116,9 +107,7 @@ public class BrandDiscountService {
                 user
         );
 
-        repository.delete(
-                discount
-        );
+        repository.delete(discount);
     }
 
 }

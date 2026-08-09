@@ -31,9 +31,7 @@ public class CategoryDiscountController {
     public List<CategoryDiscountResponse> get(
             @PathVariable Long categoryId
     ){
-        return facade.getDiscounts(
-                categoryId
-        );
+        return facade.getDiscounts(categoryId);
     }
 
     @PostMapping
@@ -44,10 +42,7 @@ public class CategoryDiscountController {
             @RequestBody
             CreateCategoryDiscountRequest request
     ){
-        return facade.create(
-                categoryId,
-                request
-        );
+        return facade.create( categoryId, request);
     }
 
     @PutMapping("/{discountId}")
@@ -71,12 +66,8 @@ public class CategoryDiscountController {
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(
             @PathVariable Long categoryId,
-
             @PathVariable Long discountId
     ){
-        facade.delete(
-                categoryId,
-                discountId
-        );
+        facade.delete(categoryId, discountId);
     }
 }

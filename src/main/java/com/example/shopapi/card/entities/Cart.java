@@ -60,7 +60,6 @@ public class Cart extends BaseEntity {
     }
 
     public void clearItems() {
-
         for (CartItem item : new ArrayList<>(items)) {
             removeItem(item);
         }

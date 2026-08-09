@@ -4,8 +4,6 @@ import com.example.shopapi.discounts.entities.AbstractDiscount;
 
 public interface DiscountOwner<T extends AbstractDiscount> {
 
-    void addDiscount(
-            T discount
-    );
+    void addDiscount(T discount);
 
 }

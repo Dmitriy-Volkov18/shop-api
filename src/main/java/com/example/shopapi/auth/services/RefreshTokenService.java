@@ -36,7 +36,6 @@ public class RefreshTokenService {
             String jti,
             String familyId
     ) {
-
         RefreshToken refreshToken = buildRefreshToken(
                 user,
                 token,
@@ -67,37 +66,27 @@ public class RefreshTokenService {
         Instant now = Instant.now();
 
         RefreshToken refreshToken = new RefreshToken();
-
         refreshToken.setUser(user);
         refreshToken.setTokenHash(TokenHashUtil.hash(token));
-
         refreshToken.setJti(jti);
         refreshToken.setFamilyId(familyId);
 
         DeviceIdentity identity = new DeviceIdentity();
-
         identity.setDeviceId(deviceId);
-
         identity.setDeviceInfo(deviceInfo);
-
         identity.setFingerprint(
                 deviceFingerprintService.fingerprint(deviceInfo)
         );
 
         refreshToken.setDeviceIdentity(identity);
-
         refreshToken.setUserAgent(userAgent);
-
         refreshToken.setIpAddress(ip);
         refreshToken.setCountry(country);
-
         refreshToken.setCreatedAt(now);
         refreshToken.setLastUsedAt(now);
-
         refreshToken.setExpiryDate(
                 now.plus(jwtProperties.getRefreshExpiration())
         );
-
         refreshToken.setRevoked(false);
         refreshToken.setTrusted(false);
 
@@ -112,7 +101,6 @@ public class RefreshTokenService {
 
     @Transactional(readOnly = true)
     public List<RefreshToken> getActiveSessions(Long userId) {
-
         return repository
                 .findAllByUserIdAndRevokedFalseOrderByCreatedAtDesc(userId);
     }
@@ -120,7 +108,6 @@ public class RefreshTokenService {
 
     @Transactional(readOnly = true)
     public List<RefreshToken> getSessionHistory(Long userId) {
-
         return repository
                 .findAllByUserIdOrderByCreatedAtDesc(userId);
     }
@@ -150,7 +137,6 @@ public class RefreshTokenService {
     }
 
     public RefreshToken findByToken(String refreshToken) {
-
         String hash = TokenHashUtil.hash(refreshToken);
 
         return findByTokenHash(hash)
@@ -160,7 +146,6 @@ public class RefreshTokenService {
 
     @Transactional
     public void consume(RefreshToken token) {
-
         int updated = repository.consume(token.getId());
 
         if (updated != 1) {
@@ -171,7 +156,6 @@ public class RefreshTokenService {
 
         token.setRevoked(true);
     }
-
 
     @Transactional
     public void cleanupExpired() {
@@ -193,14 +177,12 @@ public class RefreshTokenService {
         repository.revokeAllByUserIdExceptJti(userId, currentJti);
     }
 
-
     public List<RefreshToken> getActiveSessionsOrdered(Long userId) {
         return repository.findAllByUserIdAndRevokedFalseOrderByCreatedAtAsc(userId);
     }
 
     @Transactional
     public void deleteAllByUserId(Long userId) {
-
         repository.deleteAllByUserId(userId);
     }
 }

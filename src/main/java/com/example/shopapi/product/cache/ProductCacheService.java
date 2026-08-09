@@ -12,28 +12,23 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class ProductCacheService {
 
-    private static final Duration PRODUCT_TTL =
-            Duration.ofMinutes(30);
+    private static final Duration PRODUCT_TTL = Duration.ofMinutes(30);
 
     private final RedisService redisService;
     private final RedisKeyBuilder keyBuilder;
 
-
     public ProductDetailResponse get(
             Long productId
     ) {
-
         return redisService.get(
                 keyBuilder.product(productId),
                 ProductDetailResponse.class
         );
     }
 
-
     public void put(
             ProductDetailResponse response
     ) {
-
         redisService.set(
                 keyBuilder.product(response.id()),
                 response,
@@ -41,13 +36,9 @@ public class ProductCacheService {
         );
     }
 
-
     public void evict(
             Long productId
     ) {
-
-        redisService.delete(
-                keyBuilder.product(productId)
-        );
+        redisService.delete(keyBuilder.product(productId));
     }
 }

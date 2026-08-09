@@ -68,9 +68,7 @@ public class ProductDiscountFacade {
                         discountId
                 );
 
-        return discountMapper.toResponse(
-                discount
-        );
+        return discountMapper.toResponse(discount);
     }
 
     public ProductDiscountResponse createDiscount(
@@ -88,9 +86,7 @@ public class ProductDiscountFacade {
                 variant.getProduct()
         );
 
-        User user =
-                currentUserService.getCurrentUserEntity();
-
+        User user = currentUserService.getCurrentUserEntity();
 
         ProductDiscount discount =
                 discountService.create(
@@ -99,9 +95,7 @@ public class ProductDiscountFacade {
                         user
                 );
 
-        return discountMapper.toResponse(
-                discount
-        );
+        return discountMapper.toResponse(discount);
     }
 
     public ProductDiscountResponse updateDiscount(
@@ -132,9 +126,7 @@ public class ProductDiscountFacade {
                 currentUserService.getCurrentUserEntity()
         );
 
-        return discountMapper.toResponse(
-                updated
-        );
+        return discountMapper.toResponse(updated);
     }
 
     public void deleteDiscount(

@@ -25,8 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @RequiredArgsConstructor
-public class BuyXGetYAction
-        implements PromotionAction {
+public class BuyXGetYAction implements PromotionAction {
 
     private final ProductBasePriceService basePriceService;
     private final BuyXGetYRewardResolver rewardResolver;
@@ -42,9 +41,7 @@ public class BuyXGetYAction
             Promotion promotion,
             PromotionContext context
     ) {
-
-        BuyXGetYActionConfig config =
-                loadConfiguration(promotion);
+        BuyXGetYActionConfig config = loadConfiguration(promotion);
 
         List<CartItem> candidates =
                 cartItemFinder.findItems(
@@ -57,7 +54,6 @@ public class BuyXGetYAction
                 candidates,
                 config
         )) {
-
             return PromotionResult.empty();
         }
 
@@ -67,12 +63,9 @@ public class BuyXGetYAction
                         config
                 );
 
-
         if(rewardItems.isEmpty()) {
-
             return PromotionResult.empty();
         }
-
 
         List<PromotionDiscountLine> lines =
                 buildDiscountLines(
@@ -81,12 +74,9 @@ public class BuyXGetYAction
                         config
                 );
 
-
         if(lines.isEmpty()) {
-
             return PromotionResult.empty();
         }
-
 
         return PromotionResult.withDiscountLines(
                 lines
@@ -99,27 +89,22 @@ public class BuyXGetYAction
             List<CartItem> rewardItems,
             BuyXGetYActionConfig config
     ) {
-
         int freeQuantity =
                 calculateFreeQuantity(
                         candidates,
                         config
                 );
 
-
         if (freeQuantity <= 0) {
             return List.of();
         }
-
 
         AtomicInteger remaining =
                 new AtomicInteger(
                         freeQuantity
                 );
 
-
         return rewardItems.stream()
-
                 .sorted(
                         Comparator.comparing(
                                 item ->
@@ -130,7 +115,6 @@ public class BuyXGetYAction
                 )
 
                 .map(item -> {
-
                     int quantity =
                             Math.min(
                                     item.getQuantity(),
@@ -138,23 +122,15 @@ public class BuyXGetYAction
                             );
 
 
-                    remaining.addAndGet(
-                            -quantity
-                    );
-
+                    remaining.addAndGet(-quantity);
 
                     if(quantity <= 0) {
                         return null;
                     }
 
-
                     return new PromotionDiscountLine(
-
-                            item.getVariant()
-                                    .getId(),
-
+                            item.getVariant().getId(),
                             quantity,
-
                             calculateDiscount(
                                     item,
                                     quantity,
@@ -163,9 +139,7 @@ public class BuyXGetYAction
                     );
 
                 })
-
                 .filter(Objects::nonNull)
-
                 .toList();
     }
 
@@ -174,12 +148,10 @@ public class BuyXGetYAction
             int quantity,
             BuyXGetYActionConfig config
     ) {
-
         BigDecimal price =
                 basePriceService.getBasePrice(
                         item.getVariant()
                 );
-
 
         BigDecimal totalPrice =
                 price.multiply(
@@ -188,10 +160,8 @@ public class BuyXGetYAction
 
 
         return switch(config.getRewardType()) {
-
             case FREE ->
                     totalPrice;
-
 
             case PERCENT_DISCOUNT ->
                     totalPrice
@@ -203,7 +173,6 @@ public class BuyXGetYAction
                                     2,
                                     RoundingMode.HALF_UP
                             );
-
 
             case FIXED_DISCOUNT ->
                     config.getRewardValue()
@@ -219,14 +188,12 @@ public class BuyXGetYAction
             BuyXGetYActionConfig config
     )
     {
-
         int boughtQuantity =
                 candidates.stream()
                         .mapToInt(
                                 CartItem::getQuantity
                         )
                         .sum();
-
 
         return
                 (boughtQuantity / config.getBuyQuantity())
@@ -238,7 +205,6 @@ public class BuyXGetYAction
     private BuyXGetYActionConfig loadConfiguration(
             Promotion promotion
     ) {
-
         return repository.findByPromotionId(
                         promotion.getId()
                 )
@@ -254,14 +220,12 @@ public class BuyXGetYAction
             List<CartItem> items,
             BuyXGetYActionConfig config
     ) {
-
         int totalQuantity =
                 items.stream()
                         .mapToInt(CartItem::getQuantity)
                         .sum();
 
-        return totalQuantity >=
-                config.getBuyQuantity();
+        return totalQuantity >= config.getBuyQuantity();
     }
 
 }

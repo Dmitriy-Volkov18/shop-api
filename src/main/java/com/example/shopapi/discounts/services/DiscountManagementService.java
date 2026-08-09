@@ -13,10 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DiscountManagementService {
 
-
     private final DiscountAuditService auditService;
-
-
 
     public <T extends AbstractDiscount>
     T create(
@@ -24,11 +21,7 @@ public class DiscountManagementService {
             DiscountOwner<T> owner,
             User user
     ){
-
-        owner.addDiscount(
-                discount
-        );
-
+        owner.addDiscount(discount);
 
         auditService.log(
                 discount,
@@ -37,11 +30,8 @@ public class DiscountManagementService {
                 "Discount created"
         );
 
-
         return discount;
     }
-
-
 
     public <T extends AbstractDiscount>
     T update(
@@ -49,7 +39,6 @@ public class DiscountManagementService {
             User user,
             Runnable updater
     ){
-
         updater.run();
 
         auditService.log(
@@ -59,16 +48,13 @@ public class DiscountManagementService {
                 "Discount updated"
         );
 
-
         return discount;
     }
-
 
     public void delete(
             AbstractDiscount discount,
             User user
     ){
-
         auditService.log(
                 discount,
                 user,

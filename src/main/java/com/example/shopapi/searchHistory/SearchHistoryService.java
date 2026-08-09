@@ -70,9 +70,7 @@ public class SearchHistoryService {
     public void clear(
             User user
     ) {
-        repository.deleteByUserId(
-                user.getId()
-        );
+        repository.deleteByUserId(user.getId());
     }
 
     private void trimHistory(

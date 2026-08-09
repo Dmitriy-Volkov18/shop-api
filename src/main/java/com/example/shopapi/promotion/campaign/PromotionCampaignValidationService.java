@@ -9,12 +9,7 @@ public class PromotionCampaignValidationService {
     public void validate(
             PromotionCampaign campaign
     ) {
-
-        if(campaign.getEndsAt()
-                .isBefore(
-                        campaign.getStartsAt()
-                )) {
-
+        if(campaign.getEndsAt().isBefore(campaign.getStartsAt())) {
             throw new BadRequestException(
                     "Campaign end date must be after start date"
             );

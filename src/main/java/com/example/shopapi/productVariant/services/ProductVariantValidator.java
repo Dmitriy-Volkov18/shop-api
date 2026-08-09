@@ -45,7 +45,6 @@ public class ProductVariantValidator {
     }
 
     private void validateVariantLimit(Product product) {
-
         if (product.getVariants().size() >= MAX_VARIANTS) {
             throw new BadRequestException(
                     "Maximum " + MAX_VARIANTS + " variants allowed"
@@ -54,7 +53,6 @@ public class ProductVariantValidator {
     }
 
     private void validateSku(String sku) {
-
         if (variantRepository.existsBySku(sku)) {
             throw new DuplicateSkuException(sku);
         }
@@ -63,7 +61,6 @@ public class ProductVariantValidator {
     private void validateAttributes(
             List<? extends VariantAttributeRequest> attributes
     ) {
-
         if (attributes == null || attributes.isEmpty()) {
             throw new BadRequestException(
                     "Variant must contain attributes"
@@ -79,7 +76,6 @@ public class ProductVariantValidator {
         Set<String> unique = new HashSet<>();
 
         for (VariantAttributeRequest attribute : attributes) {
-
             String normalized =
                     attribute.name()
                             .trim()

@@ -32,18 +32,13 @@ public class CouponFacade {
     public CouponResponse getCoupon(
             Long id
     ) {
-
-        return couponMapper.toResponse(
-                couponService.getCoupon(id)
-        );
+        return couponMapper.toResponse(couponService.getCoupon(id));
     }
 
     public CouponResponse create(
             CreateCouponRequest request
     ) {
-
-        Coupon coupon =
-                couponService.create(request);
+        Coupon coupon = couponService.create(request);
 
         return couponMapper.toResponse(coupon);
     }
@@ -52,9 +47,7 @@ public class CouponFacade {
             Long id,
             UpdateCouponRequest request
     ) {
-
-        Coupon coupon =
-                couponService.getCoupon(id);
+        Coupon coupon = couponService.getCoupon(id);
 
         Coupon updated =
                 couponService.update(
@@ -68,10 +61,7 @@ public class CouponFacade {
     public void delete(
             Long id
     ) {
-
-        Coupon coupon =
-                couponService.getCoupon(id);
-
+        Coupon coupon = couponService.getCoupon(id);
         couponService.delete(coupon);
     }
 }

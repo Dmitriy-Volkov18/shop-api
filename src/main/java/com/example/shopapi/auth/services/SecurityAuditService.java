@@ -19,27 +19,19 @@ public class SecurityAuditService {
     public void log(SecurityAuditEvent event) {
 
         SecurityAuditLog log = new SecurityAuditLog();
-
         log.setUser(event.user());
         log.setEventType(event.eventType());
         log.setSuccess(event.success());
         log.setCreatedAt(Instant.now());
-
         log.setDeviceId(event.deviceId());
         log.setJti(event.jti());
-
         log.setDetails(event.details());
-
-        // 🧠 risk score logging
         log.setRiskLevel(event.riskLevel());
-
-        // ❗ failure reason logging
         log.setFailureReason(event.failureReason());
 
         SessionMeta meta = event.meta();
 
         if (meta != null) {
-
             log.setIpAddress(meta.ip());
             log.setCountry(meta.country());
             log.setUserAgent(meta.userAgent());
@@ -47,7 +39,6 @@ public class SecurityAuditService {
             DeviceInfo device = meta.deviceInfo();
 
             if (device != null) {
-
                 log.setDeviceName(device.getDeviceName());
                 log.setDeviceType(device.getDeviceType());
 

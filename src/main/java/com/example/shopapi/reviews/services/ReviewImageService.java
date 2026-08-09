@@ -32,9 +32,7 @@ public class ReviewImageService {
             Long reviewId,
             List<MultipartFile> files
     ) {
-
-        Review review =
-                reviewService.getById(reviewId);
+        Review review = reviewService.getById(reviewId);
 
         imageRulesService.validateImageCount(
                 review.getImages().size(),
@@ -43,9 +41,7 @@ public class ReviewImageService {
         );
 
         for (MultipartFile file : files) {
-
-            ImageMetadata metadata =
-                    imageUploadService.process(file);
+            ImageMetadata metadata = imageUploadService.process(file);
 
             ReviewImage image =
                     imageFactory.createReviewImage(
@@ -65,14 +61,12 @@ public class ReviewImageService {
     public void deleteImage(
             Long imageId
     ) {
-
         ReviewImage image =
                 reviewImageRepository.findById(imageId)
                         .orElseThrow(() ->
                                 new BadRequestException("Image not found"));
 
         Review review = image.getReview();
-
         review.getImages().remove(image);
 
         imageRulesService.normalizeSortOrder(
@@ -85,7 +79,6 @@ public class ReviewImageService {
     public ReviewImage getImage(
             Long imageId
     ) {
-
         return reviewImageRepository.findById(imageId)
                 .orElseThrow(() ->
                         new BadRequestException("Image not found"));

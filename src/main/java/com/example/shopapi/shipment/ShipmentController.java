@@ -47,10 +47,7 @@ public class ShipmentController {
             @Valid
             @RequestBody ShipRequest request
     ){
-        facade.ship(
-                id,
-                request
-        );
+        facade.ship(id, request);
     }
 
     @PatchMapping("/{id}/deliver")

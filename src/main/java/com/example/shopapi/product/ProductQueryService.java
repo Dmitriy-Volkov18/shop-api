@@ -21,11 +21,8 @@ public class ProductQueryService {
             ProductFilter filter,
             Pageable pageable
     ) {
-        Specification<Product> spec =
-                ProductSpecifications.build(filter);
-
-        Pageable sorted =
-                ProductSorting.apply(pageable, filter.getSort());
+        Specification<Product> spec = ProductSpecifications.build(filter);
+        Pageable sorted = ProductSorting.apply(pageable, filter.getSort());
 
         return repository.findAll(spec, sorted);
     }

@@ -16,7 +16,6 @@ public class RedisBlacklistService {
             String jti,
             Duration ttl
     ) {
-
         redisService.set(
                 keyBuilder.revokedJti(jti),
                 true,
@@ -27,18 +26,12 @@ public class RedisBlacklistService {
     public boolean isBlacklisted(
             String jti
     ) {
-
-        return redisService.exists(
-                keyBuilder.revokedJti(jti)
-        );
+        return redisService.exists(keyBuilder.revokedJti(jti));
     }
 
     public void remove(
             String jti
     ) {
-
-        redisService.delete(
-                keyBuilder.revokedJti(jti)
-        );
+        redisService.delete(keyBuilder.revokedJti(jti));
     }
 }

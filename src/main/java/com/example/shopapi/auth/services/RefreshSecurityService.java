@@ -28,12 +28,8 @@ public class RefreshSecurityService {
             String refreshToken,
             SessionMeta meta
     ) {
-
-        RefreshToken stored =
-                refreshTokenService.findByToken(refreshToken);
-
-        RefreshTokenClaims claims =
-                jwtService.extractRefreshClaims(refreshToken);
+        RefreshToken stored = refreshTokenService.findByToken(refreshToken);
+        RefreshTokenClaims claims = jwtService.extractRefreshClaims(refreshToken);
 
         tokenPolicyValidator.validate(
                 stored,
@@ -48,9 +44,7 @@ public class RefreshSecurityService {
         }
 
         if (risk.decision() == SecurityDecision.STEP_UP_AUTH) {
-            throw new BadRequestException(
-                    "Step-up authentication required"
-            );
+            throw new BadRequestException("Step-up authentication required");
         }
 
         adaptiveRateLimitService.check(

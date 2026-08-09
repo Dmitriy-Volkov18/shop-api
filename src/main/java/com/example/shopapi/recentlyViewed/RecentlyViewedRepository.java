@@ -12,12 +12,10 @@ import java.util.Optional;
 public interface RecentlyViewedRepository
         extends JpaRepository<RecentlyViewedProduct, Long> {
 
-
     Optional<RecentlyViewedProduct> findByUserIdAndProductId(
             Long userId,
             Long productId
     );
-
 
     Page<RecentlyViewedProduct> findByUserIdOrderByViewedAtDesc(
             Long userId,

@@ -55,15 +55,11 @@ public class RedisService {
             TypeReference<T> type
     ) {
 
-        Object value =
-                redisTemplate.opsForValue()
-                        .get(key);
-
+        Object value = redisTemplate.opsForValue().get(key);
 
         if (value == null) {
             return null;
         }
-
 
         return objectMapper.convertValue(
                 value,
@@ -80,8 +76,7 @@ public class RedisService {
     public boolean exists(
             String key
     ) {
-        Boolean result =
-                redisTemplate.hasKey(key);
+        Boolean result = redisTemplate.hasKey(key);
 
         return Boolean.TRUE.equals(result);
     }
@@ -98,25 +93,19 @@ public class RedisService {
             String key,
             Duration ttl
     ) {
-        redisTemplate.expire(
-                key,
-                ttl
-        );
+        redisTemplate.expire(key, ttl);
     }
 
     public Long ttl(
             String key
     ) {
-        return redisTemplate.getExpire(
-                key
-        );
+        return redisTemplate.getExpire(key);
     }
 
     public void leftPush(
             String key,
             Object value
     ) {
-
         redisTemplate
                 .opsForList()
                 .leftPush(
@@ -131,7 +120,6 @@ public class RedisService {
             long start,
             long end
     ) {
-
         return redisTemplate
                 .opsForList()
                 .range(
@@ -141,13 +129,11 @@ public class RedisService {
                 );
     }
 
-
     public void trim(
             String key,
             long start,
             long end
     ) {
-
         redisTemplate
                 .opsForList()
                 .trim(
@@ -162,7 +148,6 @@ public class RedisService {
             Object value,
             double score
     ) {
-
         redisTemplate
                 .opsForZSet()
                 .add(
@@ -172,13 +157,11 @@ public class RedisService {
                 );
     }
 
-
     public Set<Object> zReverseRange(
             String key,
             long start,
             long end
     ) {
-
         return redisTemplate
                 .opsForZSet()
                 .reverseRange(
@@ -188,12 +171,10 @@ public class RedisService {
                 );
     }
 
-
     public void zRemove(
             String key,
             Object value
     ) {
-
         redisTemplate
                 .opsForZSet()
                 .remove(
@@ -207,7 +188,6 @@ public class RedisService {
             long start,
             long end
     ) {
-
         return redisTemplate
                 .opsForZSet()
                 .range(
@@ -220,7 +200,6 @@ public class RedisService {
     public Long zCard(
             String key
     ) {
-
         return redisTemplate
                 .opsForZSet()
                 .zCard(key);
@@ -231,7 +210,6 @@ public class RedisService {
             Object member,
             double delta
     ) {
-
         return redisTemplate
                 .opsForZSet()
                 .incrementScore(
@@ -245,7 +223,6 @@ public class RedisService {
             String oldKey,
             String newKey
     ) {
-
         redisTemplate.rename(
                 oldKey,
                 newKey
@@ -255,12 +232,9 @@ public class RedisService {
     public void deleteByPattern(
             String pattern
     ) {
-
-        Set<String> keys =
-                redisTemplate.keys(pattern);
+        Set<String> keys = redisTemplate.keys(pattern);
 
         if(keys != null && !keys.isEmpty()) {
-
             redisTemplate.delete(keys);
         }
     }

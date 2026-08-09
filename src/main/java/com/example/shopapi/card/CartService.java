@@ -22,22 +22,18 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
 
-
     public void addItem(
             Cart cart,
             ProductVariant variant,
             int quantity
     ) {
-
         CartItem item =
                 getOrCreateItem(
                         cart,
                         variant
                 );
 
-        item.changeQuantity(
-                item.getQuantity() + quantity
-        );
+        item.changeQuantity(item.getQuantity() + quantity);
     }
 
 

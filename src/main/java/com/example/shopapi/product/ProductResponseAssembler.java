@@ -19,29 +19,22 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductResponseAssembler {
 
-
     private final ProductMapper mapper;
     private final WishlistService wishlistService;
-
 
     public Page<ProductListResponse> toPage(
             Page<Product> page,
             Pageable pageable,
             User user
     ){
-
         Set<Long> favoriteIds =
                 resolveFavorites(
                         page.getContent(),
                         user
                 );
 
-
         return page.map(product -> {
-
-            ProductListResponse response =
-                    mapper.toListResponse(product);
-
+            ProductListResponse response = mapper.toListResponse(product);
 
             return new ProductListResponse(
                     response.id(),
@@ -62,16 +55,13 @@ public class ProductResponseAssembler {
         });
     }
 
-
     private Set<Long> resolveFavorites(
             List<Product> products,
             User user
     ){
-
         if(user == null){
             return Collections.emptySet();
         }
-
 
         return wishlistService.getWishlistProductIds(
                 user,

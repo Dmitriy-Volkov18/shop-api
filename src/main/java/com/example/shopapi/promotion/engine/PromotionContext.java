@@ -17,15 +17,10 @@ import java.time.LocalDateTime;
 public class PromotionContext {
 
     private final User user;
-
     private final Cart cart;
-
     private final CustomerOrder order;
-
     private final ProductVariant variant;
-
     private final LocalDateTime now;
-
     private final BigDecimal cartTotal;
 
 }

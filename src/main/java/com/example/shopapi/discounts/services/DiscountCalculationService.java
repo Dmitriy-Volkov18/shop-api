@@ -13,9 +13,7 @@ public class DiscountCalculationService {
             BigDecimal price,
             DiscountResult discount
     ) {
-
         if (discount.isPercent()) {
-
             return price.subtract(
                     price.multiply(discount.discountValue())
                             .divide(
@@ -26,9 +24,7 @@ public class DiscountCalculationService {
             ).max(BigDecimal.ZERO);
         }
 
-        return price.subtract(
-                discount.discountValue()
-        ).max(BigDecimal.ZERO);
+        return price.subtract(discount.discountValue()).max(BigDecimal.ZERO);
     }
 
 }

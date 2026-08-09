@@ -8,12 +8,10 @@ import org.springframework.util.DigestUtils;
 @Component
 public class ProductCacheKeyGenerator {
 
-
     public String generate(
             ProductFilter filter,
             Pageable pageable
     ) {
-
         String raw =
                 String.join(":",
                         String.valueOf(filter.getSearch()),
@@ -25,7 +23,6 @@ public class ProductCacheKeyGenerator {
                         pageable.getPageSize()+"",
                         pageable.getSort().toString()
                 );
-
 
         return DigestUtils
                 .md5DigestAsHex(

@@ -38,7 +38,6 @@ public class RecentlyViewedFacade {
     }*/
 
     public List<ProductListResponse> getViewed() {
-
         return recentlyViewedService
                 .getRedisViewed(
                         currentUserService.getCurrentUserEntity()

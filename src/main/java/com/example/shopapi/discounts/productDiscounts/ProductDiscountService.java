@@ -32,9 +32,7 @@ public class ProductDiscountService {
     public List<ProductDiscount> getDiscounts(
             ProductVariant variant
     ) {
-        return repository.findByVariantId(
-                variant.getId()
-        );
+        return repository.findByVariantId(variant.getId());
     }
 
     @Transactional(readOnly = true)
@@ -59,7 +57,6 @@ public class ProductDiscountService {
             CreateDiscountRequest request,
             User user
     ) {
-
         validationService.validateDiscount(
                 request.type(),
                 request.discountValue(),
@@ -75,8 +72,7 @@ public class ProductDiscountService {
                 null
         );
 
-        ProductDiscount discount =
-                mapper.toEntity(request);
+        ProductDiscount discount = mapper.toEntity(request);
 
         managementService.create(
                 discount,
@@ -98,9 +94,7 @@ public class ProductDiscountService {
             UpdateDiscountRequest request,
             User user
     ) {
-
-        ProductVariant variant =
-                discount.getVariant();
+        ProductVariant variant = discount.getVariant();
 
         validationService.validateDiscount(
                 request.type(),
@@ -152,12 +146,9 @@ public class ProductDiscountService {
                 user
         );
 
-        repository.delete(
-                discount
-        );
+        repository.delete(discount);
 
         productCacheService.evict(productId);
-
         productListCacheService.evictAll();
     }
 }

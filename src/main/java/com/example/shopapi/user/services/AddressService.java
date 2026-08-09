@@ -73,9 +73,7 @@ public class AddressService {
     private void ensureNotPrimary(
             UserAddress address
     ) {
-
         if(address.isPrimaryAddress()) {
-
             throw new BadRequestException(
                     "Cannot delete primary address"
             );

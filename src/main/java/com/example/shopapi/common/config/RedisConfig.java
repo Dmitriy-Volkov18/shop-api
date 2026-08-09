@@ -16,7 +16,6 @@ import tools.jackson.databind.json.JsonMapper;
 @EnableConfigurationProperties(RedisProperties.class)
 public class RedisConfig {
 
-
     @Bean
     public ObjectMapper objectMapper() {
 
@@ -31,23 +30,16 @@ public class RedisConfig {
             ObjectMapper objectMapper
     ) {
 
-        RedisTemplate<String, Object> template =
-                new RedisTemplate<>();
-
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
-        StringRedisSerializer stringSerializer =
-                new StringRedisSerializer();
+        StringRedisSerializer stringSerializer = new StringRedisSerializer();
 
-        GenericJacksonJsonRedisSerializer jsonSerializer =
-                new GenericJacksonJsonRedisSerializer(objectMapper);
-
+        GenericJacksonJsonRedisSerializer jsonSerializer = new GenericJacksonJsonRedisSerializer(objectMapper);
         template.setKeySerializer(stringSerializer);
         template.setHashKeySerializer(stringSerializer);
-
         template.setValueSerializer(jsonSerializer);
         template.setHashValueSerializer(jsonSerializer);
-
         template.afterPropertiesSet();
 
         return template;
@@ -56,9 +48,7 @@ public class RedisConfig {
     @Bean
     public RedisScript<Long> rateLimitScript() {
         return RedisScript.of(
-                new ClassPathResource(
-                        "redis/rate-limit.lua"
-                ),
+                new ClassPathResource("redis/rate-limit.lua"),
                 Long.class
         );
     }

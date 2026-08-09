@@ -27,10 +27,7 @@ public class BrandDiscountFacade {
     public List<BrandDiscountResponse> getDiscounts(
             Long brandId
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        brandId
-                );
+        Brand brand = brandService.getBrand(brandId);
 
         return service.getDiscounts(
                         brand
@@ -45,10 +42,7 @@ public class BrandDiscountFacade {
             Long brandId,
             Long discountId
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        brandId
-                );
+        Brand brand = brandService.getBrand(brandId);
 
         return mapper.toResponse(
                 service.getDiscount(
@@ -62,11 +56,7 @@ public class BrandDiscountFacade {
             Long brandId,
             CreateBrandDiscountRequest request
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        brandId
-                );
-
+        Brand brand = brandService.getBrand(brandId);
         User user = currentUserService.getCurrentUserEntity();
 
         BrandDiscount discount =
@@ -86,10 +76,7 @@ public class BrandDiscountFacade {
             Long discountId,
             UpdateBrandDiscountRequest request
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        brandId
-                );
+        Brand brand = brandService.getBrand(brandId);
 
         BrandDiscount discount =
                 service.getDiscount(
@@ -112,10 +99,7 @@ public class BrandDiscountFacade {
             Long brandId,
             Long discountId
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        brandId
-                );
+        Brand brand = brandService.getBrand(brandId);
 
         BrandDiscount discount =
                 service.getDiscount(
@@ -124,10 +108,6 @@ public class BrandDiscountFacade {
                 );
 
         User user = currentUserService.getCurrentUserEntity();
-
-        service.delete(
-                discount,
-                user
-        );
+        service.delete(discount, user);
     }
 }

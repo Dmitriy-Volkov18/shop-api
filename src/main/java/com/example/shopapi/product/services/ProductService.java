@@ -143,12 +143,8 @@ public class ProductService {
     public void deactivate(
             Product product
     ) {
-
         product.deactivate();
-
-        redisTrendingService.removeProduct(
-                product.getId()
-        );
+        redisTrendingService.removeProduct(product.getId());
     }
 
     @Transactional
@@ -163,15 +159,11 @@ public class ProductService {
     public List<Product> findAllByIds(
             List<Long> ids
     ) {
-
         if (ids.isEmpty()) {
             return List.of();
         }
 
-
-        List<Product> products =
-                productRepository.findAllByIdsWithRelations(ids);
-
+        List<Product> products = productRepository.findAllByIdsWithRelations(ids);
 
         Map<Long, Product> map =
                 products.stream()
@@ -179,7 +171,6 @@ public class ProductService {
                                 Product::getId,
                                 p -> p
                         ));
-
 
         return ids.stream()
                 .map(map::get)

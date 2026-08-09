@@ -61,7 +61,6 @@ public class CustomerOrderFactory {
                 );
 
         for (CartItem cartItem : cart.getItems()) {
-
             CartItemPrice itemPrice =
                     cartItemPricingService.calculate(
                             cartItem,

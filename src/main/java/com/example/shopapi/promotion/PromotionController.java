@@ -28,7 +28,6 @@ public class PromotionController {
 
     @GetMapping
     public List<PromotionResponse> getPromotions() {
-
         return facade.getPromotions();
     }
 
@@ -36,7 +35,6 @@ public class PromotionController {
     public PromotionResponse getPromotion(
             @PathVariable Long id
     ) {
-
         return facade.getPromotion(id);
     }
 
@@ -47,7 +45,6 @@ public class PromotionController {
             @RequestBody
             CreatePromotionRequest request
     ) {
-
         return facade.create(request);
     }
 
@@ -58,7 +55,6 @@ public class PromotionController {
             @RequestBody
             UpdatePromotionRequest request
     ) {
-
         return facade.update(
                 id,
                 request
@@ -70,7 +66,6 @@ public class PromotionController {
     public void delete(
             @PathVariable Long id
     ) {
-
         facade.delete(id);
     }
 
@@ -78,27 +73,20 @@ public class PromotionController {
     public PromotionResponse publish(
             @PathVariable Long id
     ) {
-
         return facade.publish(id);
     }
-
-
 
     @PostMapping("/{id}/pause")
     public PromotionResponse pause(
             @PathVariable Long id
     ) {
-
         return facade.pause(id);
     }
-
-
 
     @PostMapping("/{id}/activate")
     public PromotionResponse activate(
             @PathVariable Long id
     ) {
-
         return facade.activate(id);
     }
 }

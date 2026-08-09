@@ -19,7 +19,6 @@ public class RedisTrendingService {
             Long productId,
             double score
     ) {
-
         redisService.zIncrementScore(
                 keyBuilder.trendingProducts(),
                 productId,
@@ -30,11 +29,8 @@ public class RedisTrendingService {
     public List<Long> getTrendingIds(
             Pageable pageable
     ) {
-
         long start = pageable.getOffset();
-
-        long end =
-                start + pageable.getPageSize() - 1;
+        long end = start + pageable.getPageSize() - 1;
 
         Set<Object> values =
                 redisService.zReverseRange(
@@ -67,7 +63,6 @@ public class RedisTrendingService {
     public void removeProduct(
             Long productId
     ) {
-
         redisService.zRemove(
                 keyBuilder.trendingProducts(),
                 productId
@@ -77,25 +72,17 @@ public class RedisTrendingService {
     public void replaceTrending(
             List<TrendingScore> scores
     ) {
-
-        String tempKey =
-                keyBuilder.trendingProductsTemp();
-
-        String targetKey =
-                keyBuilder.trendingProducts();
-
+        String tempKey = keyBuilder.trendingProductsTemp();
+        String targetKey = keyBuilder.trendingProducts();
 
         redisService.delete(tempKey);
 
         if (scores.isEmpty()) {
-
             redisService.delete(targetKey);
-
             return;
         }
 
         for (TrendingScore score : scores) {
-
             redisService.zAdd(
                     tempKey,
                     score.productId(),

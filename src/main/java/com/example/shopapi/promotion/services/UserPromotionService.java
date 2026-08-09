@@ -10,15 +10,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserPromotionService {
 
-
     private final CustomerOrderRepository orderRepository;
-
-
 
     public boolean isFirstOrder(
             User user
     ) {
-
         return !orderRepository.existsByUserId(
                 user.getId()
         );

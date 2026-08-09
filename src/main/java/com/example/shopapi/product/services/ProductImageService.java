@@ -78,9 +78,7 @@ public class ProductImageService {
         boolean firstPrimary = product.getImages().isEmpty();
 
         for (int i = 0; i < files.size(); i++) {
-
-            ImageMetadata metadata =
-                    imageUploadService.process(files.get(i));
+            ImageMetadata metadata = imageUploadService.process(files.get(i));
 
             ProductImage image =
                     imageFactory.createProductImage(

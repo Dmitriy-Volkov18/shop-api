@@ -16,7 +16,6 @@ public final class ProductSorting {
             Pageable pageable,
             ProductSort sort
     ) {
-
         ProductSort actualSort =
                 Objects.requireNonNullElse(
                         sort,

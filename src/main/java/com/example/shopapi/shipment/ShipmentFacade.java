@@ -39,10 +39,7 @@ public class ShipmentFacade {
             Long id
     ){
         Shipment shipment = shipmentService.getById(id);
-
-        shipmentService.process(
-                shipment
-        );
+        shipmentService.process(shipment);
     }
 
     public void ship(

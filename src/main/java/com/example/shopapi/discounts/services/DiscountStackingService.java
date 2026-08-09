@@ -23,13 +23,11 @@ public class DiscountStackingService {
             ProductVariant variant,
             BigDecimal basePrice
     ) {
-
         List<DiscountResult> discounts =
                 strategy.combine(
                         resolver.resolveAll(variant),
                         variant
                 );
-
 
         List<DiscountResult> ordered =
                 discounts.stream()
@@ -40,19 +38,14 @@ public class DiscountStackingService {
                         )
                         .toList();
 
-
         BigDecimal price = basePrice;
 
-
         for(DiscountResult discount : ordered){
-
-            price =
-                    calculationService.apply(
+            price = calculationService.apply(
                             price,
                             discount
                     );
         }
-
 
         return price;
     }

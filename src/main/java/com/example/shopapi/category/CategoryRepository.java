@@ -9,22 +9,13 @@ import java.util.List;
 public interface CategoryRepository
         extends JpaRepository<Category, Long> {
 
-    boolean existsByNameIgnoreCase(
-            String name
-    );
+    boolean existsByNameIgnoreCase(String name);
 
-    boolean existsByNameIgnoreCaseAndIdNot(
-            String name,
-            Long id
-    );
+    boolean existsByNameIgnoreCaseAndIdNot(String name, Long id);
 
-    boolean existsByParentId(
-            Long parentId
-    );
+    boolean existsByParentId(Long parentId);
 
-    boolean existsByIdAndProductsIsNotEmpty(
-            Long categoryId
-    );
+    boolean existsByIdAndProductsIsNotEmpty(Long categoryId);
 
     List<Category> findByParentIsNull();
 }

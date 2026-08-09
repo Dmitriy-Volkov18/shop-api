@@ -1,5 +1,6 @@
 package com.example.shopapi.auth.services;
 
+import com.example.shopapi.auth.interfaces.IEmailService;
 import com.example.shopapi.common.config.AppProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MailService {
+public class MailService implements IEmailService {
 
     private final JavaMailSender mailSender;
     private final AppProperties appProperties;

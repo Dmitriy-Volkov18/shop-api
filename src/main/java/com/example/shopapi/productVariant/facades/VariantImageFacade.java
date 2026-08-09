@@ -70,9 +70,7 @@ public class VariantImageFacade {
             Long variantId,
             List<MultipartFile> files
     ) {
-
-        Product product =
-                loadAuthorizedProduct(productId);
+        Product product = loadAuthorizedProduct(productId);
 
         ProductVariant variant =
                 productVariantService.getVariant(

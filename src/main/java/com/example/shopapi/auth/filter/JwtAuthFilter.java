@@ -93,10 +93,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
 
         } catch (JwtException | IllegalArgumentException ex) {
-            // invalid JWT -> anonymous
+
         }
         catch(BadCredentialsException ex){
-            // revoked session -> anonymous
+
         }
 
         filterChain.doFilter(request, response);

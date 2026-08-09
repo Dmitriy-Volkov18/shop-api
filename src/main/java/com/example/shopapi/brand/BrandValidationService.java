@@ -8,9 +8,7 @@ public class BrandValidationService {
     public void validate(
             Brand brand
     ) {
-        validateName(
-                brand
-        );
+        validateName(brand);
     }
 
     private void validateName(

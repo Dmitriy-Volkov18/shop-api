@@ -13,7 +13,6 @@ public class TrendingWarmup {
 
     @EventListener(ApplicationReadyEvent.class)
     public void warmup() {
-
         rebuildJob.rebuild();
     }
 }

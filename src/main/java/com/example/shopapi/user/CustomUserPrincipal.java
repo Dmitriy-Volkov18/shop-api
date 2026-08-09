@@ -21,7 +21,6 @@ public class CustomUserPrincipal implements UserDetails {
     private final long tokenVersion;
     private final boolean blocked;
 
-    // обновляется фильтром без нового логина
     private LocalDateTime lastActivityAt;
 
     public CustomUserPrincipal(User user) {

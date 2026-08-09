@@ -25,27 +25,22 @@ public class ProductRecommendationService {
     private final ProductRepository productRepository;
     private final CustomerOrderItemRepository orderItemRepository;
 
-
     public Page<Product> findSimilarProducts(
             Product product,
             Pageable pageable
     ) {
-
         List<Product> products =
                 findBySameBrandAndCategory(
                         product,
                         pageable
                 );
 
-
         if(products.size() < pageable.getPageSize()) {
-
             List<Product> fallback =
                     findByCategory(
                             product,
                             pageable
                     );
-
 
             products.addAll(
                     fallback.stream()
@@ -60,12 +55,10 @@ public class ProductRecommendationService {
             );
         }
 
-
         List<Product> result =
                 products.stream()
                         .limit(pageable.getPageSize())
                         .toList();
-
 
         return new PageImpl<>(
                 result,
@@ -74,13 +67,10 @@ public class ProductRecommendationService {
         );
     }
 
-
-
     private List<Product> findBySameBrandAndCategory(
             Product product,
             Pageable pageable
     ) {
-
         Specification<Product> specification =
                 baseSpecification(product)
                         .and(
@@ -89,23 +79,17 @@ public class ProductRecommendationService {
                                 )
                         );
 
-
         return productRepository.findAll(
                 specification,
                 sortedPageable(pageable)
         ).getContent();
     }
-
-
 
     private List<Product> findByCategory(
             Product product,
             Pageable pageable
     ) {
-
-        Specification<Product> specification =
-                baseSpecification(product);
-
+        Specification<Product> specification = baseSpecification(product);
 
         return productRepository.findAll(
                 specification,
@@ -113,12 +97,9 @@ public class ProductRecommendationService {
         ).getContent();
     }
 
-
-
     private Specification<Product> baseSpecification(
             Product product
     ) {
-
         return Specification
                 .where(
                         ProductSpecification.hasCategory(
@@ -142,12 +123,9 @@ public class ProductRecommendationService {
                 );
     }
 
-
-
     private Pageable sortedPageable(
             Pageable pageable
     ) {
-
         Sort sort =
                 Sort.by(
                         Sort.Order.desc(
@@ -161,7 +139,6 @@ public class ProductRecommendationService {
                         )
                 );
 
-
         return PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
@@ -173,13 +150,11 @@ public class ProductRecommendationService {
             Product product,
             Pageable pageable
     ) {
-
         List<Product> products =
                 orderItemRepository.findAlsoBought(
                         product.getId(),
                         pageable
                 );
-
 
         return new PageImpl<>(
                 products,

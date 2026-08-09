@@ -126,9 +126,6 @@ public class PasswordManagementService {
             ResetPasswordRequest request,
             SessionMeta meta
     ) {
-        /*PasswordResetToken resetToken = passwordResetService.validateToken(request.getToken());
-        User user = resetToken.getUser();*/
-
         User user =
                 passwordResetService.validateToken(
                         request.getToken()
@@ -141,8 +138,6 @@ public class PasswordManagementService {
         }
 
         updatePassword(user, request.getNewPassword());
-
-        //passwordResetService.deleteAllForUser(user.getId());
 
         passwordResetService.deleteToken(
                 request.getToken()

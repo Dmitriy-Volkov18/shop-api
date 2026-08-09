@@ -23,7 +23,6 @@ public class RedisRateLimitService {
                         window
                 );
 
-
         return count <= limit;
     }
 
@@ -43,9 +42,6 @@ public class RedisRateLimitService {
             return limit;
         }
 
-        return Math.max(
-                0,
-                limit - count
-        );
+        return Math.max(0, limit - count);
     }
 }

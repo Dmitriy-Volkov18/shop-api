@@ -24,8 +24,7 @@ public class ProductVariantResponseService {
     public ProductVariantResponse toResponse(
             ProductVariant variant
     ) {
-        ProductVariantResponse response =
-                mapper.toResponse(variant);
+        ProductVariantResponse response = mapper.toResponse(variant);
 
         Optional<DiscountResult> activeDiscount =
                 discountResolver.resolve(
@@ -36,9 +35,7 @@ public class ProductVariantResponseService {
                 response.id(),
                 response.sku(),
                 response.price(),
-                productPricingService.calculateEffectivePrice(
-                        variant
-                ),
+                productPricingService.calculateEffectivePrice(variant),
                 activeDiscount
                         .map(discountResultMapper::toResponse)
                         .orElse(null),

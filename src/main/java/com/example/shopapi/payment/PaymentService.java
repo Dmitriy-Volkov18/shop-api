@@ -63,7 +63,6 @@ public class PaymentService {
     public void cancelIfPending(
             Payment payment
     ){
-
         if(payment == null){
             return;
         }
@@ -80,10 +79,7 @@ public class PaymentService {
             String reason
     ) {
         payment.markFailed(reason);
-
-        reservationService.releaseByOrder(
-                payment.getOrder()
-        );
+        reservationService.releaseByOrder(payment.getOrder());
     }
 
     public void cancel(

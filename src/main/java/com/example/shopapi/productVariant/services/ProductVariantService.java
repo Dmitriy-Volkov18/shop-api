@@ -140,10 +140,7 @@ public class ProductVariantService {
                             .toLowerCase()
             );
 
-            attribute.setValue(
-                    request.value()
-            );
-
+            attribute.setValue(request.value());
             variant.addAttribute(attribute);
         }
     }
@@ -151,7 +148,6 @@ public class ProductVariantService {
     private ProductVariant lockVariant(
             Long variantId
     ) {
-
         return variantRepository
                 .findByIdForUpdate(
                         variantId
@@ -168,7 +164,6 @@ public class ProductVariantService {
             Long variantId,
             int quantity
     ) {
-
         ProductVariant variant = lockVariant(variantId);
         variant.increaseStock(quantity);
     }

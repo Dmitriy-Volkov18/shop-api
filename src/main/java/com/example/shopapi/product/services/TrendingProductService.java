@@ -44,14 +44,12 @@ public class TrendingProductService {
     public Page<Product> getTrending(
             Pageable pageable
     ) {
-
         List<Long> ids =
                 redisTrendingService.getTrendingIds(
                         pageable
                 );
 
-        List<Product> products =
-                productService.findAllByIds(ids);
+        List<Product> products = productService.findAllByIds(ids);
 
         Set<Long> existingIds =
                 products.stream()

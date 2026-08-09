@@ -70,9 +70,7 @@ public class CategoryDiscountService {
                 user
         );
 
-        return repository.save(
-                discount
-        );
+        return repository.save(discount);
     }
 
     public CategoryDiscount update(
@@ -98,9 +96,7 @@ public class CategoryDiscountService {
                         )
         );
 
-        return repository.save(
-                discount
-        );
+        return repository.save(discount);
     }
 
     public void delete(
@@ -112,9 +108,7 @@ public class CategoryDiscountService {
                 user
         );
 
-        repository.delete(
-                discount
-        );
+        repository.delete(discount);
     }
 
 }

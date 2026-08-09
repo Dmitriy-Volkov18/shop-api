@@ -17,7 +17,6 @@ public class UserValidator {
     public void validateCreate(
             UserCreateRequest request
     ) {
-
         if (userRepository.existsByUsername(request.username())) {
             throw new ConflictException(
                     "Username already exists"
@@ -35,13 +34,11 @@ public class UserValidator {
             User user,
             UserUpdateRequest request
     ) {
-
         if (!user.getUsername().equals(request.username())
                 && userRepository.existsByUsernameAndIdNot(
                 request.username(),
                 user.getId()
         )) {
-
             throw new ConflictException(
                     "Username already exists"
             );
@@ -52,7 +49,6 @@ public class UserValidator {
                 request.email(),
                 user.getId()
         )) {
-
             throw new ConflictException(
                     "Email already exists"
             );

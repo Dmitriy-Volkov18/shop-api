@@ -12,6 +12,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class SessionMetadataFilter extends OncePerRequestFilter {
 
     private static final Duration UPDATE_INTERVAL = Duration.ofMinutes(5);
@@ -30,20 +32,6 @@ public class SessionMetadataFilter extends OncePerRequestFilter {
     private final GeoService geoService;
     private final UserAgentParser userAgentParser;
     private final DeviceFingerprintService deviceFingerprintService;
-
-    public SessionMetadataFilter(
-            JwtService jwtService,
-            RefreshTokenRepository repository,
-            GeoService geoService,
-            UserAgentParser userAgentParser,
-            DeviceFingerprintService deviceFingerprintService
-    ) {
-        this.jwtService = jwtService;
-        this.repository = repository;
-        this.geoService = geoService;
-        this.userAgentParser = userAgentParser;
-        this.deviceFingerprintService = deviceFingerprintService;
-    }
 
     @Override
     protected void doFilterInternal(
@@ -135,7 +123,7 @@ public class SessionMetadataFilter extends OncePerRequestFilter {
             });
 
         } catch (JwtException | IllegalArgumentException ex) {
-            // invalid token -> skip metadata update
+
         }
 
         filterChain.doFilter(request, response);

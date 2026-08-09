@@ -111,14 +111,11 @@ public class CustomerOrderSpecification {
             Collection<CustomerOrderStatus> statuses
     ) {
         return (root, query, cb) -> {
-
             if (statuses == null || statuses.isEmpty()) {
                 return null;
             }
 
-            CriteriaBuilder.In<CustomerOrderStatus> in =
-                    cb.in(root.get("status"));
-
+            CriteriaBuilder.In<CustomerOrderStatus> in = cb.in(root.get("status"));
             statuses.forEach(in::value);
 
             return in;
@@ -128,13 +125,10 @@ public class CustomerOrderSpecification {
     public static Specification<CustomerOrder> hasPaymentStatus(
             PaymentStatus status
     ) {
-
         return (root, query, cb) -> {
-
             if(status == null){
                 return null;
             }
-
 
             return cb.equal(
                     root.join("payment")
@@ -147,13 +141,10 @@ public class CustomerOrderSpecification {
     public static Specification<CustomerOrder> hasShipmentStatus(
             ShipmentStatus status
     ) {
-
         return (root, query, cb) -> {
-
             if(status == null){
                 return null;
             }
-
 
             return cb.equal(
                     root.join("shipment")
@@ -166,13 +157,11 @@ public class CustomerOrderSpecification {
     public static Specification<CustomerOrder> hasReturnStatus(
             ReturnStatus status
     ) {
-
         return (root, query, cb) -> {
 
             if(status == null){
                 return null;
             }
-
 
             return cb.equal(
                     root.join(
@@ -188,11 +177,9 @@ public class CustomerOrderSpecification {
     public static Specification<CustomerOrder> isActive(
             Boolean active
     ) {
-
         if (!Boolean.TRUE.equals(active)) {
             return null;
         }
-
 
         return hasStatuses(
                 Arrays.stream(CustomerOrderStatus.values())
@@ -204,11 +191,9 @@ public class CustomerOrderSpecification {
     public static Specification<CustomerOrder> isHistory(
             Boolean history
     ) {
-
         if (!Boolean.TRUE.equals(history)) {
             return null;
         }
-
 
         return hasStatuses(
                 Arrays.stream(CustomerOrderStatus.values())

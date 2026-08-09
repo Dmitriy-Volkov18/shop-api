@@ -9,33 +9,25 @@ import com.example.shopapi.promotion.interfaces.PromotionTarget;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BrandPromotionTarget
-        implements PromotionTarget {
-
+public class BrandPromotionTarget implements PromotionTarget {
 
     @Override
     public PromotionTargetType getType() {
-
         return PromotionTargetType.BRAND;
     }
-
 
     @Override
     public boolean matches(
             Promotion promotion,
             PromotionContext context
     ) {
-
-        ProductVariant variant =
-                context.getVariant();
+        ProductVariant variant = context.getVariant();
 
         if (variant == null) {
             return false;
         }
 
-        Brand brand =
-                variant.getProduct()
-                        .getBrand();
+        Brand brand = variant.getProduct().getBrand();
 
         if (brand == null) {
             return false;

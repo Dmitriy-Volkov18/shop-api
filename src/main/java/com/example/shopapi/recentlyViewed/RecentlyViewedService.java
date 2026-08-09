@@ -63,7 +63,6 @@ public class RecentlyViewedService {
     public List<Product> getRedisViewed(
             User user
     ) {
-
         List<Long> ids =
                 redisRecentlyViewedService.get(
                         user.getId()
@@ -88,8 +87,6 @@ public class RecentlyViewedService {
     public List<RecentlyViewedProduct> getItems(
             User user
     ) {
-        return repository.findByUserIdOrderByViewedAtDesc(
-                user.getId()
-        );
+        return repository.findByUserIdOrderByViewedAtDesc(user.getId());
     }
 }

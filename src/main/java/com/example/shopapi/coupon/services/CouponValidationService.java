@@ -16,57 +16,40 @@ public class CouponValidationService {
     public void validateForCreate(
             Coupon coupon
     ) {
-
         validateFields(coupon);
-
-        validateUniqueCode(
-                coupon.getCode()
-        );
+        validateUniqueCode(coupon.getCode());
     }
 
     public void validateForUpdate(
             Coupon coupon,
             String previousCode
     ) {
-
         validateFields(coupon);
 
         if (!previousCode.equalsIgnoreCase(coupon.getCode())) {
-
-            validateUniqueCode(
-                    coupon.getCode()
-            );
+            validateUniqueCode(coupon.getCode());
         }
     }
 
     public void validateFields(
             Coupon coupon
     ) {
-
         validateDates(coupon);
-
         validateDiscount(coupon);
-
         validateLimits(coupon);
-
     }
 
     private void validateUniqueCode(
             String code
     ) {
-
         if (repository.existsByCodeIgnoreCase(code)) {
-
-            throw new BadRequestException(
-                    "Coupon code already exists"
-            );
+            throw new BadRequestException("Coupon code already exists");
         }
     }
 
     private void validateDates(
             Coupon coupon
     ) {
-
         ValidationUtils.requireDateRange(
                 coupon.getStartsAt(),
                 coupon.getEndsAt(),
@@ -77,13 +60,8 @@ public class CouponValidationService {
     private void validateDiscount(
             Coupon coupon
     ) {
-
         if (coupon.isPercent()) {
-
-            ValidationUtils.requirePercentage(
-                    coupon.getDiscountValue()
-            );
-
+            ValidationUtils.requirePercentage(coupon.getDiscountValue());
             return;
         }
 
@@ -96,9 +74,7 @@ public class CouponValidationService {
     private void validateLimits(
             Coupon coupon
     ) {
-
         if (coupon.getUsageLimit() != null) {
-
             ValidationUtils.requirePositive(
                     coupon.getUsageLimit(),
                     "Usage limit must be positive"
@@ -106,7 +82,6 @@ public class CouponValidationService {
         }
 
         if (coupon.getPerUserLimit() != null) {
-
             ValidationUtils.requirePositive(
                     coupon.getPerUserLimit(),
                     "Per-user limit must be positive"
@@ -119,7 +94,6 @@ public class CouponValidationService {
         );
 
         if (coupon.getMaximumDiscountAmount() != null) {
-
             ValidationUtils.requirePositive(
                     coupon.getMaximumDiscountAmount(),
                     "Maximum discount must be positive"

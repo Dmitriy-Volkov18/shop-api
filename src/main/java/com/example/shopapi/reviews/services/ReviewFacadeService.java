@@ -133,7 +133,6 @@ public class ReviewFacadeService {
             Long reviewId,
             List<MultipartFile> files
     ) {
-
         Review review = getReview(reviewId);
 
         authorizationService.requireReviewAccess(review);
@@ -148,9 +147,7 @@ public class ReviewFacadeService {
     public void deleteImage(
             Long imageId
     ) {
-
-        ReviewImage image =
-                reviewImageService.getImage(imageId);
+        ReviewImage image = reviewImageService.getImage(imageId);
 
         authorizationService.requireReviewAccess(
                 image.getReview()

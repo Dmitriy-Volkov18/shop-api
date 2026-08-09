@@ -29,6 +29,7 @@ public class BrandDiscountProvider
         if (product.getBrand() == null) {
             return Optional.empty();
         }
+
         return repository.findActiveDiscounts(
                         product.getBrand().getId(),
                         LocalDateTime.now()

@@ -9,23 +9,18 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class FreeShippingPromotionAction
-        implements PromotionAction {
-
+public class FreeShippingPromotionAction implements PromotionAction {
 
     @Override
     public PromotionActionType getType() {
-
         return PromotionActionType.FREE_SHIPPING;
     }
-
 
     @Override
     public PromotionResult apply(
             Promotion promotion,
             PromotionContext context
     ) {
-
         return PromotionResult.withFreeShipping();
     }
 }

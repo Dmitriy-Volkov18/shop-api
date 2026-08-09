@@ -11,7 +11,6 @@ public final class ProductSpecifications {
     public static Specification<Product> build(
             ProductFilter filter
     ) {
-
         return Specification.where(
                         ProductSpecification.hasSearch(
                                 filter.getSearch()

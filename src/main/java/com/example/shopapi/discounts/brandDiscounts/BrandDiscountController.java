@@ -29,9 +29,7 @@ public class BrandDiscountController {
     public List<BrandDiscountResponse> getDiscounts(
             @PathVariable Long brandId
     ){
-        return facade.getDiscounts(
-                brandId
-        );
+        return facade.getDiscounts(brandId);
     }
 
     @GetMapping("/{discountId}")

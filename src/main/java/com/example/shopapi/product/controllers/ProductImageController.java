@@ -22,8 +22,8 @@ import java.util.List;
 @RequestMapping("/products/{productId}/images")
 @RequiredArgsConstructor
 public class ProductImageController {
-    private final ProductImageFacade productImageFacade;
 
+    private final ProductImageFacade productImageFacade;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER','ADMIN')")

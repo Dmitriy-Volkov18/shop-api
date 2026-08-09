@@ -28,7 +28,6 @@ public class RedisRateLimitScriptService {
         );
     }
 
-
     public void delete(
             String key
     ) {
@@ -44,8 +43,6 @@ public class RedisRateLimitScriptService {
             return null;
         }
 
-        return Long.valueOf(
-                value.toString()
-        );
+        return Long.valueOf(value.toString());
     }
 }

@@ -28,8 +28,6 @@ public class DiscountValueRule
                     ) <= 0;
         }
 
-        return discount.discountValue()
-                .compareTo(basePrice)
-                <= 0;
+        return discount.discountValue().compareTo(basePrice) <= 0;
     }
 }

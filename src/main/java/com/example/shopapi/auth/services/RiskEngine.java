@@ -22,21 +22,15 @@ public class RiskEngine {
                                     SessionMeta meta) {
 
         int score = suspiciousLoginService.calculateRiskOnLogin(user, sessions, meta);
-
         RiskLevel level = map(score);
-
         SecurityDecision decision = decide(level);
 
         return new RiskResult(score, level, decision);
     }
 
-    public RiskResult evaluateRefresh(RefreshToken token,
-                                      SessionMeta meta) {
-
+    public RiskResult evaluateRefresh(RefreshToken token, SessionMeta meta) {
         int score = suspiciousLoginService.calculateRisk(token, meta);
-
         RiskLevel level = map(score);
-
         SecurityDecision decision = decide(level);
 
         return new RiskResult(score, level, decision);

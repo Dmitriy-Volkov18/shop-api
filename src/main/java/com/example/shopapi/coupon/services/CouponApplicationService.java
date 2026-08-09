@@ -28,10 +28,7 @@ public class CouponApplicationService {
                         request.code()
                 );
 
-        validate(
-                coupon,
-                request
-        );
+        validate(coupon, request);
 
         BigDecimal discount =
                 coupon.calculateDiscount(
@@ -57,21 +54,15 @@ public class CouponApplicationService {
                 LocalDateTime.now();
 
         if (!coupon.isApplicable(now)) {
-            throw new BadRequestException(
-                    "Coupon is not active"
-            );
+            throw new BadRequestException("Coupon is not active");
         }
 
         if (!coupon.satisfiesMinimumOrder(request.orderTotal())) {
-            throw new BadRequestException(
-                    "Minimum order amount not reached"
-            );
+            throw new BadRequestException("Minimum order amount not reached");
         }
 
         if (!coupon.canBeUsed()) {
-            throw new BadRequestException(
-                    "Coupon usage limit exceeded"
-            );
+            throw new BadRequestException("Coupon usage limit exceeded");
         }
 
         long userUsages =
@@ -82,9 +73,7 @@ public class CouponApplicationService {
                         );
 
         if (!coupon.canBeUsedByUser(userUsages)) {
-            throw new BadRequestException(
-                    "User coupon limit exceeded"
-            );
+            throw new BadRequestException("User coupon limit exceeded");
         }
     }
 }

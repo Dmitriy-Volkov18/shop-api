@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UserActivityFilter extends OncePerRequestFilter {
 
-    private static final Duration UPDATE_INTERVAL =
-            Duration.ofMinutes(5);
+    private static final Duration UPDATE_INTERVAL = Duration.ofMinutes(5);
 
     private final UserRepository userRepository;
 
@@ -41,27 +40,21 @@ public class UserActivityFilter extends OncePerRequestFilter {
             return;
         }
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null
                 && authentication.isAuthenticated()
                 && authentication.getPrincipal() instanceof CustomUserPrincipal principal) {
 
             LocalDateTime now = LocalDateTime.now();
-
             LocalDateTime lastActivity = principal.getLastActivityAt();
 
-            if (lastActivity == null
-                    || lastActivity.isBefore(now.minus(UPDATE_INTERVAL))) {
-
+            if (lastActivity == null || lastActivity.isBefore(now.minus(UPDATE_INTERVAL))) {
                 userRepository.updateLastActivity(
                         principal.getUserId(),
                         now
                 );
 
-                // обновляем principal, чтобы следующие запросы
-                // не выполняли UPDATE ещё 5 минут
                 principal.setLastActivityAt(now);
             }
         }

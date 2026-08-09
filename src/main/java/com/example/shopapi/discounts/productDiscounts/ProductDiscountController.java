@@ -33,7 +33,6 @@ public class ProductDiscountController {
             @PathVariable Long productId,
             @PathVariable Long variantId
     ) {
-
         return facade.getDiscounts(
                 productId,
                 variantId

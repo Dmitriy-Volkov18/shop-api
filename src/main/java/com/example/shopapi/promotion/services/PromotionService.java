@@ -27,7 +27,6 @@ public class PromotionService {
 
     @Transactional(readOnly = true)
     public List<Promotion> getPromotions() {
-
         return repository.findAll();
     }
 
@@ -35,7 +34,6 @@ public class PromotionService {
     public Promotion getPromotion(
             Long id
     ) {
-
         return repository.findById(id)
                 .orElseThrow(() ->
                         new BadRequestException(
@@ -47,11 +45,9 @@ public class PromotionService {
     public Promotion create(
             CreatePromotionRequest request
     ) {
-
         if (repository.existsByNameIgnoreCase(
                 request.name()
         )) {
-
             throw new BadRequestException(
                     "Promotion already exists"
             );
@@ -62,35 +58,27 @@ public class PromotionService {
                         request
                 );
 
-        promotion.setStatus(
-                PromotionStatus.DRAFT
-        );
+        promotion.setStatus(PromotionStatus.DRAFT);
 
         actionConfigurationService.configure(
                 promotion,
                 request
         );
 
-        validationService.validate(
-                promotion
-        );
+        validationService.validate(promotion);
 
-        return repository.save(
-                promotion
-        );
+        return repository.save(promotion);
     }
 
     public Promotion update(
             Promotion promotion,
             UpdatePromotionRequest request
     ) {
-
         if (!promotion.getName()
                 .equalsIgnoreCase(request.name())
                 && repository.existsByNameIgnoreCase(
                 request.name()
         )) {
-
             throw new BadRequestException(
                     "Promotion already exists"
             );
@@ -106,54 +94,33 @@ public class PromotionService {
                 request
         );
 
-        validationService.validate(
-                promotion
-        );
+        validationService.validate(promotion);
 
-        return repository.save(
-                promotion
-        );
+        return repository.save(promotion);
     }
 
     public void delete(
             Promotion promotion
     ) {
-
-        repository.delete(
-                promotion
-        );
+        repository.delete(promotion);
     }
 
     @Transactional
     public void publish(
             Promotion promotion
     ) {
+        LocalDateTime now = LocalDateTime.now();
 
-        LocalDateTime now =
-                LocalDateTime.now();
-
-
-        if(promotion.getStatus()
-                != PromotionStatus.DRAFT) {
-
+        if(promotion.getStatus() != PromotionStatus.DRAFT) {
             throw new BadRequestException(
                     "Only draft promotion can be published"
             );
         }
 
-
-        if(promotion.getStartsAt()
-                .isAfter(now)) {
-
-            promotion.setStatus(
-                    PromotionStatus.SCHEDULED
-            );
-
+        if(promotion.getStartsAt().isAfter(now)) {
+            promotion.setStatus(PromotionStatus.SCHEDULED);
         } else {
-
-            promotion.setStatus(
-                    PromotionStatus.ACTIVE
-            );
+            promotion.setStatus(PromotionStatus.ACTIVE);
         }
     }
 
@@ -161,37 +128,25 @@ public class PromotionService {
     public void pause(
             Promotion promotion
     ) {
-
-        if(promotion.getStatus()
-                != PromotionStatus.ACTIVE) {
-
+        if(promotion.getStatus() != PromotionStatus.ACTIVE) {
             throw new BadRequestException(
                     "Only active promotion can be paused"
             );
         }
 
-
-        promotion.setStatus(
-                PromotionStatus.PAUSED
-        );
+        promotion.setStatus(PromotionStatus.PAUSED);
     }
 
     @Transactional
     public void activate(
             Promotion promotion
     ) {
-
-        if(promotion.getStatus()
-                != PromotionStatus.PAUSED) {
-
+        if(promotion.getStatus() != PromotionStatus.PAUSED) {
             throw new BadRequestException(
                     "Only paused promotion can be activated"
             );
         }
 
-
-        promotion.setStatus(
-                PromotionStatus.ACTIVE
-        );
+        promotion.setStatus(PromotionStatus.ACTIVE);
     }
 }

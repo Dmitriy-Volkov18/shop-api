@@ -72,20 +72,14 @@ public class Category extends BaseEntity implements DiscountOwner<CategoryDiscou
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<CategoryDiscount> discounts =
-            new ArrayList<>();
+    private List<CategoryDiscount> discounts = new ArrayList<>();
 
     @Override
     public void addDiscount(
             CategoryDiscount discount
     ){
-        discounts.add(
-                discount
-        );
-
-        discount.setCategory(
-                this
-        );
+        discounts.add(discount);
+        discount.setCategory(this);
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.shopapi.auth.services;
 
-
 import com.example.shopapi.auth.dto.RefreshTokenClaims;
 import com.example.shopapi.common.exception.BadRequestException;
 import com.example.shopapi.user.entities.User;
@@ -8,6 +7,7 @@ import com.example.shopapi.common.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -18,16 +18,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
-/*    @Value("${jwt.secret}")
-    private String secret;*/
-
     private final JwtProperties jwtProperties;
-
-    public JwtService(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
-    }
 
     private SecretKey getSignKey() {
         return Keys.hmacShaKeyFor(
@@ -36,12 +30,10 @@ public class JwtService {
     }
 
     public String generateAccessToken(User user) {
-
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getRole().name());
         claims.put("userId", user.getId());
         claims.put("jti", UUID.randomUUID().toString());
-
         claims.put("tokenVersion", user.getTokenVersion());
 
         return Jwts.builder()
@@ -68,7 +60,6 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-
         return parseClaims(token)
                 .getSubject();
     }
@@ -107,7 +98,6 @@ public class JwtService {
     }
 
     public RefreshTokenClaims extractRefreshClaims(String token) {
-
         Claims claims = parseClaims(token);
 
         return new RefreshTokenClaims(

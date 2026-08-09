@@ -70,7 +70,6 @@ public class ProductController {
     ) {
 
         ProductFilter filter = new ProductFilter();
-
         filter.setSearch(name);
         filter.setMinPrice(minPrice);
         filter.setMaxPrice(maxPrice);
@@ -93,16 +92,13 @@ public class ProductController {
     private Map<String, List<String>> parseAttributes(
             String attributes
     ) {
-
-        Map<String, List<String>> result =
-                new HashMap<>();
+        Map<String, List<String>> result = new HashMap<>();
 
         if (attributes == null || attributes.isBlank()) {
             return result;
         }
 
         for (String pair : attributes.split(",")) {
-
             String[] split = pair.split(":");
 
             if (split.length != 2) {
@@ -133,17 +129,14 @@ public class ProductController {
         return productFacade.getProduct(id);
     }
 
-
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ProductDetailResponse create(
-
             @RequestPart("product")
             @Valid
             CreateProductRequest request,
-
 
             @RequestPart("images")
             List<MultipartFile> images
@@ -161,20 +154,15 @@ public class ProductController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public ProductDetailResponse update(
-
             @PathVariable Long id,
-
 
             @RequestPart("product")
             @Valid
             UpdateProductRequest request,
 
-
             @RequestPart(value = "images", required = false)
             List<MultipartFile> images
-
     ) {
-
         return productFacade.updateProduct(
                 id,
                 request,
@@ -188,7 +176,6 @@ public class ProductController {
     public void deactivate(@PathVariable Long id) {
         productFacade.deactivate(id);
     }
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/stock")
@@ -204,7 +191,6 @@ public class ProductController {
             @PathVariable Long id,
             Pageable pageable
     ) {
-
         return productDiscoveryFacade.getSimilarProducts(
                 id,
                 pageable
@@ -216,7 +202,6 @@ public class ProductController {
             @PathVariable Long id,
             Pageable pageable
     ) {
-
         return productDiscoveryFacade.getAlsoBought(
                 id,
                 pageable

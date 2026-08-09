@@ -38,7 +38,6 @@ public class ProductDiscoveryFacade {
                         pageable
                 );
 
-
         return productResponseAssembler.toPage(page, pageable, getCurrentUserOrNull());
     }
 

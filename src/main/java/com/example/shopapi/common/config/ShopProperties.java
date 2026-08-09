@@ -17,23 +17,13 @@ public class ShopProperties {
     @Getter
     @Setter
     public static class Reservation {
-
-        /**
-         * Время жизни резерва товара.
-         */
         private Duration timeout = Duration.ofMinutes(15);
-
-        /**
-         * Период запуска очистки.
-         */
         private Duration cleanupInterval = Duration.ofMinutes(1);
     }
 
     @Getter
     @Setter
     public static class Order {
-
-        private Duration paymentTimeout =
-                Duration.ofMinutes(15);
+        private Duration paymentTimeout = Duration.ofMinutes(15);
     }
 }

@@ -72,18 +72,12 @@ public class ReturnFacade {
     }
 
     public void approve(Long id){
-
-        ReturnRequest request =
-                returnService.getById(id);
-
+        ReturnRequest request = returnService.getById(id);
         workflowService.approve(request);
     }
 
     public void reject(Long id){
-
-        ReturnRequest request =
-                returnService.getById(id);
-
+        ReturnRequest request = returnService.getById(id);
         workflowService.reject(request);
     }
 

@@ -74,9 +74,7 @@ public class CartItem extends BaseEntity {
     public void increaseQuantity(
             int amount
     ){
-        changeQuantity(
-                this.quantity + amount
-        );
+        changeQuantity(this.quantity + amount);
     }
 
 }

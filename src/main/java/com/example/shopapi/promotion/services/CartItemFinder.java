@@ -57,17 +57,14 @@ public class CartItemFinder {
             Cart cart,
             Long productId
     ) {
-
         return cart.getItems()
                 .stream()
-
                 .filter(item ->
                         item.getVariant()
                                 .getProduct()
                                 .getId()
                                 .equals(productId)
                 )
-
                 .toList();
     }
 
@@ -75,10 +72,8 @@ public class CartItemFinder {
             Cart cart,
             Long categoryId
     ) {
-
         return cart.getItems()
                 .stream()
-
                 .filter(item ->
                         item.getVariant()
                                 .getProduct()
@@ -86,7 +81,6 @@ public class CartItemFinder {
                                 .getId()
                                 .equals(categoryId)
                 )
-
                 .toList();
     }
 
@@ -94,10 +88,8 @@ public class CartItemFinder {
             Cart cart,
             Long brandId
     ) {
-
         return cart.getItems()
                 .stream()
-
                 .filter(item ->
                         item.getVariant()
                                 .getProduct()
@@ -105,7 +97,6 @@ public class CartItemFinder {
                                 .getId()
                                 .equals(brandId)
                 )
-
                 .toList();
     }
 

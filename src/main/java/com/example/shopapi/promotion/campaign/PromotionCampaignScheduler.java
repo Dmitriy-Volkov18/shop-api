@@ -18,10 +18,7 @@ public class PromotionCampaignScheduler {
     @Scheduled(cron = "0 0 * * * *")
     @Transactional
     public void process() {
-
-        LocalDateTime now =
-                LocalDateTime.now();
-
+        LocalDateTime now = LocalDateTime.now();
 
         repository.findByStatusAndStartsAtLessThanEqual(
                         PromotionStatus.SCHEDULED,
@@ -30,7 +27,6 @@ public class PromotionCampaignScheduler {
                 .forEach(
                         campaignService::activate
                 );
-
 
         repository.findByStatusAndEndsAtBefore(
                         PromotionStatus.ACTIVE,

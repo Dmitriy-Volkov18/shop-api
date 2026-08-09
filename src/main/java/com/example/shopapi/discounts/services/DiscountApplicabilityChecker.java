@@ -12,16 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiscountApplicabilityChecker {
 
-
     private final List<DiscountApplicabilityRule> rules;
-
-
 
     public boolean isApplicable(
             DiscountResult discount,
             ProductVariant variant
     ){
-
         return rules.stream()
                 .allMatch(rule ->
                         rule.isApplicable(

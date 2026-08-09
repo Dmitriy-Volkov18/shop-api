@@ -17,11 +17,9 @@ public interface CategoryMapper {
     )
     CategoryResponse toResponse(Category category);
 
-
     default CategoryTreeResponse toTreeResponse(
             Category category
     ) {
-
         return new CategoryTreeResponse(
                 category.getId(),
                 category.getName(),

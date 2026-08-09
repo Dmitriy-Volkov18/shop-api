@@ -90,8 +90,6 @@ public class CategoryDiscountFacade {
     private Category getCategory(
             Long id
     ){
-        return categoryService.getCategory(
-                id
-        );
+        return categoryService.getCategory(id);
     }
 }

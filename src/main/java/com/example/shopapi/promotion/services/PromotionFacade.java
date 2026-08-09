@@ -20,7 +20,6 @@ public class PromotionFacade {
     private final PromotionMapper promotionMapper;
 
     public List<PromotionResponse> getPromotions() {
-
         return promotionService.getPromotions()
                 .stream()
                 .map(promotionMapper::toResponse)
@@ -30,7 +29,6 @@ public class PromotionFacade {
     public PromotionResponse getPromotion(
             Long id
     ) {
-
         return promotionMapper.toResponse(
                 promotionService.getPromotion(id)
         );
@@ -40,7 +38,6 @@ public class PromotionFacade {
     public PromotionResponse create(
             CreatePromotionRequest request
     ) {
-
         return promotionMapper.toResponse(
                 promotionService.create(request)
         );
@@ -51,9 +48,7 @@ public class PromotionFacade {
             Long id,
             UpdatePromotionRequest request
     ) {
-
-        Promotion promotion =
-                promotionService.getPromotion(id);
+        Promotion promotion = promotionService.getPromotion(id);
 
         return promotionMapper.toResponse(
                 promotionService.update(
@@ -67,7 +62,6 @@ public class PromotionFacade {
     public void delete(
             Long id
     ) {
-
         promotionService.delete(
                 promotionService.getPromotion(id)
         );
@@ -76,64 +70,45 @@ public class PromotionFacade {
     public PromotionResponse publish(
             Long promotionId
     ) {
-
         Promotion promotion =
                 promotionService.getPromotion(
                         promotionId
                 );
 
-
-        promotionService.publish(
-                promotion
-        );
-
+        promotionService.publish(promotion);
 
         return promotionMapper.toResponse(
                 promotion
         );
     }
 
-
-
     public PromotionResponse pause(
             Long promotionId
     ) {
-
         Promotion promotion =
                 promotionService.getPromotion(
                         promotionId
                 );
-
 
         promotionService.pause(
                 promotion
         );
 
-
         return promotionMapper.toResponse(
                 promotion
         );
     }
 
-
-
     public PromotionResponse activate(
             Long promotionId
     ) {
-
         Promotion promotion =
                 promotionService.getPromotion(
                         promotionId
                 );
 
+        promotionService.activate(promotion);
 
-        promotionService.activate(
-                promotion
-        );
-
-
-        return promotionMapper.toResponse(
-                promotion
-        );
+        return promotionMapper.toResponse(promotion);
     }
 }

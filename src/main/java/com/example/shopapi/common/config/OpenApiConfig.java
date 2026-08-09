@@ -15,9 +15,7 @@ public class OpenApiConfig {
 
     @Bean
     public OpenAPI shopApi() {
-
         return new OpenAPI()
-
                 .info(
                         new Info()
                                 .title("Shop API")
@@ -43,7 +41,6 @@ public class OpenApiConfig {
                                                 .name("MIT")
                                 )
                 )
-
                 .components(
                         new Components()
                                 .addSecuritySchemes(
@@ -59,7 +56,6 @@ public class OpenApiConfig {
                                                 )
                                 )
                 )
-
                 .externalDocs(
                         new ExternalDocumentation()
                                 .description("Shop API Documentation")

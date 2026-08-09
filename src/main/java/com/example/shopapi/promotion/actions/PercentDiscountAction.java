@@ -11,25 +11,19 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Component
-public class PercentDiscountAction
-        implements PromotionAction {
-
+public class PercentDiscountAction implements PromotionAction {
 
     @Override
     public PromotionActionType getType() {
-
         return PromotionActionType.PERCENT_DISCOUNT;
     }
-
 
     @Override
     public PromotionResult apply(
             Promotion promotion,
             PromotionContext context
     ) {
-
-        BigDecimal cartTotal =
-                context.getCartTotal();
+        BigDecimal cartTotal = context.getCartTotal();
 
         BigDecimal discount =
                 cartTotal
@@ -41,7 +35,6 @@ public class PercentDiscountAction
                                 2,
                                 RoundingMode.HALF_UP
                         );
-
 
         return PromotionResult.fixedDiscount(
                 discount

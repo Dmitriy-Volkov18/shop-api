@@ -11,16 +11,13 @@ import org.mapstruct.MappingTarget;
 )
 public interface BrandMapper {
 
-
     Brand toEntity(
             CreateBrandRequest request
     );
 
-
     BrandResponse toResponse(
             Brand brand
     );
-
 
     void updateEntity(
             UpdateBrandRequest request,

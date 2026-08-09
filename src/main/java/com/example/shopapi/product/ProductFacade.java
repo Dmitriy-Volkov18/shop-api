@@ -44,7 +44,6 @@ public class ProductFacade {
     private final SearchHistoryService searchHistoryService;
     private final ProductResponseAssembler productResponseAssembler;
     private final ProductCacheService productCacheService;
-
     private final ProductListCacheService productListCacheService;
     private final ProductCacheKeyGenerator productCacheKeyGenerator;
 
@@ -70,25 +69,18 @@ public class ProductFacade {
     public ProductDetailResponse getProduct(
             Long id
     ) {
-
-        ProductDetailResponse cached =
-                productCacheService.get(id);
+        ProductDetailResponse cached = productCacheService.get(id);
 
         if (cached != null) {
-
             recordView(id);
 
             return cached;
         }
 
-
-        Product product =
-                productService.getProduct(id);
-
+        Product product = productService.getProduct(id);
         recordView(id);
 
-        ProductDetailResponse response =
-                productMapper.toDetailResponse(product);
+        ProductDetailResponse response = productMapper.toDetailResponse(product);
 
         productCacheService.put(response);
 
@@ -96,7 +88,6 @@ public class ProductFacade {
     }
 
     private void recordView(Long productId) {
-
         if (!authorizationService.isAuthenticated()) {
             return;
         }
@@ -130,9 +121,7 @@ public class ProductFacade {
                         cacheKey
                 );
 
-
         if (cached != null) {
-
             return new PageImpl<>(
                     cached.content(),
                     pageable,
@@ -146,11 +135,9 @@ public class ProductFacade {
                         pageable
                 );
 
-
         User user = authorizationService.isAuthenticated()
                 ? currentUserService.getCurrentUserEntity()
                 : null;
-
 
         Page<ProductListResponse> response =
                 productResponseAssembler.toPage(
@@ -158,7 +145,6 @@ public class ProductFacade {
                         pageable,
                         user
                 );
-
 
         ProductListResponsePage cachePage =
                 new ProductListResponsePage(
@@ -169,12 +155,10 @@ public class ProductFacade {
                         response.getTotalPages()
                 );
 
-
         productListCacheService.put(
                 cacheKey,
                 cachePage
         );
-
 
         return response;
     }
@@ -196,10 +180,7 @@ public class ProductFacade {
                         files
                 );
 
-        productCacheService.evict(
-                updated.getId()
-        );
-
+        productCacheService.evict(updated.getId());
         productListCacheService.evictAll();
 
         return productMapper.toDetailResponse(updated);
@@ -209,12 +190,8 @@ public class ProductFacade {
         Product product = productService.getProduct(id);
 
         authorizationService.requireProductAccess(product);
-
         productService.deactivate(product);
-
-        productCacheService.evict(
-                product.getId()
-        );
+        productCacheService.evict(product.getId());
         productListCacheService.evictAll();
     }
 
@@ -231,73 +208,10 @@ public class ProductFacade {
                 quantity
         );
 
-        productCacheService.evict(
-                product.getId()
-        );
-
+        productCacheService.evict(product.getId());
         productListCacheService.evictAll();
 
         return productMapper.toDetailResponse(product);
     }
-
-    private Page<ProductListResponse> mapToProductResponses(
-            Page<Product> page,
-            Pageable pageable,
-            @Nullable User user
-    ) {
-        List<Product> products = page.getContent();
-
-        Set<Long> productIds =
-                products.stream()
-                        .map(Product::getId)
-                        .collect(Collectors.toSet());
-
-        Set<Long> favoriteIds = Collections.emptySet();
-
-        if (user != null) {
-            favoriteIds =
-                    wishlistService.getWishlistProductIds(
-                            user,
-                            productIds
-                    );
-        }
-
-        Set<Long> finalFavoriteIds = favoriteIds;
-
-        List<ProductListResponse> responses =
-                products.stream()
-                        .map(product -> {
-
-                            ProductListResponse response =
-                                    productMapper.toListResponse(
-                                            product
-                                    );
-
-                            return new ProductListResponse(
-                                    response.id(),
-                                    response.name(),
-                                    response.price(),
-                                    response.brand(),
-                                    response.category(),
-                                    response.seller(),
-                                    response.status(),
-                                    response.mainImage(),
-                                    response.averageRating(),
-                                    response.reviewCount(),
-                                    finalFavoriteIds.contains(
-                                            product.getId()
-                                    )
-                            );
-                        })
-                        .toList();
-
-
-        return new PageImpl<>(
-                responses,
-                pageable,
-                page.getTotalElements()
-        );
-    }
-
 
 }

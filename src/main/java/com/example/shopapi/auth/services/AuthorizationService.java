@@ -26,10 +26,6 @@ public class AuthorizationService {
         return currentUserService.getCurrentUserId();
     }
 
-    // =========================
-    // BASE CHECKS
-    // =========================
-
     public void requireAdmin() {
         if (!isAdmin()) {
             throw new AccessDeniedException("Admin privileges required");
@@ -43,18 +39,12 @@ public class AuthorizationService {
     }
 
     public boolean isAuthenticated() {
-
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return authentication != null
                 && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken);
     }
-
-    // =========================
-    // DOMAIN HELPERS
-    // =========================
 
     public void requireUserAccess(User user) {
         requireOwner(user.getId());

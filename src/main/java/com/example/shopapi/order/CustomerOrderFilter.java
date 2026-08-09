@@ -27,10 +27,7 @@ public class CustomerOrderFilter {
     private Boolean history;
 
     public void validate(){
-
-        if(Boolean.TRUE.equals(active)
-                && Boolean.TRUE.equals(history)){
-
+        if(Boolean.TRUE.equals(active) && Boolean.TRUE.equals(history)){
             throw new IllegalArgumentException(
                     "Cannot use active and history together"
             );

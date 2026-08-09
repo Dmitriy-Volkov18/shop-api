@@ -21,19 +21,15 @@ public class PromotionCampaignService {
     private final PromotionCampaignMapper mapper;
     private final PromotionCampaignValidationService validationService;
 
-
     @Transactional(readOnly = true)
     public List<PromotionCampaign> getCampaigns() {
-
         return repository.findAll();
     }
-
 
     @Transactional(readOnly = true)
     public PromotionCampaign getCampaign(
             Long id
     ) {
-
         return repository.findById(id)
                 .orElseThrow(() ->
                         new BadRequestException(
@@ -42,48 +38,32 @@ public class PromotionCampaignService {
                 );
     }
 
-
     public PromotionCampaign create(
             CreatePromotionCampaignRequest request
     ) {
-
         if(repository.existsByNameIgnoreCase(
                 request.name()
         )){
-
             throw new BadRequestException(
                     "Campaign already exists"
             );
         }
-
 
         PromotionCampaign campaign =
                 mapper.toEntity(
                         request
                 );
 
+        campaign.setStatus(PromotionStatus.DRAFT);
+        validationService.validate(campaign);
 
-        campaign.setStatus(
-                PromotionStatus.DRAFT
-        );
-
-
-        validationService.validate(
-                campaign
-        );
-
-
-        return repository.save(
-                campaign
-        );
+        return repository.save(campaign);
     }
-
 
     public PromotionCampaign update(
             PromotionCampaign campaign,
             UpdatePromotionCampaignRequest request
     ) {
-
         if(!campaign.getName()
                 .equalsIgnoreCase(request.name())
                 &&
@@ -96,17 +76,12 @@ public class PromotionCampaignService {
             );
         }
 
-
         mapper.updateEntity(
                 request,
                 campaign
         );
 
-
-        validationService.validate(
-                campaign
-        );
-
+        validationService.validate(campaign);
 
         return repository.save(
                 campaign
@@ -117,30 +92,20 @@ public class PromotionCampaignService {
     public void delete(
             PromotionCampaign campaign
     ) {
-
-        repository.delete(
-                campaign
-        );
+        repository.delete( campaign);
     }
-
 
     @Transactional
     public void publish(
             PromotionCampaign campaign
     ) {
-
-        if(campaign.getStatus()
-                != PromotionStatus.DRAFT){
-
+        if(campaign.getStatus() != PromotionStatus.DRAFT){
             throw new BadRequestException(
                     "Only draft campaign can be published"
             );
         }
 
-
-        LocalDateTime now =
-                LocalDateTime.now();
-
+        LocalDateTime now = LocalDateTime.now();
 
         PromotionStatus status =
                 campaign.getStartsAt().isAfter(now)
@@ -151,7 +116,6 @@ public class PromotionCampaignService {
                 campaign,
                 status
         );
-
 
         campaign.getPromotions()
                 .forEach(promotion ->
@@ -165,15 +129,11 @@ public class PromotionCampaignService {
     public void pause(
             PromotionCampaign campaign
     ) {
-
-        if(campaign.getStatus()
-                != PromotionStatus.ACTIVE){
-
+        if(campaign.getStatus() != PromotionStatus.ACTIVE){
             throw new BadRequestException(
                     "Only active campaign can be paused"
             );
         }
-
 
         changeStatus(
                 campaign,
@@ -192,21 +152,16 @@ public class PromotionCampaignService {
     public void activate(
             PromotionCampaign campaign
     ) {
-
-        if(campaign.getStatus()
-                != PromotionStatus.PAUSED){
-
+        if(campaign.getStatus() != PromotionStatus.PAUSED){
             throw new BadRequestException(
                     "Only paused campaign can be activated"
             );
         }
 
-
         changeStatus(
                 campaign,
                 PromotionStatus.ACTIVE
         );
-
 
         campaign.getPromotions()
                 .forEach(promotion ->
@@ -220,7 +175,6 @@ public class PromotionCampaignService {
     public void expire(
             PromotionCampaign campaign
     ) {
-
         changeStatus(
                 campaign,
                 PromotionStatus.EXPIRED
@@ -231,11 +185,7 @@ public class PromotionCampaignService {
             PromotionCampaign campaign,
             PromotionStatus status
     ) {
-
-        campaign.setStatus(
-                status
-        );
-
+        campaign.setStatus(status);
 
         campaign.getPromotions()
                 .forEach(promotion ->
@@ -250,27 +200,19 @@ public class PromotionCampaignService {
             PromotionCampaign campaign,
             Promotion promotion
     ) {
-
-
         if(campaign.getStatus() != PromotionStatus.DRAFT) {
-
             throw new BadRequestException(
                     "Cannot modify active campaign"
             );
         }
 
-
         if(promotion.getCampaign() != null) {
-
             throw new BadRequestException(
                     "Promotion already belongs to campaign"
             );
         }
 
-
-        campaign.addPromotion(
-                promotion
-        );
+        campaign.addPromotion(promotion);
     }
 
     @Transactional
@@ -278,18 +220,12 @@ public class PromotionCampaignService {
             PromotionCampaign campaign,
             Promotion promotion
     ) {
-
-
         if(campaign.getStatus() != PromotionStatus.DRAFT) {
-
             throw new BadRequestException(
                     "Cannot modify active campaign"
             );
         }
 
-
-        campaign.removePromotion(
-                promotion
-        );
+        campaign.removePromotion(promotion);
     }
 }

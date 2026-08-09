@@ -17,10 +17,7 @@ import java.util.List;
 @Transactional
 public class DiscountAuditService {
 
-
     private final DiscountAuditRepository repository;
-
-
 
     public void log(
             AbstractDiscount discount,
@@ -28,49 +25,20 @@ public class DiscountAuditService {
             DiscountAuditAction action,
             String details
     ){
+        DiscountAudit audit = new DiscountAudit();
+        audit.setDiscountId(discount.getId());
+        audit.setUser(user);
+        audit.setAction(action);
+        audit.setCreatedAt(LocalDateTime.now());
+        audit.setDetails(details);
 
-
-        DiscountAudit audit =
-                new DiscountAudit();
-
-
-        audit.setDiscountId(
-                discount.getId()
-        );
-
-
-        audit.setUser(
-                user
-        );
-
-
-        audit.setAction(
-                action
-        );
-
-
-        audit.setCreatedAt(
-                LocalDateTime.now()
-        );
-
-
-        audit.setDetails(
-                details
-        );
-
-
-        repository.save(
-                audit
-        );
+        repository.save(audit);
     }
-
-
 
     @Transactional(readOnly = true)
     public List<DiscountAudit> getHistory(
             Long discountId
     ){
-
         return repository
                 .findByDiscountIdOrderByCreatedAtDesc(
                         discountId

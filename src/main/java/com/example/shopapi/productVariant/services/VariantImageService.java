@@ -59,9 +59,7 @@ public class VariantImageService {
 
         variant.addImage(image);
 
-        rules.validateSinglePrimary(
-                variant.getImages()
-        );
+        rules.validateSinglePrimary(variant.getImages());
 
         return mapper.toResponse(image);
     }
@@ -71,23 +69,18 @@ public class VariantImageService {
             ProductVariant variant,
             List<MultipartFile> files
     ) {
-
         rules.validateImageCount(
                 variant.getImages().size(),
                 files.size(),
                 MAX_VARIANT_IMAGES
         );
 
-        boolean firstPrimary =
-                variant.getImages().isEmpty();
+        boolean firstPrimary = variant.getImages().isEmpty();
 
-        List<VariantImageResponse> result =
-                new ArrayList<>();
+        List<VariantImageResponse> result = new ArrayList<>();
 
         for (int i = 0; i < files.size(); i++) {
-
-            ImageMetadata metadata =
-                    imageUploadService.process(files.get(i));
+            ImageMetadata metadata = imageUploadService.process(files.get(i));
 
             VariantImage image =
                     imageFactory.createVariantImage(
@@ -98,14 +91,10 @@ public class VariantImageService {
 
             variant.addImage(image);
 
-            result.add(
-                    mapper.toResponse(image)
-            );
+            result.add(mapper.toResponse(image));
         }
 
-        rules.validateSinglePrimary(
-                variant.getImages()
-        );
+        rules.validateSinglePrimary(variant.getImages());
 
         return result;
     }
@@ -137,9 +126,7 @@ public class VariantImageService {
                     .setPrimaryImage(true);
         }
 
-        rules.normalizeSortOrder(
-                variant.getImages()
-        );
+        rules.normalizeSortOrder(variant.getImages());
     }
 
 

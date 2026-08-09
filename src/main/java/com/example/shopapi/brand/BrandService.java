@@ -44,19 +44,11 @@ public class BrandService {
             CreateBrandRequest request
     ) {
         if(repository.existsByNameIgnoreCase(request.name())) {
-            throw new BadRequestException(
-                    "Brand already exists"
-            );
+            throw new BadRequestException("Brand already exists");
         }
 
-        Brand brand =
-                mapper.toEntity(
-                        request
-                );
-
-        validationService.validate(
-                brand
-        );
+        Brand brand = mapper.toEntity(request);
+        validationService.validate(brand);
 
         return repository.save(
                 brand
@@ -73,31 +65,19 @@ public class BrandService {
                         request.name()
                 )
         ){
-            throw new BadRequestException(
-                    "Brand already exists"
-            );
+            throw new BadRequestException("Brand already exists");
         }
 
-        mapper.updateEntity(
-                request,
-                brand
-        );
+        mapper.updateEntity( request, brand);
+        validationService.validate(brand);
 
-        validationService.validate(
-                brand
-        );
-
-        return repository.save(
-                brand
-        );
+        return repository.save( brand);
     }
 
     public void delete(
             Brand brand
     ) {
-        repository.delete(
-                brand
-        );
+        repository.delete(brand);
     }
 
     public void activate(

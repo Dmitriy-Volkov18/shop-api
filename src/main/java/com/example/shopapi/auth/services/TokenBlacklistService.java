@@ -15,7 +15,6 @@ public class TokenBlacklistService {
     public void revoke(
             String jti
     ) {
-
         redisBlacklistService.blacklist(
                 jti,
                 jwtProperties.getAccessExpiration()
@@ -25,7 +24,6 @@ public class TokenBlacklistService {
     public boolean isRevoked(
             String jti
     ) {
-
         return redisBlacklistService.isBlacklisted(
                 jti
         );

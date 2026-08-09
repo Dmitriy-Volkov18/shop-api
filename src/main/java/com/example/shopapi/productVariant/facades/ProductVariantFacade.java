@@ -28,7 +28,6 @@ public class ProductVariantFacade {
             CreateProductVariantRequest request
     ) {
         Product product = getProduct(productId);
-
         authorizationService.requireProductAccess(product);
 
         ProductVariant variant =
@@ -55,7 +54,6 @@ public class ProductVariantFacade {
             UpdateProductVariantRequest request
     ) {
         Product product = getProduct(productId);
-
         authorizationService.requireProductAccess(product);
 
         ProductVariant variant =
@@ -78,7 +76,6 @@ public class ProductVariantFacade {
             Long variantId
     ) {
         Product product = getProduct(productId);
-
         authorizationService.requireProductAccess(product);
 
         ProductVariant variant =

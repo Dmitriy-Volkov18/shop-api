@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Setter
 public class DiscountProperties {
 
-    private BigDecimal maxTotalPercent =
-            BigDecimal.valueOf(90);
+    private BigDecimal maxTotalPercent = BigDecimal.valueOf(90);
 
 }

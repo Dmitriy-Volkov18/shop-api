@@ -19,7 +19,6 @@ public class DiscountValidationService {
             LocalDateTime startsAt,
             LocalDateTime endsAt
     ) {
-
         validateDiscount(
                 type,
                 discountValue,
@@ -75,9 +74,7 @@ public class DiscountValidationService {
                 "Discount value must be greater than zero"
         );
 
-        ValidationUtils.requirePercentage(
-                discountValue
-        );
+        ValidationUtils.requirePercentage(discountValue);
 
         if(type == DiscountType.FIXED_AMOUNT
                 && basePrice != null

@@ -18,9 +18,7 @@ public class PromotionActionConfigurationService {
             Promotion promotion,
             CreatePromotionRequest request
     ) {
-
         switch (request.actionType()) {
-
             case BUY_X_GET_Y -> {
 
                 BuyXGetYActionConfig config =
@@ -29,7 +27,6 @@ public class PromotionActionConfigurationService {
                         );
 
                 config.setPromotion(promotion);
-
                 promotion.setBuyXGetYConfig(config);
             }
 
@@ -43,28 +40,19 @@ public class PromotionActionConfigurationService {
             Promotion promotion,
             UpdatePromotionRequest request
     ) {
-
         switch (request.actionType()) {
 
             case BUY_X_GET_Y -> {
 
                 if (promotion.getBuyXGetYConfig() == null) {
-
                     BuyXGetYActionConfig config =
                             buyXGetYConfigMapper.toEntity(
                                     request.buyXGetYConfig()
                             );
 
-                    config.setPromotion(
-                            promotion
-                    );
-
-                    promotion.setBuyXGetYConfig(
-                            config
-                    );
-
+                    config.setPromotion(promotion);
+                    promotion.setBuyXGetYConfig(config);
                 } else {
-
                     buyXGetYConfigMapper.updateEntity(
                             request.buyXGetYConfig(),
                             promotion.getBuyXGetYConfig()

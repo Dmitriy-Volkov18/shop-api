@@ -6,6 +6,7 @@ import com.example.shopapi.auth.services.CustomUserDetailsService;
 import com.example.shopapi.auth.security.JwtAccessDeniedHandler;
 import com.example.shopapi.auth.security.JwtAuthenticationEntryPoint;
 import com.example.shopapi.auth.filter.SessionMetadataFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,7 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
@@ -32,40 +34,18 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler accessDeniedHandler;
     private final UserActivityFilter userActivityFilter;
 
-    public SecurityConfig(
-            JwtAuthFilter jwtAuthFilter,
-            JwtAuthenticationEntryPoint authenticationEntryPoint,
-            JwtAccessDeniedHandler accessDeniedHandler,
-            SessionMetadataFilter sessionMetadataFilter,
-            UserActivityFilter userActivityFilter
-    ) {
-        this.jwtAuthFilter = jwtAuthFilter;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.accessDeniedHandler = accessDeniedHandler;
-        this.sessionMetadataFilter = sessionMetadataFilter;
-        this.userActivityFilter = userActivityFilter;
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http
-                // 1. CSRF выключаем (REST API + JWT)
-                .csrf(csrf -> csrf.disable())// JWT Bearer auth, CSRF not required.
-                // Re-enable if authentication moves to cookies.
-
-                // 2. Stateless сессии (JWT вместо session)
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
-                // 3. Обработка ошибок Security (401 / 403 JSON)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)
                 )
-
-                // 4. Авторизация запросов
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/register",
@@ -83,7 +63,6 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                // 5. JWT фильтр ДО UsernamePasswordAuthenticationFilter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(
                         userActivityFilter,
@@ -95,10 +74,7 @@ public class SecurityConfig {
                 )
                 .headers(headers -> headers
 
-                        // запрещает открывать сайт внутри iframe
                         .frameOptions(frame -> frame.deny())
-
-                        // запрещает MIME sniffing
                         .contentTypeOptions(Customizer.withDefaults())
 
                         // HSTS
@@ -109,8 +85,6 @@ public class SecurityConfig {
 //                                )
 //                        )
 
-                        // CSP
-                        // КОГДА БУДЕТ FRONTEND НУЖНО СКОРРЕКТИРОВАТЬ
                         .contentSecurityPolicy(csp -> csp
                                 .policyDirectives(
                                         "default-src 'self'; " +
@@ -120,12 +94,10 @@ public class SecurityConfig {
                                 )
                         )
 
-                        // Referrer Policy
                         .referrerPolicy(referrer -> referrer
                                 .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER)
                         )
 
-                        // Permissions Policy
                         .addHeaderWriter(
                                 new StaticHeadersWriter(
                                         "Permissions-Policy",
@@ -136,7 +108,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    // AuthenticationManager (нужен для login)
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config
@@ -144,16 +115,12 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // DaoAuthenticationProvider (работает с UserDetailsService + BCrypt)
     @Bean
     public AuthenticationProvider authenticationProvider(
             CustomUserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
     ) {
-
-        DaoAuthenticationProvider provider =
-                new DaoAuthenticationProvider(userDetailsService);
-
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
 
         return provider;

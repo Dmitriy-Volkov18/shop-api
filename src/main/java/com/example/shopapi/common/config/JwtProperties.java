@@ -17,14 +17,7 @@ public class JwtProperties {
      */
     private String secret;
 
-    /**
-     * Время жизни access token.
-     */
     private Duration accessExpiration;
-
-    /**
-     * Время жизни refresh token.
-     */
     private Duration refreshExpiration;
 
     private int maxSessions = 5;

@@ -15,17 +15,13 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PromotionDiscountAllocator {
 
-
     private final ProductBasePriceService basePriceService;
 
     public Map<Long, BigDecimal> allocate(
             Cart cart,
             CartPriceResult priceResult
     ) {
-
-        Map<Long, BigDecimal> result =
-                new HashMap<>();
-
+        Map<Long, BigDecimal> result = new HashMap<>();
 
         BigDecimal cartDiscount =
                 priceResult.appliedPromotions()
@@ -41,11 +37,9 @@ public class PromotionDiscountAllocator {
                                 BigDecimal::add
                         );
 
-
         if(cartDiscount.compareTo(BigDecimal.ZERO) <= 0) {
             return result;
         }
-
 
         BigDecimal subtotal =
                 cart.getItems()
@@ -69,8 +63,6 @@ public class PromotionDiscountAllocator {
 
 
         for(CartItem item : cart.getItems()) {
-
-
             BigDecimal itemTotal =
                     basePriceService.getBasePrice(
                                     item.getVariant()
@@ -81,7 +73,6 @@ public class PromotionDiscountAllocator {
                                     )
                             );
 
-
             BigDecimal share =
                     itemTotal
                             .divide(
@@ -90,19 +81,16 @@ public class PromotionDiscountAllocator {
                                     RoundingMode.HALF_UP
                             );
 
-
             BigDecimal itemDiscount =
                     cartDiscount.multiply(
                             share
                     );
-
 
             result.put(
                     item.getVariant().getId(),
                     itemDiscount
             );
         }
-
 
         return result;
     }

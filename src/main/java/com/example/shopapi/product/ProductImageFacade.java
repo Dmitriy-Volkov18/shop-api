@@ -23,7 +23,6 @@ public class ProductImageFacade {
     private final ImageUploadService imageUploadService;
 
     public List<ProductImageResponse> getImages(Long productId) {
-
         Product product = productService.getProduct(productId);
 
         return productImageService.getImages(product);

@@ -22,18 +22,14 @@ public class PaymentFacade {
                 payment.getOrder()
         );
 
-        orderWorkflowService.pay(
-                payment.getOrder()
-        );
+        orderWorkflowService.pay(payment.getOrder());
     }
 
     public void refund(
             Long orderId
     ) {
         Payment payment = paymentService.getEntity(orderId);
-
         authorizationService.requireAdmin();
-
         paymentService.refund(payment);
     }
 

@@ -120,7 +120,6 @@ public class CheckoutService {
             CustomerOrder order,
             CheckoutRequest request
     ) {
-
         Payment payment =
                 paymentFactory.create(
                         order,

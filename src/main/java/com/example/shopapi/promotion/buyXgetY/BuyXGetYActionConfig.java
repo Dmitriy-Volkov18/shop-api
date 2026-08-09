@@ -26,8 +26,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BuyXGetYActionConfig
-        extends BaseEntity {
+public class BuyXGetYActionConfig extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

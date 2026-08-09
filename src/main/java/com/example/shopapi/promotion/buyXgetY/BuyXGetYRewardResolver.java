@@ -17,22 +17,17 @@ public class BuyXGetYRewardResolver {
     private final ProductBasePriceService basePriceService;
     private final CartItemFinder cartItemFinder;
 
-
     public List<CartItem> resolve(
             PromotionContext context,
             BuyXGetYActionConfig config
     ) {
-
-        if (config.getRewardTargetType()
-                == PromotionTargetType.SAME_PRODUCT) {
-
+        if (config.getRewardTargetType() == PromotionTargetType.SAME_PRODUCT) {
             return cartItemFinder.findItems(
                     context.getCart(),
                     config.getBuyTargetType(),
                     config.getBuyTargetId()
             );
         }
-
 
         return cartItemFinder.findItems(
                 context.getCart(),

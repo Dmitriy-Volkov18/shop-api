@@ -8,25 +8,17 @@ import java.time.LocalDateTime;
 @Component
 public class PromotionApplicabilityChecker {
 
-
     public boolean isApplicable(
             Promotion promotion,
             LocalDateTime now
     ) {
-
-
         if(!promotion.isApplicable(now)) {
-
             return false;
         }
 
-
         if(promotion.hasCampaign()) {
-
-            return promotion.getCampaign()
-                    .isActive();
+            return promotion.getCampaign().isActive();
         }
-
 
         return true;
     }

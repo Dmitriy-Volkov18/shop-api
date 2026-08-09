@@ -15,8 +15,5 @@ public class AppProperties {
      */
     private String frontendUrl;
 
-    /**
-     * Email, отображаемый как отправитель.
-     */
     private String mailFrom;
 }

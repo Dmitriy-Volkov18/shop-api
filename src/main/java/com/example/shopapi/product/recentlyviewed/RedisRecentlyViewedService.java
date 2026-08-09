@@ -13,28 +13,19 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class RedisRecentlyViewedService {
 
-
     private static final int LIMIT = 20;
-    private static final Duration TTL =
-            Duration.ofDays(90);
-
+    private static final Duration TTL = Duration.ofDays(90);
 
     private final RedisService redisService;
     private final RedisKeyBuilder keyBuilder;
-
 
     public void add(
             Long userId,
             Long productId
     ) {
+        String key = keyBuilder.recentlyViewed(userId);
 
-        String key =
-                keyBuilder.recentlyViewed(userId);
-
-
-        double score =
-                System.currentTimeMillis();
-
+        double score = System.currentTimeMillis();
 
         redisService.zAdd(
                 key,
@@ -42,9 +33,7 @@ public class RedisRecentlyViewedService {
                 score
         );
 
-
         trim(key);
-
 
         redisService.expire(
                 key,
@@ -52,14 +41,10 @@ public class RedisRecentlyViewedService {
         );
     }
 
-
     public List<Long> get(
             Long userId
     ) {
-
-        String key =
-                keyBuilder.recentlyViewed(userId);
-
+        String key = keyBuilder.recentlyViewed(userId);
 
         Set<Object> ids =
                 redisService.zReverseRange(
@@ -74,11 +59,9 @@ public class RedisRecentlyViewedService {
                 .toList();
     }
 
-
     private void trim(
             String key
     ) {
-
         Set<Object> extra =
                 redisService.zReverseRange(
                         key,
@@ -86,9 +69,7 @@ public class RedisRecentlyViewedService {
                         -1
                 );
 
-
         if(extra != null) {
-
             extra.forEach(
                     id -> redisService.zRemove(
                             key,

@@ -23,7 +23,6 @@ public class CouponService {
 
     @Transactional(readOnly = true)
     public List<Coupon> getCoupons() {
-
         return repository.findAll();
     }
 
@@ -31,7 +30,6 @@ public class CouponService {
     public Coupon getCoupon(
             Long id
     ) {
-
         return repository.findById(id)
                 .orElseThrow(() ->
                         new BadRequestException(
@@ -44,7 +42,6 @@ public class CouponService {
     public Coupon getByCode(
             String code
     ) {
-
         return repository.findByCodeIgnoreCase(code)
                 .orElseThrow(() ->
                         new BadRequestException(
@@ -56,14 +53,8 @@ public class CouponService {
     public Coupon create(
             CreateCouponRequest request
     ) {
-        Coupon coupon =
-                mapper.toEntity(
-                        request
-                );
-
-        validationService.validateForCreate(
-                coupon
-        );
+        Coupon coupon = mapper.toEntity(request);
+        validationService.validateForCreate(coupon);
 
         return repository.save(coupon);
     }
@@ -72,31 +63,21 @@ public class CouponService {
             Coupon coupon,
             UpdateCouponRequest request
     ) {
+        String previousCode = coupon.getCode();
 
-        String previousCode =
-                coupon.getCode();
-
-        mapper.updateEntity(
-                request,
-                coupon
-        );
+        mapper.updateEntity(request, coupon);
 
         validationService.validateForUpdate(
                 coupon,
                 previousCode
         );
 
-        return repository.save(
-                coupon
-        );
+        return repository.save(coupon);
     }
 
     public void delete(
             Coupon coupon
     ) {
-
-        repository.delete(
-                coupon
-        );
+        repository.delete(coupon);
     }
 }

@@ -16,7 +16,6 @@ public class DeviceTypeResolver {
                 ? ""
                 : deviceName.toLowerCase();
 
-        // iPad лучше проверить первым
         if (device.contains("ipad")) {
             return "Tablet";
         }

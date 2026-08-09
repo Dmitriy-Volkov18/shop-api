@@ -18,9 +18,7 @@ public class CurrentUserService {
     private final UserRepository userRepository;
 
     public CustomUserPrincipal getCurrentUser() {
-
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AccessDeniedException("User is not authenticated");

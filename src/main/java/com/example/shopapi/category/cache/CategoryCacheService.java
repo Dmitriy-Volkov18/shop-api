@@ -15,30 +15,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryCacheService {
 
-
-    private static final Duration CATEGORY_TTL =
-            Duration.ofHours(2);
-
+    private static final Duration CATEGORY_TTL = Duration.ofHours(2);
 
     private final RedisService redisService;
     private final RedisKeyBuilder keyBuilder;
 
-
     public CategoryResponse get(
             Long id
     ) {
-
         return redisService.get(
                 keyBuilder.category(id),
                 CategoryResponse.class
         );
     }
 
-
     public void put(
             CategoryResponse response
     ) {
-
         redisService.set(
                 keyBuilder.category(response.id()),
                 response,
@@ -46,30 +39,22 @@ public class CategoryCacheService {
         );
     }
 
-
     public void evict(
             Long id
     ) {
-
-        redisService.delete(
-                keyBuilder.category(id)
-        );
+        redisService.delete(keyBuilder.category(id));
     }
 
-
     public List<CategoryTreeResponse> getTree() {
-
         return redisService.get(
                 keyBuilder.categoryTree(),
                 new TypeReference<List<CategoryTreeResponse>>() {}
         );
     }
 
-
     public void putTree(
             List<CategoryTreeResponse> tree
     ) {
-
         redisService.set(
                 keyBuilder.categoryTree(),
                 tree,
@@ -77,20 +62,14 @@ public class CategoryCacheService {
         );
     }
 
-
     public void evictTree() {
-
-        redisService.delete(
-                keyBuilder.categoryTree()
-        );
+        redisService.delete(keyBuilder.categoryTree());
     }
 
     public void evictAll(
             Long categoryId
     ) {
-
         evict(categoryId);
-
         evictTree();
     }
 }

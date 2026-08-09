@@ -27,9 +27,7 @@ public class CategoryFacade {
             CategoryRequest request
     ) {
         if (categoryService.existsByName(request.name())) {
-            throw new ConflictException(
-                    "Category already exists"
-            );
+            throw new ConflictException("Category already exists");
         }
 
         Category category = mapper.toEntity(request);
@@ -43,12 +41,8 @@ public class CategoryFacade {
             category.setParent(parent);
         }
 
-        Category saved =
-                categoryService.create(category);
-
-
+        Category saved = categoryService.create(category);
         categoryCacheService.evictTree();
-
 
         return mapper.toResponse(saved);
     }
@@ -65,24 +59,18 @@ public class CategoryFacade {
     public CategoryResponse getById(
             Long id
     ) {
-
-        CategoryResponse cached =
-                categoryCacheService.get(id);
-
+        CategoryResponse cached = categoryCacheService.get(id);
 
         if (cached != null) {
             return cached;
         }
-
 
         CategoryResponse response =
                 mapper.toResponse(
                         categoryService.getById(id)
                 );
 
-
         categoryCacheService.put(response);
-
 
         return response;
     }
@@ -94,9 +82,7 @@ public class CategoryFacade {
         Category category = categoryService.getById(id);
 
         if (categoryService.existsByNameAndIdNot(request.name(), id)) {
-            throw new ConflictException(
-                    "Category already exists"
-            );
+            throw new ConflictException("Category already exists");
         }
 
         Category newParent = null;
@@ -108,32 +94,18 @@ public class CategoryFacade {
                 );
             }
 
-            newParent =
-                    categoryService.getById(
-                            request.parentId()
-                    );
+            newParent = categoryService.getById(request.parentId());
 
-            validateNoCycle(
-                    category,
-                    newParent
-            );
+            validateNoCycle(category, newParent);
         }
 
-        mapper.updateEntity(
-                request,
-                category
-        );
+        mapper.updateEntity(request, category);
 
         category.setParent(newParent);
 
-        Category saved =
-                categoryService.save(category);
+        Category saved = categoryService.save(category);
 
-
-        categoryCacheService.evictAll(
-                saved.getId()
-        );
-
+        categoryCacheService.evictAll(saved.getId());
         productListCacheService.evictAll();
 
         return mapper.toResponse(saved);
@@ -147,9 +119,7 @@ public class CategoryFacade {
 
         while (current != null) {
             if (current.getId().equals(category.getId())) {
-                throw new BadRequestException(
-                        "Category cycle detected"
-                );
+                throw new BadRequestException("Category cycle detected");
             }
 
             current = current.getParent();
@@ -172,25 +142,16 @@ public class CategoryFacade {
         }
 
         categoryService.delete(category);
-
-
-        categoryCacheService.evictAll(
-                category.getId()
-        );
+        categoryCacheService.evictAll(category.getId());
     }
 
     @Transactional(readOnly = true)
     public List<CategoryTreeResponse> getTree() {
-
-
-        List<CategoryTreeResponse> cached =
-                categoryCacheService.getTree();
-
+        List<CategoryTreeResponse> cached = categoryCacheService.getTree();
 
         if (cached != null) {
             return cached;
         }
-
 
         List<CategoryTreeResponse> tree =
                 categoryService
@@ -201,7 +162,6 @@ public class CategoryFacade {
 
 
         categoryCacheService.putTree(tree);
-
 
         return tree;
     }

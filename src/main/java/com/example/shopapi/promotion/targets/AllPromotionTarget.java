@@ -7,12 +7,10 @@ import com.example.shopapi.promotion.interfaces.PromotionTarget;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AllPromotionTarget
-        implements PromotionTarget {
+public class AllPromotionTarget implements PromotionTarget {
 
     @Override
     public PromotionTargetType getType() {
-
         return PromotionTargetType.ALL;
     }
 
@@ -21,7 +19,6 @@ public class AllPromotionTarget
             Promotion promotion,
             PromotionContext context
     ) {
-
         return true;
     }
 }

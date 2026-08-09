@@ -11,13 +11,10 @@ import ua_parser.Parser;
 public class UserAgentParser {
 
     private final Parser parser = new Parser();
-
     private final DeviceTypeResolver deviceTypeResolver;
 
     public DeviceInfo parse(String userAgent) {
-
         if (userAgent == null || userAgent.isBlank()) {
-
             return new DeviceInfo(
                     "Unknown",
                     "",
@@ -29,28 +26,17 @@ public class UserAgentParser {
         }
 
         Client client = parser.parse(userAgent);
-
-        String browser =
-                client.userAgent.family;
-
-        String browserVersion =
-                firstNonNull(client.userAgent.major);
-
-        String os =
-                client.os.family;
-
-        String osVersion =
-                firstNonNull(client.os.major);
-
-        String device =
-                client.device.family;
+        String browser = client.userAgent.family;
+        String browserVersion = firstNonNull(client.userAgent.major);
+        String os = client.os.family;
+        String osVersion = firstNonNull(client.os.major);
+        String device = client.device.family;
 
         if ("Other".equals(device)) {
             device = "Desktop";
         }
 
-        String deviceType =
-                deviceTypeResolver.resolve(os, device);
+        String deviceType = deviceTypeResolver.resolve(os, device);
 
         return new DeviceInfo(
                 browser,
