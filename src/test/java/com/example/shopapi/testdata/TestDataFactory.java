@@ -3,7 +3,6 @@ package com.example.shopapi.testdata;
 import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.dto.RegisterRequest;
 import com.example.shopapi.auth.dto.SessionMeta;
-
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.enums.UserRole;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +16,7 @@ public final class TestDataFactory {
     public static User validUser(
             PasswordEncoder passwordEncoder
     ) {
-
         User user = new User();
-
         user.setUsername("john");
         user.setEmail("john@test.com");
         user.setPassword(
@@ -27,9 +24,7 @@ public final class TestDataFactory {
                         "StrongPassword123!"
                 )
         );
-
         user.setRole(UserRole.USER);
-
         user.setEmailVerified(true);
 
         return user;
@@ -44,7 +39,6 @@ public final class TestDataFactory {
     }
 
     public static DeviceInfo validDeviceInfo() {
-
         return new DeviceInfo(
                 "Chrome",
                 "150.0",
@@ -56,7 +50,6 @@ public final class TestDataFactory {
     }
 
     public static SessionMeta validSessionMeta() {
-
         return new SessionMeta(
                 "127.0.0.1",
                 "Lithuania",
@@ -64,6 +57,5 @@ public final class TestDataFactory {
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/150.0 Safari/537.36"
         );
     }
-
 
 }

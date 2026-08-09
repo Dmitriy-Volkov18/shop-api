@@ -12,27 +12,28 @@ import com.example.shopapi.auth.services.RiskEngine;
 import com.example.shopapi.testconfig.IntegrationTest;
 import com.example.shopapi.testdata.TestDataFactory;
 import com.example.shopapi.user.entities.User;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.example.shopapi.user.repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.shopapi.auth.dto.RiskResult;
 import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.services.UserAgentParser;
 import com.example.shopapi.auth.services.JwtService;
-import java.util.UUID;
 import com.example.shopapi.auth.services.AuthService;
 import com.example.shopapi.auth.services.AdaptiveRateLimitService;
 import com.example.shopapi.auth.services.TokenPolicyValidator;
 import com.example.shopapi.auth.enums.RateLimitType;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 class RefreshSecurityServiceTest extends IntegrationTest {
 
@@ -69,11 +70,8 @@ class RefreshSecurityServiceTest extends IntegrationTest {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
-
     private User saveValidUser() {
-
-        User user =
-                TestDataFactory.validUser(passwordEncoder);
+        User user = TestDataFactory.validUser(passwordEncoder);
 
         return userRepository.save(user);
     }
@@ -82,12 +80,8 @@ class RefreshSecurityServiceTest extends IntegrationTest {
             User user,
             SessionMeta meta
     ) {
-
-        String deviceId =
-                UUID.randomUUID().toString();
-
-        String familyId =
-                UUID.randomUUID().toString();
+        String deviceId = UUID.randomUUID().toString();
+        String familyId = UUID.randomUUID().toString();
 
         String refreshToken =
                 jwtService.generateRefreshToken(
@@ -96,8 +90,7 @@ class RefreshSecurityServiceTest extends IntegrationTest {
                         familyId
                 );
 
-        String jti =
-                jwtService.extractJti(refreshToken);
+        String jti = jwtService.extractJti(refreshToken);
 
         DeviceInfo deviceInfo =
                 userAgentParser.parse(
@@ -121,11 +114,8 @@ class RefreshSecurityServiceTest extends IntegrationTest {
 
     @Test
     void should_refresh_successfully() {
-
         User user = saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         String refreshToken =
                 createValidRefreshToken(
@@ -169,8 +159,6 @@ class RefreshSecurityServiceTest extends IntegrationTest {
                 )
         )
                 .thenReturn(expectedResponse);
-
-        // Act
 
         AuthResponse response =
                 refreshSecurityService.refresh(

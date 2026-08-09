@@ -13,10 +13,6 @@ import com.example.shopapi.testdata.TestDataFactory;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.enums.UserRole;
 import com.example.shopapi.user.repositories.UserRepository;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.example.shopapi.auth.services.SecurityAuditService;
 import com.example.shopapi.common.exception.ConflictException;
 import com.example.shopapi.auth.dto.SecurityAuditEvent;
@@ -26,15 +22,19 @@ import com.example.shopapi.auth.enums.SecurityDecision;
 import com.example.shopapi.auth.dto.RiskResult;
 import com.example.shopapi.auth.dto.LoginRequest;
 import com.example.shopapi.common.exception.BadRequestException;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
 import com.example.shopapi.auth.services.RefreshTokenService;
 import com.example.shopapi.auth.services.UserAgentParser;
 import com.example.shopapi.auth.services.JwtService;
 import com.example.shopapi.auth.entities.DeviceInfo;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -45,8 +45,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
-
 import org.mockito.ArgumentCaptor;
+
 
 class AuthServiceTest extends IntegrationTest {
 
@@ -82,17 +82,8 @@ class AuthServiceTest extends IntegrationTest {
 
     @Test
     void should_register_user_successfully() {
-
-        // Arrange
-
-        RegisterRequest request =
-                TestDataFactory.validRegisterRequest();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
-
-
-        // Act
+        RegisterRequest request = TestDataFactory.validRegisterRequest();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         AuthResponse response =
                 authService.register(
@@ -100,7 +91,6 @@ class AuthServiceTest extends IntegrationTest {
                         meta,
                         RiskLevel.LOW
                 );
-
 
         // Assert response
 
@@ -205,7 +195,6 @@ class AuthServiceTest extends IntegrationTest {
                 .isEqualTo("Windows");
 
 
-
         assertSuccessfulAudit(
                 user,
                 response,
@@ -229,7 +218,6 @@ class AuthServiceTest extends IntegrationTest {
         RegisterRequest request = TestDataFactory.validRegisterRequest();
         SessionMeta meta = TestDataFactory.validSessionMeta();
 
-        // первая успешная регистрация
         AuthResponse response =
                 authService.register(
                         request,
@@ -237,7 +225,6 @@ class AuthServiceTest extends IntegrationTest {
                         RiskLevel.LOW
                 );
 
-        // повторная регистрация
         assertThatThrownBy(() ->
                 authService.register(
                         request,
@@ -248,23 +235,18 @@ class AuthServiceTest extends IntegrationTest {
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining("Username already exists");
 
-        // пользователь один
         assertThat(
                 userRepository.findAll()
         )
                 .hasSize(1);
 
-        // refresh token один
-        User user =
-                getUser(request.username());
+        User user = getUser(request.username());
 
-        RefreshToken token =
-                getSingleRefreshToken(user);
+        RefreshToken token = getSingleRefreshToken(user);
 
         assertThat(refreshTokenRepository.findAll())
                 .hasSize(1);
 
-        // письмо только после первой регистрации
         verify(mailService, times(1))
                 .send(
                         eq(request.email()),
@@ -272,7 +254,6 @@ class AuthServiceTest extends IntegrationTest {
                         anyString()
                 );
 
-        // audit только от успешной регистрации
         assertSuccessfulAudit(
                 user,
                 response,
@@ -292,8 +273,6 @@ class AuthServiceTest extends IntegrationTest {
 
         SessionMeta meta = TestDataFactory.validSessionMeta();
 
-        // первая регистрация
-
         AuthResponse response =
                 authService.register(
                         request1,
@@ -301,13 +280,8 @@ class AuthServiceTest extends IntegrationTest {
                         RiskLevel.LOW
                 );
 
-        User user =
-                getUser(request1.username());
-
-        RefreshToken token =
-                getSingleRefreshToken(user);
-
-        // вторая регистрация с тем же email
+        User user = getUser(request1.username());
+        RefreshToken token = getSingleRefreshToken(user);
 
         assertThatThrownBy(() ->
                 authService.register(
@@ -319,20 +293,16 @@ class AuthServiceTest extends IntegrationTest {
                 .isInstanceOf(ConflictException.class)
                 .hasMessageContaining("Email already exists");
 
-        // второй пользователь не создан
-
         assertThat(
                 userRepository.findByUsername("anotherUser")
         )
                 .isEmpty();
 
-        // refresh token только от первого пользователя
         assertThat(
                 refreshTokenRepository.findAll()
         )
                 .hasSize(1);
 
-        // email ушёл только один раз
         verify(mailService, times(1))
                 .send(
                         eq(request1.email()),
@@ -341,7 +311,6 @@ class AuthServiceTest extends IntegrationTest {
                 );
 
 
-        // audit только первой успешной регистрации
         assertSuccessfulAudit(
                 user,
                 response,
@@ -363,11 +332,8 @@ class AuthServiceTest extends IntegrationTest {
                 RiskLevel.HIGH
         );
 
-        User user =
-                getUser(request.username());
-
-        RefreshToken token =
-                getSingleRefreshToken(user);
+        User user = getUser(request.username());
+        RefreshToken token = getSingleRefreshToken(user);
 
         assertSuccessfulAudit(
                 user,
@@ -381,8 +347,6 @@ class AuthServiceTest extends IntegrationTest {
 
 
 
-
-
     private User getUser(String username) {
         return userRepository
                 .findByUsername(username)
@@ -390,9 +354,7 @@ class AuthServiceTest extends IntegrationTest {
     }
 
     private RefreshToken getSingleRefreshToken(User user) {
-
-        List<RefreshToken> tokens =
-                refreshTokenRepository.findAllByUserId(user.getId());
+        List<RefreshToken> tokens = refreshTokenRepository.findAllByUserId(user.getId());
 
         assertThat(tokens)
                 .hasSize(1);
@@ -408,7 +370,6 @@ class AuthServiceTest extends IntegrationTest {
             RiskLevel riskLevel,
             SecurityEventType eventType
     ) {
-
         ArgumentCaptor<SecurityAuditEvent> captor =
                 ArgumentCaptor.forClass(SecurityAuditEvent.class);
 
@@ -450,7 +411,6 @@ class AuthServiceTest extends IntegrationTest {
             SecurityEventType eventType,
             String failureReason
     ) {
-
         ArgumentCaptor<SecurityAuditEvent> captor =
                 ArgumentCaptor.forClass(SecurityAuditEvent.class);
 
@@ -478,7 +438,6 @@ class AuthServiceTest extends IntegrationTest {
         assertThat(event.failureReason())
                 .isEqualTo(failureReason);
     }
-
 
 
     private User saveValidUser() {
@@ -706,14 +665,8 @@ class AuthServiceTest extends IntegrationTest {
 
     @Test
     void should_rotate_refresh_session_successfully() {
-
-        // Arrange
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         String deviceId = UUID.randomUUID().toString();
         String familyId = UUID.randomUUID().toString();
@@ -727,8 +680,6 @@ class AuthServiceTest extends IntegrationTest {
                 );
 
         String oldJti = oldToken.getJti();
-
-        // Act
 
         AuthResponse response =
                 authService.rotateRefreshSession(
@@ -833,8 +784,7 @@ class AuthServiceTest extends IntegrationTest {
                         familyId
                 );
 
-        String jti =
-                jwtService.extractJti(refreshToken);
+        String jti = jwtService.extractJti(refreshToken);
 
         DeviceInfo deviceInfo =
                 userAgentParser.parse(

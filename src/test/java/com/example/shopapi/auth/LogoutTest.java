@@ -14,11 +14,10 @@ import com.example.shopapi.auth.dto.SecurityAuditEvent;
 import com.example.shopapi.auth.services.SecurityAuditService;
 import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.user.enums.UserRole;
-import org.springframework.security.access.AccessDeniedException;
-import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import com.example.shopapi.testconfig.IntegrationTest;
+import com.example.shopapi.user.repositories.UserRepository;
+import com.example.shopapi.auth.repositories.RefreshTokenRepository;
+import com.example.shopapi.testdata.TestDataFactory;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,15 +26,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.example.shopapi.testconfig.IntegrationTest;
-import com.example.shopapi.user.repositories.UserRepository;
-import com.example.shopapi.auth.repositories.RefreshTokenRepository;
+
+import org.mockito.ArgumentCaptor;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.shopapi.testdata.TestDataFactory;
+
 
 class LogoutTest extends IntegrationTest {
 
@@ -71,12 +72,8 @@ class LogoutTest extends IntegrationTest {
 
     @Test
     void should_logout_current_session_successfully() {
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         String refreshToken =
                 createValidRefreshToken(
@@ -89,14 +86,10 @@ class LogoutTest extends IntegrationTest {
                         refreshToken
                 );
 
-        String accessToken =
-                jwtService.generateAccessToken(user);
+        String accessToken = jwtService.generateAccessToken(user);
+        String accessJti = jwtService.extractJti(accessToken);
 
-        String accessJti =
-                jwtService.extractJti(accessToken);
-
-        String authorizationHeader =
-                "Bearer " + accessToken;
+        String authorizationHeader = "Bearer " + accessToken;
 
         when(currentUserService.getCurrentUserEntity())
                 .thenReturn(user);
@@ -129,18 +122,11 @@ class LogoutTest extends IntegrationTest {
         );
     }
 
-
-
-
     @Test
     void should_reject_logout_current_session_when_session_belongs_to_another_user() {
+        User sessionOwner = saveValidUser();
 
-        User sessionOwner =
-                saveValidUser();
-
-        User currentUser =
-                new User();
-
+        User currentUser = new User();
         currentUser.setUsername("anotherUser");
         currentUser.setEmail("another@test.com");
         currentUser.setPassword(
@@ -148,12 +134,9 @@ class LogoutTest extends IntegrationTest {
         );
         currentUser.setRole(UserRole.USER);
         currentUser.setEmailVerified(true);
+        currentUser = userRepository.save(currentUser);
 
-        currentUser =
-                userRepository.save(currentUser);
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         String refreshToken =
                 createValidRefreshToken(
@@ -171,15 +154,10 @@ class LogoutTest extends IntegrationTest {
                         sessionOwner
                 );
 
-        String authorizationHeader =
-                "Bearer " + accessToken;
-
+        String authorizationHeader = "Bearer " + accessToken;
 
         when(currentUserService.getCurrentUserEntity())
                 .thenReturn(currentUser);
-
-
-        // Act + Assert
 
         assertThatThrownBy(() ->
                 userSessionService.logoutCurrentSession(
@@ -191,9 +169,6 @@ class LogoutTest extends IntegrationTest {
                 .isInstanceOf(AccessDeniedException.class)
                 .hasMessage("Not same user");
 
-
-        // Assert refresh token was NOT revoked
-
         RefreshToken unchanged =
                 refreshTokenRepository
                         .findById(session.getId())
@@ -202,29 +177,18 @@ class LogoutTest extends IntegrationTest {
         assertThat(unchanged.isRevoked())
                 .isFalse();
 
-
-        // Access token must NOT be blacklisted
-
         verify(tokenBlacklistService, never())
                 .revoke(anyString());
-
-
-        // Audit must NOT be created
 
         verify(auditService, never())
                 .log(any(SecurityAuditEvent.class));
     }
 
 
-
     @Test
     void should_logout_all_devices_successfully() {
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         createRefreshSession(
                 user,
@@ -240,21 +204,12 @@ class LogoutTest extends IntegrationTest {
                 UUID.randomUUID().toString()
         );
 
-        long oldTokenVersion =
-                user.getTokenVersion();
+        long oldTokenVersion = user.getTokenVersion();
 
         when(currentUserService.getCurrentUserEntity())
                 .thenReturn(user);
 
-
-        // Act
-
-        userSessionService.logoutAllDevices(
-                meta
-        );
-
-
-        // Assert token version
+        userSessionService.logoutAllDevices( meta);
 
         User updatedUser =
                 getUser(
@@ -263,9 +218,6 @@ class LogoutTest extends IntegrationTest {
 
         assertThat(updatedUser.getTokenVersion())
                 .isEqualTo(oldTokenVersion + 1);
-
-
-        // Assert all refresh tokens revoked
 
         refreshTokenRepository.flush();
 
@@ -320,15 +272,10 @@ class LogoutTest extends IntegrationTest {
     }
 
 
-
     @Test
     void should_logout_single_session_successfully() {
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         RefreshToken sessionToLogout =
                 createRefreshSession(
@@ -346,17 +293,12 @@ class LogoutTest extends IntegrationTest {
                         UUID.randomUUID().toString()
                 );
 
-        String jti =
-                sessionToLogout.getJti();
-
-
-        // Act
+        String jti = sessionToLogout.getJti();
 
         userSessionService.logoutSession(
                 jti,
                 meta
         );
-
 
         // Assert target session
 
@@ -398,15 +340,10 @@ class LogoutTest extends IntegrationTest {
         );
     }
 
-
     @Test
     void should_logout_all_except_current_session_successfully() {
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         RefreshToken currentSession =
                 createRefreshSession(
@@ -424,20 +361,15 @@ class LogoutTest extends IntegrationTest {
                         UUID.randomUUID().toString()
                 );
 
-        String currentJti =
-                currentSession.getJti();
+        String currentJti = currentSession.getJti();
 
         when(currentUserService.getCurrentUserEntity())
                 .thenReturn(user);
-
-
-        // Act
 
         userSessionService.logoutAllExcept(
                 currentJti,
                 meta
         );
-
 
         // Assert current session
 
@@ -484,7 +416,6 @@ class LogoutTest extends IntegrationTest {
             String jti,
             String message
     ) {
-
         ArgumentCaptor<SecurityAuditEvent> captor =
                 ArgumentCaptor.forClass(
                         SecurityAuditEvent.class
@@ -526,7 +457,6 @@ class LogoutTest extends IntegrationTest {
 
 
     private User getUser(String username) {
-
         return userRepository
                 .findByUsername(username)
                 .orElseThrow();
@@ -534,7 +464,6 @@ class LogoutTest extends IntegrationTest {
 
 
     private User saveValidUser() {
-
         User user =
                 TestDataFactory.validUser(
                         passwordEncoder()
@@ -548,12 +477,8 @@ class LogoutTest extends IntegrationTest {
             User user,
             SessionMeta meta
     ) {
-
-        String deviceId =
-                UUID.randomUUID().toString();
-
-        String familyId =
-                UUID.randomUUID().toString();
+        String deviceId = UUID.randomUUID().toString();
+        String familyId = UUID.randomUUID().toString();
 
         String refreshToken =
                 jwtService.generateRefreshToken(
@@ -594,7 +519,6 @@ class LogoutTest extends IntegrationTest {
             String deviceId,
             String familyId
     ) {
-
         String refreshToken =
                 jwtService.generateRefreshToken(
                         user,
@@ -602,10 +526,7 @@ class LogoutTest extends IntegrationTest {
                         familyId
                 );
 
-        String jti =
-                jwtService.extractJti(
-                        refreshToken
-                );
+        String jti = jwtService.extractJti(refreshToken);
 
         DeviceInfo deviceInfo =
                 userAgentParser.parse(

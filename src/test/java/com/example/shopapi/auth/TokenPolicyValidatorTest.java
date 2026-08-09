@@ -10,25 +10,28 @@ import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.common.exception.BadRequestException;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.auth.entities.DeviceInfo;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import com.example.shopapi.testconfig.IntegrationTest;
+import com.example.shopapi.user.repositories.UserRepository;
+import com.example.shopapi.auth.repositories.RefreshTokenRepository;
+import com.example.shopapi.auth.services.UserAgentParser;
+import com.example.shopapi.testdata.TestDataFactory;
+
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import com.example.shopapi.testconfig.IntegrationTest;
-import com.example.shopapi.user.repositories.UserRepository;
-import com.example.shopapi.auth.repositories.RefreshTokenRepository;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.example.shopapi.auth.services.UserAgentParser;
-import com.example.shopapi.testdata.TestDataFactory;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 
 class TokenPolicyValidatorTest extends IntegrationTest {
+
     @Autowired
     private TokenPolicyValidator tokenPolicyValidator;
 
@@ -58,7 +61,6 @@ class TokenPolicyValidatorTest extends IntegrationTest {
 
     @BeforeEach
     void setUp() {
-
         when(
                 deviceFingerprintService.fingerprint(
                         any(DeviceInfo.class)
@@ -69,12 +71,8 @@ class TokenPolicyValidatorTest extends IntegrationTest {
 
     @Test
     void should_block_when_refresh_token_already_used() {
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         String refreshToken =
                 createValidRefreshToken(
@@ -87,7 +85,6 @@ class TokenPolicyValidatorTest extends IntegrationTest {
                         refreshToken
                 );
 
-        // Имитируем повторное использование refresh token
         stored.setRevoked(true);
 
         refreshTokenRepository.save(stored);
@@ -121,12 +118,8 @@ class TokenPolicyValidatorTest extends IntegrationTest {
 
     @Test
     void should_block_when_family_mismatch() {
-
-        User user =
-                saveValidUser();
-
-        SessionMeta meta =
-                TestDataFactory.validSessionMeta();
+        User user = saveValidUser();
+        SessionMeta meta = TestDataFactory.validSessionMeta();
 
         String refreshToken =
                 createValidRefreshToken(
@@ -182,7 +175,6 @@ class TokenPolicyValidatorTest extends IntegrationTest {
 
 
     private User saveValidUser() {
-
         User user =
                 TestDataFactory.validUser(
                         passwordEncoder
@@ -196,12 +188,8 @@ class TokenPolicyValidatorTest extends IntegrationTest {
             User user,
             SessionMeta meta
     ) {
-
-        String deviceId =
-                UUID.randomUUID().toString();
-
-        String familyId =
-                UUID.randomUUID().toString();
+        String deviceId = UUID.randomUUID().toString();
+        String familyId = UUID.randomUUID().toString();
 
         String refreshToken =
                 jwtService.generateRefreshToken(
