@@ -5,9 +5,7 @@ import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.repositories.RefreshTokenRepository;
 import com.example.shopapi.auth.services.DeviceFingerprintService;
 import com.example.shopapi.auth.services.GeoService;
-import com.example.shopapi.auth.services.JwtService;
 import com.example.shopapi.auth.services.UserAgentParser;
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +25,6 @@ public class SessionMetadataFilter extends OncePerRequestFilter {
 
     private static final Duration UPDATE_INTERVAL = Duration.ofMinutes(5);
 
-    private final JwtService jwtService;
     private final RefreshTokenRepository repository;
     private final GeoService geoService;
     private final UserAgentParser userAgentParser;
@@ -40,91 +37,82 @@ public class SessionMetadataFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        String auth = request.getHeader("Authorization");
+        String jti = (String) request.getAttribute(
+                JwtAuthFilter.JWT_JTI_ATTRIBUTE
+        );
 
-        if (auth == null || !auth.startsWith("Bearer ")) {
+        if (jti == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = auth.substring(7);
+        repository.findByJti(jti).ifPresent(session -> {
 
-        try {
-            String jti = jwtService.extractJti(token);
+            Instant now = Instant.now();
+            Instant lastUsed = session.getLastUsedAt();
 
-            repository.findByJti(jti).ifPresent(session -> {
+            boolean timeToUpdate =
+                    lastUsed == null ||
+                            lastUsed.isBefore(now.minus(UPDATE_INTERVAL));
 
-                Instant now = Instant.now();
-                Instant lastUsed = session.getLastUsedAt();
+            if (!timeToUpdate) {
+                return;
+            }
 
-                boolean timeToUpdate =
-                        lastUsed == null ||
-                                lastUsed.isBefore(now.minus(UPDATE_INTERVAL));
+            String ip = request.getRemoteAddr();
+            String userAgent = request.getHeader("User-Agent");
+            String country = geoService.resolveCountry(ip);
 
-                if (!timeToUpdate) {
-                    return;
-                }
+            DeviceInfo info = userAgentParser.parse(userAgent);
 
-                String ip = request.getRemoteAddr();
-                String userAgent = request.getHeader("User-Agent");
-                String country = geoService.resolveCountry(ip);
+            DeviceInfo newDeviceInfo = new DeviceInfo(
+                    info.getBrowser(),
+                    info.getBrowserVersion(),
+                    info.getOperatingSystem(),
+                    info.getOperatingSystemVersion(),
+                    info.getDeviceName(),
+                    info.getDeviceType()
+            );
 
-                DeviceInfo info = userAgentParser.parse(userAgent);
+            DeviceIdentity identity = session.getDeviceIdentity();
 
-                // ---- BUILD NEW DEVICE INFO AS SINGLE OBJECT ----
-                DeviceInfo newDeviceInfo = new DeviceInfo(
-                        info.getBrowser(),
-                        info.getBrowserVersion(),
-                        info.getOperatingSystem(),
-                        info.getOperatingSystemVersion(),
-                        info.getDeviceName(),
-                        info.getDeviceType()
-                );
+            DeviceInfo old = session.getDeviceIdentity().getDeviceInfo();
 
-                // ---- CHANGE DETECTION ----
-                DeviceInfo old = session.getDeviceIdentity().getDeviceInfo();
+            boolean changed =
+                    old == null ||
+                            !Objects.equals(old.getBrowser(), newDeviceInfo.getBrowser()) ||
+                            !Objects.equals(old.getBrowserVersion(), newDeviceInfo.getBrowserVersion()) ||
+                            !Objects.equals(old.getOperatingSystem(), newDeviceInfo.getOperatingSystem()) ||
+                            !Objects.equals(old.getOperatingSystemVersion(), newDeviceInfo.getOperatingSystemVersion()) ||
+                            !Objects.equals(old.getDeviceName(), newDeviceInfo.getDeviceName()) ||
+                            !Objects.equals(old.getDeviceType(), newDeviceInfo.getDeviceType()) ||
+                            !Objects.equals(session.getIpAddress(), ip) ||
+                            !Objects.equals(session.getUserAgent(), userAgent) ||
+                            !Objects.equals(session.getCountry(), country);
 
-                boolean changed =
-                        old == null ||
-                                !Objects.equals(old.getBrowser(), newDeviceInfo.getBrowser()) ||
-                                !Objects.equals(old.getBrowserVersion(), newDeviceInfo.getBrowserVersion()) ||
-                                !Objects.equals(old.getOperatingSystem(), newDeviceInfo.getOperatingSystem()) ||
-                                !Objects.equals(old.getOperatingSystemVersion(), newDeviceInfo.getOperatingSystemVersion()) ||
-                                !Objects.equals(old.getDeviceName(), newDeviceInfo.getDeviceName()) ||
-                                !Objects.equals(old.getDeviceType(), newDeviceInfo.getDeviceType()) ||
-                                !Objects.equals(session.getIpAddress(), ip) ||
-                                !Objects.equals(session.getUserAgent(), userAgent) ||
-                                !Objects.equals(session.getCountry(), country);
+            if (!changed) {
+                return;
+            }
 
-                if (!changed) {
-                    return;
-                }
+            session.setLastUsedAt(now);
+            session.setIpAddress(ip);
+            session.setUserAgent(userAgent);
+            session.setCountry(country);
 
-                // ---- UPDATE SESSION ----
-                session.setLastUsedAt(now);
-                session.setIpAddress(ip);
-                session.setUserAgent(userAgent);
-                session.setCountry(country);
 
-                DeviceIdentity identity = session.getDeviceIdentity();
+            if (identity == null) {
+                identity = new DeviceIdentity();
+                session.setDeviceIdentity(identity);
+            }
 
-                if (identity == null) {
-                    identity = new DeviceIdentity();
-                    session.setDeviceIdentity(identity);
-                }
+            identity.setDeviceInfo(newDeviceInfo);
 
-                identity.setDeviceInfo(newDeviceInfo);
+            identity.setFingerprint(
+                    deviceFingerprintService.fingerprint(newDeviceInfo)
+            );
 
-                identity.setFingerprint(
-                        deviceFingerprintService.fingerprint(newDeviceInfo)
-                );
-
-                repository.save(session);
-            });
-
-        } catch (JwtException | IllegalArgumentException ex) {
-
-        }
+            repository.save(session);
+        });
 
         filterChain.doFilter(request, response);
     }

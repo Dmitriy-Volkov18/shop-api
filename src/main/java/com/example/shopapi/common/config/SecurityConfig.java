@@ -1,6 +1,7 @@
 package com.example.shopapi.common.config;
 
 import com.example.shopapi.auth.filter.JwtAuthFilter;
+import com.example.shopapi.auth.security.SecurityEndpoints;
 import com.example.shopapi.user.UserActivityFilter;
 import com.example.shopapi.auth.services.CustomUserDetailsService;
 import com.example.shopapi.auth.security.JwtAccessDeniedHandler;
@@ -51,29 +52,24 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/auth/register",
-                                "/auth/login",
-                                "/auth/refresh",
-                                "/auth/forgot-password",
-                                "/auth/reset-password",
-                                "/auth/verify-email",
-                                "/auth/resend-verification",
-                                "/actuator/health",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        .anyRequest().authenticated()
+                                SecurityEndpoints.PUBLIC_PATHS.toArray(String[]::new)
+                        )
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated()
                 )
 
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(
+                        jwtAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                )
                 .addFilterAfter(
-                        userActivityFilter,
+                        sessionMetadataFilter,
                         JwtAuthFilter.class
                 )
-                .addFilterBefore(
-                        sessionMetadataFilter,
-                        UsernamePasswordAuthenticationFilter.class
+                .addFilterAfter(
+                        userActivityFilter,
+                        SessionMetadataFilter.class
                 )
                 .headers(headers -> headers
 
