@@ -5,7 +5,6 @@ import com.example.shopapi.order.services.CustomerOrderQueryService;
 import com.example.shopapi.product.dto.RecommendationProfile;
 import com.example.shopapi.order.entities.CustomerOrder;
 import com.example.shopapi.order.entities.CustomerOrderItem;
-import com.example.shopapi.order.services.CustomerOrderService;
 import com.example.shopapi.product.enums.ProductStatus;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.product.repositories.ProductRepository;
@@ -41,7 +40,6 @@ public class RecommendationService {
 
     private final WishlistService wishlistService;
     private final RecentlyViewedService recentlyViewedService;
-    private final CustomerOrderService customerOrderService;
     private final CustomerOrderQueryService customerOrderQueryService;
     private final ProductRepository productRepository;
     private final SearchHistoryService searchHistoryService;

@@ -5,7 +5,6 @@ import com.example.shopapi.product.services.ProductService;
 import com.example.shopapi.productVariant.dto.VariantImageResponse;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.productVariant.entities.ProductVariant;
-import com.example.shopapi.productVariant.mappers.VariantImageMapper;
 import com.example.shopapi.productVariant.services.ProductVariantService;
 import com.example.shopapi.productVariant.services.VariantImageService;
 import com.example.shopapi.product.services.ImageUploadService;
@@ -25,8 +24,6 @@ public class VariantImageFacade {
     private final AuthorizationService authorizationService;
     private final ImageUploadService imageUploadService;
     private final VariantImageService variantImageService;
-    private final VariantImageMapper variantImageMapper;
-
 
     public List<VariantImageResponse> getImages(
             Long productId,
