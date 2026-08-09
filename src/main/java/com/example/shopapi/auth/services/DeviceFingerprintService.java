@@ -1,6 +1,6 @@
 package com.example.shopapi.auth.services;
 
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.security.TokenHashUtil;
 import org.springframework.stereotype.Service;
 

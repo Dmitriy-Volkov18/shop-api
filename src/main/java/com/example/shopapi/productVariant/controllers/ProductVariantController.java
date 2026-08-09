@@ -39,9 +39,7 @@ public class ProductVariantController {
     @PreAuthorize("hasRole('ADMIN')")
     public ProductVariantResponse createVariant(
             @PathVariable Long productId,
-            @Valid
-            @RequestBody
-            CreateProductVariantRequest request
+            @Valid @RequestBody CreateProductVariantRequest request
     ) {
         return facade.createVariant(
                 productId,
@@ -54,9 +52,7 @@ public class ProductVariantController {
     public ProductVariantResponse updateVariant(
             @PathVariable Long productId,
             @PathVariable Long variantId,
-            @Valid
-            @RequestBody
-            UpdateProductVariantRequest request
+            @Valid @RequestBody UpdateProductVariantRequest request
     ) {
         return facade.updateVariant(
                 productId,

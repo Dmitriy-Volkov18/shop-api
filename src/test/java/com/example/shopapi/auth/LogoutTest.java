@@ -1,7 +1,6 @@
 package com.example.shopapi.auth;
 
-import com.example.shopapi.auth.dto.AuthResponse;
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.auth.enums.SecurityEventType;
@@ -16,7 +15,6 @@ import com.example.shopapi.auth.services.SecurityAuditService;
 import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.user.enums.UserRole;
 import org.springframework.security.access.AccessDeniedException;
-import com.example.shopapi.user.entities.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,6 @@ import com.example.shopapi.user.repositories.UserRepository;
 import com.example.shopapi.auth.repositories.RefreshTokenRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.shopapi.testdata.TestDataFactory;
-import com.example.shopapi.auth.services.UserAgentParser;
 
 class LogoutTest extends IntegrationTest {
 

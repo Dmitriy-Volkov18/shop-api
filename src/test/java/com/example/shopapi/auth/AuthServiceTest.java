@@ -26,14 +26,14 @@ import com.example.shopapi.auth.enums.SecurityDecision;
 import com.example.shopapi.auth.dto.RiskResult;
 import com.example.shopapi.auth.dto.LoginRequest;
 import com.example.shopapi.common.exception.BadRequestException;
-import java.time.LocalDateTime;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import com.example.shopapi.auth.services.RefreshTokenService;
 import com.example.shopapi.auth.services.UserAgentParser;
 import com.example.shopapi.auth.services.JwtService;
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +43,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.never;
 
@@ -108,33 +107,33 @@ class AuthServiceTest extends IntegrationTest {
         assertThat(response)
                 .isNotNull();
 
-        assertThat(response.getAccessToken())
+        assertThat(response.accessToken())
                 .isNotBlank();
 
-        assertThat(response.getRefreshToken())
+        assertThat(response.refreshToken())
                 .isNotBlank();
 
-        assertThat(response.getDeviceId())
+        assertThat(response.deviceId())
                 .isNotBlank();
 
 
         // Assert user
 
         User user =
-                getUser(request.getUsername());
+                getUser(request.username());
 
         assertThat(user.getUsername())
-                .isEqualTo(request.getUsername());
+                .isEqualTo(request.username());
 
         assertThat(user.getEmail())
-                .isEqualTo(request.getEmail());
+                .isEqualTo(request.email());
 
         assertThat(user.getRole())
                 .isEqualTo(UserRole.USER);
 
         assertThat(
                 passwordEncoder.matches(
-                        request.getPassword(),
+                        request.password(),
                         user.getPassword()
                 )
         ).isTrue();
@@ -158,7 +157,7 @@ class AuthServiceTest extends IntegrationTest {
                 .isNotBlank();
 
         assertThat(token.getTokenHash())
-                .isNotEqualTo(response.getRefreshToken());
+                .isNotEqualTo(response.refreshToken());
 
         assertThat(token.isRevoked())
                 .isFalse();
@@ -191,7 +190,7 @@ class AuthServiceTest extends IntegrationTest {
                 .isNotNull();
 
         assertThat(token.getDeviceIdentity().getDeviceId())
-                .isEqualTo(response.getDeviceId());
+                .isEqualTo(response.deviceId());
 
         assertThat(token.getDeviceIdentity().getFingerprint())
                 .isNotBlank();
@@ -219,7 +218,7 @@ class AuthServiceTest extends IntegrationTest {
         // Assert mail
         verify(mailService)
                 .send(
-                        eq(request.getEmail()),
+                        eq(request.email()),
                         eq("Verify your email"),
                         anyString()
                 );
@@ -257,7 +256,7 @@ class AuthServiceTest extends IntegrationTest {
 
         // refresh token один
         User user =
-                getUser(request.getUsername());
+                getUser(request.username());
 
         RefreshToken token =
                 getSingleRefreshToken(user);
@@ -268,7 +267,7 @@ class AuthServiceTest extends IntegrationTest {
         // письмо только после первой регистрации
         verify(mailService, times(1))
                 .send(
-                        eq(request.getEmail()),
+                        eq(request.email()),
                         anyString(),
                         anyString()
                 );
@@ -287,10 +286,9 @@ class AuthServiceTest extends IntegrationTest {
     @Test
     void should_throw_when_email_already_exists() {
         RegisterRequest request1 = TestDataFactory.validRegisterRequest();
-        RegisterRequest request2 = TestDataFactory.validRegisterRequest();
-
-        request2.setUsername("anotherUser");
-        request2.setEmail(request1.getEmail());
+        RegisterRequest request2 = TestDataFactory.validRegisterRequest()
+                .withUsername("anotherUser")
+                .withEmail(request1.email());
 
         SessionMeta meta = TestDataFactory.validSessionMeta();
 
@@ -304,7 +302,7 @@ class AuthServiceTest extends IntegrationTest {
                 );
 
         User user =
-                getUser(request1.getUsername());
+                getUser(request1.username());
 
         RefreshToken token =
                 getSingleRefreshToken(user);
@@ -337,7 +335,7 @@ class AuthServiceTest extends IntegrationTest {
         // email ушёл только один раз
         verify(mailService, times(1))
                 .send(
-                        eq(request1.getEmail()),
+                        eq(request1.email()),
                         anyString(),
                         anyString()
                 );
@@ -366,7 +364,7 @@ class AuthServiceTest extends IntegrationTest {
         );
 
         User user =
-                getUser(request.getUsername());
+                getUser(request.username());
 
         RefreshToken token =
                 getSingleRefreshToken(user);
@@ -433,7 +431,7 @@ class AuthServiceTest extends IntegrationTest {
                 .isEqualTo(riskLevel);
 
         assertThat(event.deviceId())
-                .isEqualTo(response.getDeviceId());
+                .isEqualTo(response.deviceId());
 
         assertThat(event.jti())
                 .isEqualTo(token.getJti());
@@ -518,18 +516,18 @@ class AuthServiceTest extends IntegrationTest {
         assertThat(response)
                 .isNotNull();
 
-        assertThat(response.getAccessToken())
+        assertThat(response.accessToken())
                 .isNotBlank();
 
-        assertThat(response.getRefreshToken())
+        assertThat(response.refreshToken())
                 .isNotBlank();
 
-        assertThat(response.getDeviceId())
+        assertThat(response.deviceId())
                 .isNotBlank();
 
         User updated =
                 getUser(
-                        request.getUsername()
+                        request.username()
                 );
 
         assertThat(updated.getLastLoginAt())
@@ -569,9 +567,7 @@ class AuthServiceTest extends IntegrationTest {
     void should_fail_login_when_password_invalid() {
         User user = saveValidUser();
 
-        LoginRequest request = TestDataFactory.validLoginRequest();
-        request.setPassword("WrongPassword123!");
-
+        LoginRequest request = TestDataFactory.validLoginRequest().withPassword("WrongPassword123!");
         SessionMeta meta = TestDataFactory.validSessionMeta();
 
         assertThatThrownBy(() ->
@@ -746,13 +742,13 @@ class AuthServiceTest extends IntegrationTest {
         assertThat(response)
                 .isNotNull();
 
-        assertThat(response.getAccessToken())
+        assertThat(response.accessToken())
                 .isNotBlank();
 
-        assertThat(response.getRefreshToken())
+        assertThat(response.refreshToken())
                 .isNotBlank();
 
-        assertThat(response.getDeviceId())
+        assertThat(response.deviceId())
                 .isEqualTo(deviceId);
 
         // Assert refresh tokens

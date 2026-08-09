@@ -5,13 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Schema(description = "User registration request")
-public class RegisterRequest {
+public record RegisterRequest (
 
     @NotBlank
     @Size(min = 3, max = 50)
@@ -19,7 +15,7 @@ public class RegisterRequest {
             description = "Unique username",
             example = "john"
     )
-    private String username;
+    String username,
 
     @NotBlank
     @Email
@@ -27,12 +23,19 @@ public class RegisterRequest {
             description = "User email",
             example = "john@example.com"
     )
-    private String email;
+    String email,
 
     @StrongPassword
     @Schema(
             description = "User password",
             example = "StrongPassword123!"
     )
-    private String password;
+    String password
+){
+    public RegisterRequest withUsername(String newUsername) {
+        return new RegisterRequest(newUsername, this.email, this.password);
+    }
+    public RegisterRequest withEmail(String newEmail) {
+        return new RegisterRequest(this.username, newEmail, this.password);
+    }
 }

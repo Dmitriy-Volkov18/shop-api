@@ -44,9 +44,7 @@ public class CouponController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public CouponResponse create(
-            @Valid
-            @RequestBody
-            CreateCouponRequest request
+            @Valid @RequestBody CreateCouponRequest request
     ) {
         return facade.create(request);
     }
@@ -55,9 +53,7 @@ public class CouponController {
     @PreAuthorize("hasRole('ADMIN')")
     public CouponResponse update(
             @PathVariable Long id,
-            @Valid
-            @RequestBody
-            UpdateCouponRequest request
+            @Valid @RequestBody UpdateCouponRequest request
     ) {
         return facade.update(
                 id,

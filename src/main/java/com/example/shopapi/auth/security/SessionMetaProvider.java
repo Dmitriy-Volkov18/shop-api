@@ -1,6 +1,6 @@
 package com.example.shopapi.auth.security;
 
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.services.GeoService;
 import com.example.shopapi.auth.services.UserAgentParser;

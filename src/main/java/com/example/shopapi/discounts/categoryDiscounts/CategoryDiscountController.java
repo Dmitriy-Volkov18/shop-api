@@ -38,9 +38,7 @@ public class CategoryDiscountController {
     @PreAuthorize("hasRole('ADMIN')")
     public CategoryDiscountResponse create(
             @PathVariable Long categoryId,
-            @Valid
-            @RequestBody
-            CreateCategoryDiscountRequest request
+            @Valid @RequestBody CreateCategoryDiscountRequest request
     ){
         return facade.create( categoryId, request);
     }
@@ -50,9 +48,7 @@ public class CategoryDiscountController {
     public CategoryDiscountResponse update(
             @PathVariable Long categoryId,
             @PathVariable Long discountId,
-            @Valid
-            @RequestBody
-            UpdateCategoryDiscountRequest request
+            @Valid @RequestBody UpdateCategoryDiscountRequest request
     ){
         return facade.update(
                 categoryId,

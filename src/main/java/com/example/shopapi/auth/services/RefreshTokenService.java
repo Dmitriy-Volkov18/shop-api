@@ -1,7 +1,7 @@
 package com.example.shopapi.auth.services;
 
-import com.example.shopapi.auth.dto.DeviceIdentity;
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceIdentity;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.common.exception.BadRequestException;

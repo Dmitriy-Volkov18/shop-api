@@ -1,4 +1,4 @@
-package com.example.shopapi.auth.dto;
+package com.example.shopapi.auth.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

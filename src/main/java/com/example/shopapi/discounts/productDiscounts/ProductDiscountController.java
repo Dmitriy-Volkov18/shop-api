@@ -58,9 +58,7 @@ public class ProductDiscountController {
     public ProductDiscountResponse createDiscount(
             @PathVariable Long productId,
             @PathVariable Long variantId,
-            @Valid
-            @RequestBody
-            CreateDiscountRequest request
+            @Valid @RequestBody CreateDiscountRequest request
     ) {
         return facade.createDiscount(
                 productId,
@@ -75,9 +73,7 @@ public class ProductDiscountController {
             @PathVariable Long productId,
             @PathVariable Long variantId,
             @PathVariable Long discountId,
-            @Valid
-            @RequestBody
-            UpdateDiscountRequest request
+            @Valid @RequestBody UpdateDiscountRequest request
     ) {
         return facade.updateDiscount(
                 productId,

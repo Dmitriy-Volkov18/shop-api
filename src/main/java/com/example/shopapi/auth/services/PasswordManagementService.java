@@ -46,16 +46,16 @@ public class PasswordManagementService {
     ) {
         User user = currentUserService.getCurrentUserEntity();
 
-        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.oldPassword(), user.getPassword())) {
             throw new BadRequestException("Current password is incorrect");
         }
 
-        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+        if (passwordEncoder.matches(request.newPassword(), user.getPassword())) {
             throw new BadRequestException(
                     "New password must be different from the current password");
         }
 
-        updatePassword(user, request.getNewPassword());
+        updatePassword(user, request.newPassword());
 
         auditService.log(
                 new SecurityAuditEvent(
@@ -78,12 +78,12 @@ public class PasswordManagementService {
     ) {
         adaptiveRateLimitService.check(
                 meta.ip(),
-                request.getEmail(),
+                request.email(),
                 RateLimitType.PASSWORD_RESET,
                 RiskLevel.LOW
         );
 
-        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+        Optional<User> optionalUser = userRepository.findByEmail(request.email());
 
         if (optionalUser.isEmpty()) {
             return;
@@ -128,19 +128,19 @@ public class PasswordManagementService {
     ) {
         User user =
                 passwordResetService.validateToken(
-                        request.getToken()
+                        request.token()
                 );
 
-        if (passwordEncoder.matches(request.getNewPassword(), user.getPassword())) {
+        if (passwordEncoder.matches(request.newPassword(), user.getPassword())) {
             throw new BadRequestException(
                     "New password must be different"
             );
         }
 
-        updatePassword(user, request.getNewPassword());
+        updatePassword(user, request.newPassword());
 
         passwordResetService.deleteToken(
-                request.getToken()
+                request.token()
         );
 
         auditService.log(

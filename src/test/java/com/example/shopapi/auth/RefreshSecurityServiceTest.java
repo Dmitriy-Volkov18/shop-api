@@ -1,51 +1,38 @@
 package com.example.shopapi.auth;
 
 import com.example.shopapi.auth.dto.AuthResponse;
-import com.example.shopapi.auth.dto.RefreshTokenClaims;
-import com.example.shopapi.auth.dto.SecurityAuditEvent;
 import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.auth.enums.RiskLevel;
 import com.example.shopapi.auth.enums.SecurityDecision;
-import com.example.shopapi.auth.enums.SecurityEventType;
 import com.example.shopapi.auth.repositories.RefreshTokenRepository;
 import com.example.shopapi.auth.services.RefreshSecurityService;
-import com.example.shopapi.auth.services.SecurityAuditService;
 import com.example.shopapi.auth.services.RefreshTokenService;
 import com.example.shopapi.auth.services.RiskEngine;
-import com.example.shopapi.auth.services.MailService;
 import com.example.shopapi.testconfig.IntegrationTest;
 import com.example.shopapi.testdata.TestDataFactory;
 import com.example.shopapi.user.entities.User;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.example.shopapi.user.repositories.UserRepository;
-import java.time.Instant;
-import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.shopapi.auth.dto.RiskResult;
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.services.UserAgentParser;
 import com.example.shopapi.auth.services.JwtService;
 import java.util.UUID;
 import com.example.shopapi.auth.services.AuthService;
-import com.example.shopapi.common.exception.BadRequestException;
 import com.example.shopapi.auth.services.AdaptiveRateLimitService;
 import com.example.shopapi.auth.services.TokenPolicyValidator;
 import com.example.shopapi.auth.enums.RateLimitType;
-import com.example.shopapi.auth.repositories.RefreshTokenRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.never;
 
 class RefreshSecurityServiceTest extends IntegrationTest {
 
@@ -196,16 +183,16 @@ class RefreshSecurityServiceTest extends IntegrationTest {
         assertThat(response)
                 .isNotNull();
 
-        assertThat(response.getAccessToken())
+        assertThat(response.accessToken())
                 .isEqualTo("access-token");
 
-        assertThat(response.getRefreshToken())
+        assertThat(response.refreshToken())
                 .isEqualTo("new-refresh-token");
 
-        assertThat(response.getRefreshToken())
+        assertThat(response.refreshToken())
                 .isNotEqualTo(refreshToken);
 
-        assertThat(response.getDeviceId())
+        assertThat(response.deviceId())
                 .isEqualTo(
                         oldToken
                                 .getDeviceIdentity()

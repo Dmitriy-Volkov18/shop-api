@@ -3,6 +3,7 @@ package com.example.shopapi.brand;
 import com.example.shopapi.brand.dto.BrandResponse;
 import com.example.shopapi.brand.dto.CreateBrandRequest;
 import com.example.shopapi.brand.dto.UpdateBrandRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,22 +46,17 @@ public class BrandController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BrandResponse create(
-            @RequestBody CreateBrandRequest request
+            @Valid @RequestBody CreateBrandRequest request
     ) {
-        return facade.create(
-                request
-        );
+        return facade.create(request);
     }
 
     @PutMapping("/{id}")
     public BrandResponse update(
             @PathVariable Long id,
-            @RequestBody UpdateBrandRequest request
+            @Valid @RequestBody UpdateBrandRequest request
     ) {
-        return facade.update(
-                id,
-                request
-        );
+        return facade.update(id, request);
     }
 
     @DeleteMapping("/{id}")

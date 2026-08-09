@@ -104,7 +104,7 @@ public class AuthController {
 
         adaptiveRateLimitService.check(
                 meta.ip(),
-                request.getUsername(),
+                request.username(),
                 RateLimitType.REGISTER,
                 risk
         );
@@ -141,7 +141,7 @@ public class AuthController {
 
         adaptiveRateLimitService.check(
                 meta.ip(),
-                request.getUsername(),
+                request.username(),
                 RateLimitType.LOGIN,
                 risk
         );
@@ -176,7 +176,7 @@ public class AuthController {
         SessionMeta meta = sessionMetaProvider.build(httpRequest);
 
         return refreshSecurityService.refresh(
-                request.getRefreshToken(),
+                request.refreshToken(),
                 meta
         );
     }
@@ -215,7 +215,7 @@ public class AuthController {
         SessionMeta meta = sessionMetaProvider.build(httpRequest);
 
         userSessionService.logoutCurrentSession(
-                request.getRefreshToken(),
+                request.refreshToken(),
                 authorization,
                 meta
         );
@@ -457,7 +457,7 @@ public class AuthController {
         SessionMeta meta = sessionMetaProvider.build(httpRequest);
 
         emailVerificationFacade.resendVerificationEmail(
-                request.getEmail(),
+                request.email(),
                 meta
         );
     }
@@ -604,7 +604,7 @@ public class AuthController {
         userSessionService.updateSessionNickname(
                 user.getId(),
                 jti,
-                request.getNickname(),
+                request.nickname(),
                 meta
         );
     }

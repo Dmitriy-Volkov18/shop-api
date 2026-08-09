@@ -41,9 +41,7 @@ public class PromotionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PromotionResponse create(
-            @Valid
-            @RequestBody
-            CreatePromotionRequest request
+            @Valid @RequestBody CreatePromotionRequest request
     ) {
         return facade.create(request);
     }
@@ -51,9 +49,7 @@ public class PromotionController {
     @PutMapping("/{id}")
     public PromotionResponse update(
             @PathVariable Long id,
-            @Valid
-            @RequestBody
-            UpdatePromotionRequest request
+            @Valid @RequestBody UpdatePromotionRequest request
     ) {
         return facade.update(
                 id,

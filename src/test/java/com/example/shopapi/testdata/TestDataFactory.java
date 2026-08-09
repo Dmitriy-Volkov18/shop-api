@@ -1,6 +1,6 @@
 package com.example.shopapi.testdata;
 
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.dto.RegisterRequest;
 import com.example.shopapi.auth.dto.SessionMeta;
 
@@ -36,25 +36,11 @@ public final class TestDataFactory {
     }
 
     public static RegisterRequest validRegisterRequest() {
-
-        RegisterRequest request = new RegisterRequest();
-
-        request.setUsername("john");
-        request.setEmail("john@test.com");
-        request.setPassword("StrongPassword123!");
-
-        return request;
+        return new RegisterRequest("john", "john@test.com", "StrongPassword123!");
     }
 
     public static LoginRequest validLoginRequest() {
-
-        LoginRequest request =
-                new LoginRequest();
-
-        request.setUsername("john");
-        request.setPassword("StrongPassword123!");
-
-        return request;
+        return new LoginRequest("john", "StrongPassword123!");
     }
 
     public static DeviceInfo validDeviceInfo() {

@@ -1,7 +1,7 @@
 package com.example.shopapi.auth.services;
 
 import com.example.shopapi.auth.dto.AuthResponse;
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.dto.LoginRequest;
 import com.example.shopapi.auth.dto.RegisterRequest;
 import com.example.shopapi.auth.dto.RiskResult;
@@ -121,9 +121,9 @@ public class AuthService {
 
     private User createUser(RegisterRequest request){
         User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUsername(request.username());
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(UserRole.USER);
         user = userRepository.save(user);
 
@@ -132,11 +132,11 @@ public class AuthService {
 
 
     public AuthResponse register(RegisterRequest request, SessionMeta meta, RiskLevel riskLevel) {
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.username())) {
             throw new ConflictException("Username already exists");
         }
 
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.email())) {
             throw new ConflictException("Email already exists");
         }
 
@@ -174,12 +174,12 @@ public class AuthService {
         try{
             authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getUsername(),
-                            request.getPassword()
+                            request.username(),
+                            request.password()
                     )
             );
         }catch(AuthenticationException ex){
-            userRepository.findByUsername(request.getUsername())
+            userRepository.findByUsername(request.username())
                     .ifPresent(user ->
                             auditService.log(
                                     new SecurityAuditEvent(
@@ -201,7 +201,7 @@ public class AuthService {
             throw new BadRequestException("Invalid username or password");
         }
 
-        User user = userRepository.findByUsername(request.getUsername())
+        User user = userRepository.findByUsername(request.username())
                 .orElseThrow();
 
         if (!user.isEmailVerified()) {

@@ -28,8 +28,7 @@ public class CartController {
 
     @PostMapping("/items")
     public CartResponse addItem(
-            @Valid
-            @RequestBody AddCartItemRequest request
+            @Valid @RequestBody AddCartItemRequest request
     ) {
         return cartFacade.addItem(request);
     }
@@ -37,9 +36,7 @@ public class CartController {
     @PutMapping("/items/{itemId}")
     public CartResponse updateItem(
             @PathVariable Long itemId,
-
-            @Valid
-            @RequestBody UpdateCartItemRequest request
+            @Valid @RequestBody UpdateCartItemRequest request
     ) {
         return cartFacade.updateItem(
                 itemId,

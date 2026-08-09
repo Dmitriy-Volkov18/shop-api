@@ -12,6 +12,7 @@ import com.example.shopapi.user.facades.UserFacade;
 import com.example.shopapi.user.UserFilter;
 import com.example.shopapi.user.enums.UserRole;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,18 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserFacade userFacade;
     private final CurrentUserService currentUserService;
-
-    public UserController(
-            UserFacade userFacade,
-            CurrentUserService currentUserService
-    ) {
-        this.userFacade = userFacade;
-        this.currentUserService = currentUserService;
-    }
 
     @PostMapping
     public UserResponse create(@Valid @RequestBody UserCreateRequest request) {
@@ -61,7 +55,6 @@ public class UserController {
             @RequestParam(defaultValue = "id") String sortBy
     ) {
         UserFilter filter = new UserFilter();
-
         filter.setUsername(username);
         filter.setEmail(email);
         filter.setRole(role);

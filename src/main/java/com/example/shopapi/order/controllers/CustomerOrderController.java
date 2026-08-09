@@ -69,7 +69,6 @@ public class CustomerOrderController {
     @GetMapping("/me/latest")
     @PreAuthorize("hasRole('USER')")
     public CustomerOrderResponse latest(){
-
         return customerOrderFacade.getLatestOrder();
     }
 
@@ -77,9 +76,7 @@ public class CustomerOrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerOrderResponse createOrder(
-            @Valid
-            @RequestBody
-            CheckoutRequest request
+            @Valid @RequestBody CheckoutRequest request
     ) {
         return customerOrderFacade.createOrder(request);
     }

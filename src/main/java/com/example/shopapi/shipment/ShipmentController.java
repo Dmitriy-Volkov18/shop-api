@@ -43,9 +43,7 @@ public class ShipmentController {
     @PreAuthorize("hasRole('ADMIN')")
     public void ship(
             @PathVariable Long id,
-
-            @Valid
-            @RequestBody ShipRequest request
+            @Valid @RequestBody ShipRequest request
     ){
         facade.ship(id, request);
     }

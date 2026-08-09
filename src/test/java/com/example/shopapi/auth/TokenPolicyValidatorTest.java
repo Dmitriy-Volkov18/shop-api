@@ -9,7 +9,7 @@ import com.example.shopapi.auth.services.TokenPolicyValidator;
 import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.common.exception.BadRequestException;
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.auth.dto.DeviceInfo;
+import com.example.shopapi.auth.entities.DeviceInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;

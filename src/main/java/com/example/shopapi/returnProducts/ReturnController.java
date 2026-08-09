@@ -62,9 +62,7 @@ public class ReturnController {
     @PreAuthorize("hasRole('USER')")
     public ReturnResponse create(
             @PathVariable Long orderId,
-
-            @Valid
-            @RequestBody ReturnRequestCreate request
+            @Valid @RequestBody ReturnRequestCreate request
     ){
         return facade.create(
                 orderId,

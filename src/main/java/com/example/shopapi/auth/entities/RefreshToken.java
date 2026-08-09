@@ -1,6 +1,5 @@
 package com.example.shopapi.auth.entities;
 
-import com.example.shopapi.auth.dto.DeviceIdentity;
 import com.example.shopapi.user.entities.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
