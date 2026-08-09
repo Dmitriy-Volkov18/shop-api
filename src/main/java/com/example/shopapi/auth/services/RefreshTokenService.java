@@ -4,7 +4,7 @@ import com.example.shopapi.auth.entities.DeviceIdentity;
 import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.auth.repositories.RefreshTokenRepository;
 import com.example.shopapi.common.config.JwtProperties;
 import com.example.shopapi.auth.security.TokenHashUtil;

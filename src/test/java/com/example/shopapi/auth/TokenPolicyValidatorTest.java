@@ -7,7 +7,7 @@ import com.example.shopapi.auth.services.JwtService;
 import com.example.shopapi.auth.services.RefreshTokenService;
 import com.example.shopapi.auth.services.TokenPolicyValidator;
 import com.example.shopapi.auth.dto.SessionMeta;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.auth.entities.DeviceInfo;
 import com.example.shopapi.testconfig.IntegrationTest;

@@ -1,6 +1,6 @@
 package com.example.shopapi.user.services;
 
-import com.example.shopapi.common.exception.UserNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.UserNotFoundException;
 import com.example.shopapi.user.UserFilter;
 import com.example.shopapi.user.dto.UserCreateRequest;
 import com.example.shopapi.user.dto.UserUpdateRequest;

@@ -1,6 +1,6 @@
 package com.example.shopapi.promotion.services;
 
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.promotion.buyXgetY.PromotionActionConfigurationService;
 import com.example.shopapi.promotion.entities.Promotion;
 import com.example.shopapi.promotion.PromotionMapper;

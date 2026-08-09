@@ -8,7 +8,7 @@ import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.enums.RateLimitType;
 import com.example.shopapi.auth.enums.RiskLevel;
 import com.example.shopapi.auth.enums.SecurityEventType;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

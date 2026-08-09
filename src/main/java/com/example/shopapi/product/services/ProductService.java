@@ -10,7 +10,7 @@ import com.example.shopapi.product.ProductQueryService;
 import com.example.shopapi.product.dto.ImageMetadata;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.common.exception.ProductNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.ProductNotFoundException;
 import com.example.shopapi.product.mappers.ProductMapper;
 import com.example.shopapi.product.dto.CreateProductRequest;
 import com.example.shopapi.product.dto.UpdateProductRequest;

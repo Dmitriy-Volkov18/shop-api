@@ -2,7 +2,7 @@ package com.example.shopapi.brand;
 
 import com.example.shopapi.brand.dto.CreateBrandRequest;
 import com.example.shopapi.brand.dto.UpdateBrandRequest;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

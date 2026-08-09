@@ -1,7 +1,7 @@
 package com.example.shopapi.coupon.services;
 
 import com.example.shopapi.coupon.entities.Coupon;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.coupon.repositories.CouponRepository;
 import com.example.shopapi.common.validation.ValidationUtils;
 import lombok.RequiredArgsConstructor;

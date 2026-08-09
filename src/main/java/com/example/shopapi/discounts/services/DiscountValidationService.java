@@ -3,7 +3,7 @@ package com.example.shopapi.discounts.services;
 import com.example.shopapi.discounts.productDiscounts.ProductDiscount;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.discounts.enums.DiscountType;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.common.validation.ValidationUtils;
 import org.springframework.stereotype.Service;
 

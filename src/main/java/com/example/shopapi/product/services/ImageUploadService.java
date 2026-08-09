@@ -1,7 +1,7 @@
 package com.example.shopapi.product.services;
 
 import com.example.shopapi.product.dto.ImageMetadata;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.auth.security.ImageValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

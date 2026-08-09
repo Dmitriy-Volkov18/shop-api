@@ -1,6 +1,6 @@
 package com.example.shopapi.promotion.campaign;
 
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.promotion.campaign.dto.CreatePromotionCampaignRequest;
 import com.example.shopapi.promotion.campaign.dto.UpdatePromotionCampaignRequest;
 import com.example.shopapi.promotion.entities.Promotion;

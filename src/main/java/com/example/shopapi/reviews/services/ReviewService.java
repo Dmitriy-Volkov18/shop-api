@@ -1,6 +1,6 @@
 package com.example.shopapi.reviews.services;
 
-import com.example.shopapi.common.exception.ReviewNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.ReviewNotFoundException;
 import com.example.shopapi.reviews.ReviewStatus;
 import com.example.shopapi.reviews.entities.Review;
 import com.example.shopapi.reviews.repositories.ReviewRepository;

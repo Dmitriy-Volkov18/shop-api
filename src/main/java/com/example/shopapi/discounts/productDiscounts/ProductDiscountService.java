@@ -9,7 +9,7 @@ import com.example.shopapi.discounts.services.DiscountManagementService;
 import com.example.shopapi.discounts.services.DiscountValidationService;
 import com.example.shopapi.product.services.ProductPricingService;
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

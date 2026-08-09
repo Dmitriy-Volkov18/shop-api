@@ -1,7 +1,7 @@
 package com.example.shopapi.inventory;
 
 import com.example.shopapi.common.BaseEntity;
-import com.example.shopapi.common.exception.InventoryReservationException;
+import com.example.shopapi.common.exception.businessExceptions.InventoryReservationException;
 import com.example.shopapi.order.entities.CustomerOrder;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import jakarta.persistence.Column;

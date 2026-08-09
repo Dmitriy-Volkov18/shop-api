@@ -1,7 +1,7 @@
 package com.example.shopapi.shipment;
 
 import com.example.shopapi.common.BaseEntity;
-import com.example.shopapi.common.exception.ShipmentStatusException;
+import com.example.shopapi.common.exception.businessExceptions.ShipmentStatusException;
 import com.example.shopapi.order.entities.CustomerOrder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

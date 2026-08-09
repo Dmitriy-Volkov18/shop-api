@@ -3,7 +3,7 @@ package com.example.shopapi.auth.services;
 import com.example.shopapi.common.config.RateLimitProperties;
 import com.example.shopapi.auth.enums.RateLimitType;
 import com.example.shopapi.auth.enums.RiskLevel;
-import com.example.shopapi.common.exception.RateLimitExceededException;
+import com.example.shopapi.common.exception.runtimeExceptions.RateLimitExceededException;
 import com.example.shopapi.common.infrastructure.redis.RedisKeyBuilder;
 import com.example.shopapi.common.infrastructure.redis.ratelimit.RedisRateLimitService;
 import lombok.RequiredArgsConstructor;

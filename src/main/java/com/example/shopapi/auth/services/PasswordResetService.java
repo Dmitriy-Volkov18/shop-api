@@ -2,7 +2,7 @@ package com.example.shopapi.auth.services;
 
 import com.example.shopapi.common.infrastructure.redis.RedisTokenService;
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.auth.security.TokenHashUtil;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

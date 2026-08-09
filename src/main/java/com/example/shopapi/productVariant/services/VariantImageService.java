@@ -5,7 +5,7 @@ import com.example.shopapi.product.services.ImageUploadService;
 import com.example.shopapi.productVariant.dto.VariantImageResponse;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.productVariant.entities.VariantImage;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.productVariant.mappers.VariantImageMapper;
 import com.example.shopapi.product.services.ImageFactory;
 import com.example.shopapi.product.services.ImageRulesService;

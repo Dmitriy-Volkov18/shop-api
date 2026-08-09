@@ -2,7 +2,7 @@ package com.example.shopapi.promotion.services;
 
 import com.example.shopapi.brand.BrandRepository;
 import com.example.shopapi.category.CategoryRepository;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.common.validation.ValidationUtils;
 import com.example.shopapi.product.repositories.ProductRepository;
 import com.example.shopapi.promotion.entities.Promotion;

@@ -7,7 +7,7 @@ import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.auth.enums.RateLimitType;
 import com.example.shopapi.auth.enums.SecurityDecision;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

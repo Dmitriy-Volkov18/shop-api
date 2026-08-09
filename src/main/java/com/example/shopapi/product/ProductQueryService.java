@@ -1,6 +1,6 @@
 package com.example.shopapi.product;
 
-import com.example.shopapi.common.exception.ProductNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.ProductNotFoundException;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.product.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;

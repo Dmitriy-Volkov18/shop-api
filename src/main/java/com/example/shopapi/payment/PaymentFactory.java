@@ -1,6 +1,6 @@
 package com.example.shopapi.payment;
 
-import com.example.shopapi.common.exception.PaymentException;
+import com.example.shopapi.common.exception.businessExceptions.PaymentException;
 import com.example.shopapi.order.entities.CustomerOrder;
 import com.example.shopapi.payment.enums.PaymentMethod;
 import com.example.shopapi.payment.enums.PaymentStatus;

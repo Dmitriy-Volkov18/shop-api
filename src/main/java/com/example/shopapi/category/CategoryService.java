@@ -1,6 +1,6 @@
 package com.example.shopapi.category;
 
-import com.example.shopapi.common.exception.CategoryNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

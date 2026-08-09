@@ -5,7 +5,7 @@ import com.example.shopapi.common.BaseEntity;
 import com.example.shopapi.category.Category;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.product.enums.ProductStatus;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.user.entities.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

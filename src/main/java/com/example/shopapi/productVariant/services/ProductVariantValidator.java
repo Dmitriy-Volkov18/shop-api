@@ -1,7 +1,7 @@
 package com.example.shopapi.productVariant.services;
 
-import com.example.shopapi.common.exception.BadRequestException;
-import com.example.shopapi.common.exception.DuplicateSkuException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
+import com.example.shopapi.common.exception.conflictExceptions.DuplicateSkuException;
 import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.productVariant.dto.CreateProductVariantRequest;
 import com.example.shopapi.productVariant.dto.UpdateProductVariantRequest;

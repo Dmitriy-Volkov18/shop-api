@@ -1,7 +1,7 @@
 package com.example.shopapi.auth.security;
 
 import com.example.shopapi.common.constants.ImageConstants;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 

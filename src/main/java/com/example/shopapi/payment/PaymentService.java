@@ -1,7 +1,7 @@
 package com.example.shopapi.payment;
 
 import com.example.shopapi.order.entities.CustomerOrder;
-import com.example.shopapi.common.exception.PaymentNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.PaymentNotFoundException;
 import com.example.shopapi.inventory.InventoryReservationService;
 import com.example.shopapi.payment.enums.PaymentStatus;
 import lombok.RequiredArgsConstructor;

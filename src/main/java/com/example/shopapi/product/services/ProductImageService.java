@@ -6,7 +6,7 @@ import com.example.shopapi.product.entities.Product;
 import com.example.shopapi.product.entities.ProductImage;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.productVariant.entities.VariantImage;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.product.mappers.ProductImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;

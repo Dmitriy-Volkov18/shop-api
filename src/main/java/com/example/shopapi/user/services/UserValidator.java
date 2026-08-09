@@ -1,6 +1,6 @@
 package com.example.shopapi.user.services;
 
-import com.example.shopapi.common.exception.ConflictException;
+import com.example.shopapi.common.exception.conflictExceptions.ConflictException;
 import com.example.shopapi.user.dto.UserCreateRequest;
 import com.example.shopapi.user.dto.UserUpdateRequest;
 import com.example.shopapi.user.entities.User;

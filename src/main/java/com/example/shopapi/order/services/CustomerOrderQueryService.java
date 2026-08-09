@@ -1,6 +1,6 @@
 package com.example.shopapi.order.services;
 
-import com.example.shopapi.common.exception.CustomerOrderNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.CustomerOrderNotFoundException;
 import com.example.shopapi.order.CustomerOrderFilter;
 import com.example.shopapi.order.CustomerOrderSpecification;
 import com.example.shopapi.order.entities.CustomerOrder;

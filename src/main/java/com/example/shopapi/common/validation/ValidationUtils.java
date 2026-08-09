@@ -1,6 +1,6 @@
 package com.example.shopapi.common.validation;
 
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

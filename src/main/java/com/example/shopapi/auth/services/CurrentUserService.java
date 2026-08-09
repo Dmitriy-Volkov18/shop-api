@@ -3,7 +3,7 @@ package com.example.shopapi.auth.services;
 import com.example.shopapi.user.CustomUserPrincipal;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.enums.UserRole;
-import com.example.shopapi.common.exception.UserNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.UserNotFoundException;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;

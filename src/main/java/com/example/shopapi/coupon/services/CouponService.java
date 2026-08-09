@@ -3,7 +3,7 @@ package com.example.shopapi.coupon.services;
 import com.example.shopapi.coupon.dto.CreateCouponRequest;
 import com.example.shopapi.coupon.dto.UpdateCouponRequest;
 import com.example.shopapi.coupon.entities.Coupon;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.coupon.CouponMapper;
 import com.example.shopapi.coupon.repositories.CouponRepository;
 import lombok.RequiredArgsConstructor;

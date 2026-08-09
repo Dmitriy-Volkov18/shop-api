@@ -3,7 +3,7 @@ package com.example.shopapi.coupon.services;
 import com.example.shopapi.coupon.dto.CouponApplicationRequest;
 import com.example.shopapi.coupon.dto.CouponApplicationResult;
 import com.example.shopapi.coupon.entities.Coupon;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.coupon.repositories.CouponUsageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

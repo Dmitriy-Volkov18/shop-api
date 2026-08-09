@@ -1,7 +1,7 @@
 package com.example.shopapi.auth.services;
 
 import com.example.shopapi.auth.dto.RefreshTokenClaims;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.common.config.JwtProperties;
 import io.jsonwebtoken.Claims;

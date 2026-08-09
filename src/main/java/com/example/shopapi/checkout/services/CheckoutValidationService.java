@@ -6,8 +6,8 @@ import com.example.shopapi.card.entities.CartItem;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.product.enums.ProductStatus;
 import com.example.shopapi.productVariant.enums.ProductVariantStatus;
-import com.example.shopapi.common.exception.BusinessException;
-import com.example.shopapi.common.exception.EmptyCartException;
+import com.example.shopapi.common.exception.businessExceptions.BusinessException;
+import com.example.shopapi.common.exception.businessExceptions.EmptyCartException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

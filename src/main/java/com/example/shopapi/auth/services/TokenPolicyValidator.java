@@ -3,7 +3,7 @@ package com.example.shopapi.auth.services;
 import com.example.shopapi.auth.dto.RefreshTokenClaims;
 import com.example.shopapi.auth.dto.SessionMeta;
 import com.example.shopapi.auth.entities.RefreshToken;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.example.shopapi.product.services;
 
 import com.example.shopapi.common.AbstractImage;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.common.interfaces.PrimaryImage;
 import org.springframework.stereotype.Service;
 

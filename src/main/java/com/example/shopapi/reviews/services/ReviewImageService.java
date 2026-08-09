@@ -1,6 +1,6 @@
 package com.example.shopapi.reviews.services;
 
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.product.dto.ImageMetadata;
 import com.example.shopapi.product.services.ImageFactory;
 import com.example.shopapi.product.services.ImageRulesService;

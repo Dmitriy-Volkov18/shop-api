@@ -1,7 +1,7 @@
 package com.example.shopapi.order.entities;
 
 import com.example.shopapi.common.BaseEntity;
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

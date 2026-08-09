@@ -1,6 +1,6 @@
 package com.example.shopapi.reviews.services;
 
-import com.example.shopapi.common.exception.PurchaseRequiredException;
+import com.example.shopapi.common.exception.runtimeExceptions.PurchaseRequiredException;
 import com.example.shopapi.order.services.CustomerOrderQueryService;
 import com.example.shopapi.product.services.ProductRatingService;
 import com.example.shopapi.reviews.ReviewStatus;
@@ -13,7 +13,7 @@ import com.example.shopapi.reviews.entities.Review;
 import com.example.shopapi.reviews.entities.ReviewImage;
 import com.example.shopapi.reviews.mappers.ReviewMapper;
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.common.exception.ReviewAlreadyExistsException;
+import com.example.shopapi.common.exception.conflictExceptions.ReviewAlreadyExistsException;
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;

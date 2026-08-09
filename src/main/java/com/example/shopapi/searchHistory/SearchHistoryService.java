@@ -1,7 +1,7 @@
 package com.example.shopapi.searchHistory;
 
 import com.example.shopapi.user.entities.User;
-import com.example.shopapi.common.exception.SearchHistoryNotFoundException;
+import com.example.shopapi.common.exception.notFoundExceptions.SearchHistoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

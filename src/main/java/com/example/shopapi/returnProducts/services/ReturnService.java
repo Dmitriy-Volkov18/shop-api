@@ -1,9 +1,9 @@
 package com.example.shopapi.returnProducts.services;
 
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import com.example.shopapi.order.entities.CustomerOrder;
-import com.example.shopapi.common.exception.ReturnNotFoundException;
-import com.example.shopapi.common.exception.ReturnStatusException;
+import com.example.shopapi.common.exception.notFoundExceptions.ReturnNotFoundException;
+import com.example.shopapi.common.exception.businessExceptions.ReturnStatusException;
 import com.example.shopapi.returnProducts.ReturnFilter;
 import com.example.shopapi.returnProducts.ReturnRequest;
 import com.example.shopapi.returnProducts.ReturnRequestRepository;

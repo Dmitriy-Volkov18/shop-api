@@ -1,6 +1,6 @@
 package com.example.shopapi.promotion.campaign;
 
-import com.example.shopapi.common.exception.BadRequestException;
+import com.example.shopapi.common.exception.runtimeExceptions.BadRequestException;
 import org.springframework.stereotype.Service;
 
 @Service
