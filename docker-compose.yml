@@ -2,24 +2,20 @@ services:
 
   postgres:
     image: postgres:17
-    container_name: shop-postgres
-
+    container_name: ${DB_CONTAINER_NAME}
     restart: unless-stopped
-
-    env_file:
-      - .env
 
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
-    ports:
-      - "${POSTGRES_PORT}:5432"
-
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    networks:
+      - backend-network
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
@@ -27,17 +23,17 @@ services:
       timeout: 5s
       retries: 5
 
+
   redis:
     image: redis:8
-    container_name: shop-redis
-
+    container_name: ${REDIS_CONTAINER_NAME}
     restart: unless-stopped
-
-    ports:
-      - "${REDIS_PORT}:6379"
 
     volumes:
       - redis-data:/data
+
+    networks:
+      - backend-network
 
     healthcheck:
       test: ["CMD", "redis-cli", "PING"]
@@ -45,12 +41,9 @@ services:
       timeout: 5s
       retries: 5
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
 
-    container_name: shop-api
+  backend:
+    container_name: ${BACKEND_CONTAINER_NAME}
     restart: unless-stopped
 
     env_file:
@@ -59,8 +52,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
 
-    ports:
-      - "8080:8080"
+    networks:
+      - backend-network
 
     depends_on:
       postgres:
@@ -79,6 +72,11 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+
+
+networks:
+  backend-network:
+    name: ${NETWORK_NAME}
 
 volumes:
   postgres-data:

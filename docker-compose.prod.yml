@@ -1,0 +1,4 @@
+services:
+
+  backend:
+    image: ghcr.io/${GHCR_OWNER}/shop-api:latest
