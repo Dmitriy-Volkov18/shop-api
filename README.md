@@ -50,35 +50,34 @@ REST API интернет-магазина на Spring Boot.
 
 Настройте файл `.env`, затем выполните:
 
+### dev вариант
 ```bash
-docker compose up -d --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
+### prod вариант
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
 Проверить состояние контейнеров:
 
 ```bash
-docker compose ps
-```
-
-Приложение будет доступно по адресу:
-
-```text
-http://localhost:8080
+docker compose -f docker-compose.yml -f docker-compose.dev.yml ps
 ```
 
 Остановить контейнеры:
 
 ```bash
-docker compose down
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
 ```
 
 Остановить контейнеры и удалить постоянные volumes:
 
 ```bash
-docker compose down -v
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down -v
 ```
 
-> `docker compose down -v` удаляет volumes PostgreSQL и Redis, поэтому все сохранённые в них данные будут удалены.
+
 
 ---
 
@@ -90,21 +89,37 @@ docker compose down -v
 
 ```env
 POSTGRES_DB=shop
-POSTGRES_USER=user
-POSTGRES_PASSWORD=pass
+POSTGRES_USER=shop_user
+POSTGRES_PASSWORD=change_me
 POSTGRES_PORT=5432
 
-DB_HOST=localhost
+DB_HOST=postgres
 DB_PORT=5432
 DB_NAME=shop
-DB_USERNAME=user
-DB_PASSWORD=pass
+DB_USERNAME=shop_user
+DB_PASSWORD=change_me
 
-REDIS_HOST=localhost
+REDIS_HOST=redis
 REDIS_PORT=6379
+
+BACKEND_PORT=8080
+
+DB_CONTAINER_NAME=shop-postgres
+REDIS_CONTAINER_NAME=shop-redis
+BACKEND_CONTAINER_NAME=shop-backend
+
+NETWORK_NAME=shop-backend-network
+
+GHCR_OWNER=your_github_username
 ```
 
 ---
+
+Приложение будет доступно по адресу:
+
+```text
+http://localhost:8080
+```
 
 ## Документация API
 
