@@ -52,29 +52,38 @@ REST API интернет-магазина на Spring Boot.
 
 ### dev вариант
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.dev.yml \
+  up -d --build
 ```
 
-### prod вариант
-```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-```
+
 Проверить состояние контейнеров:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml ps
+docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.dev.yml \
+  ps
 ```
 
 Остановить контейнеры:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.dev.yml \
+  down
 ```
 
 Остановить контейнеры и удалить постоянные volumes:
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.dev.yml \
+  down -v
 ```
 
 
@@ -111,6 +120,9 @@ BACKEND_CONTAINER_NAME=shop-backend
 NETWORK_NAME=shop-backend-network
 
 GHCR_OWNER=your_github_username
+
+NGINX_PORT=80
+NGINX_CONTAINER_NAME=shop-nginx
 ```
 
 ---
@@ -118,7 +130,7 @@ GHCR_OWNER=your_github_username
 Приложение будет доступно по адресу:
 
 ```text
-http://localhost:8080
+http://localhost
 ```
 
 ## Документация API
@@ -126,13 +138,13 @@ http://localhost:8080
 После запуска приложения Swagger UI доступен по адресу:
 
 ```text
-http://localhost:8080/swagger-ui/index.html
+http://localhost/swagger-ui/index.html
 ```
 
 OpenAPI спецификация:
 
 ```text
-http://localhost:8080/v3/api-docs
+http://localhost/v3/api-docs
 ```
 
 Swagger UI позволяет просматривать и тестировать доступные REST API endpoints.
