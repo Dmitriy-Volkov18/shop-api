@@ -2,3 +2,12 @@ services:
 
   backend:
     image: ghcr.io/${GHCR_OWNER}/shop-api:latest
+
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - ./docker/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/certs:/etc/nginx/certs:ro

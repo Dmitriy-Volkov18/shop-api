@@ -73,6 +73,18 @@ services:
       retries: 5
       start_period: 30s
 
+  nginx:
+    image: nginx:alpine
+    container_name: ${NGINX_CONTAINER_NAME}
+    restart: unless-stopped
+
+    networks:
+      - backend-network
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
 
 networks:
   backend-network:
