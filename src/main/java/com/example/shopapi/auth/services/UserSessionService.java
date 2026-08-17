@@ -7,11 +7,13 @@ import com.example.shopapi.auth.enums.SecurityEventType;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -35,6 +37,8 @@ public class UserSessionService {
         User currentUser = currentUserService.getCurrentUserEntity();
 
         if(!user.equals(currentUser)){
+            log.warn("Not same user: ");
+
             throw new AccessDeniedException("Not same user");
         }
 
@@ -44,6 +48,8 @@ public class UserSessionService {
         String accessJti = jwtService.extractJti(accessToken);
 
         tokenBlacklistService.revoke(accessJti);
+
+        log.info("Logged out successfully");
 
         auditService.log(
                 new SecurityAuditEvent(
@@ -68,6 +74,8 @@ public class UserSessionService {
 
         refreshTokenService.revokeAllByUserId(user.getId());
 
+        log.info("Logged out of all devices successfully");
+
         auditService.log(
                 new SecurityAuditEvent(
                         user,
@@ -90,6 +98,8 @@ public class UserSessionService {
         String deviceId = session.getDeviceIdentity().getDeviceId();
 
         refreshTokenService.revoke(session);
+
+        log.info("Logged out of session successfully");
 
         auditService.log(
                 new SecurityAuditEvent(
@@ -119,6 +129,8 @@ public class UserSessionService {
 
         refreshTokenService.revokeAllExcept(userId, currentJti);
 
+        log.info("Logged out of all sessions except current successfully");
+
         auditService.log(
                 new SecurityAuditEvent(
                         user,
@@ -145,6 +157,8 @@ public class UserSessionService {
         RefreshToken session = getOwnedSession(userId, jti);
         session.setTrusted(true);
 
+        log.info("Device is trusted");
+
         auditService.log(
                 new SecurityAuditEvent(
                         session.getUser(),
@@ -168,6 +182,8 @@ public class UserSessionService {
     ) {
         RefreshToken session = getOwnedSession(userId, jti);
         session.setTrusted(false);
+
+        log.info("Device is untrusted");
 
         auditService.log(
                 new SecurityAuditEvent(
@@ -194,6 +210,8 @@ public class UserSessionService {
         RefreshToken session = getOwnedSession(userId, jti);
         session.setTrusted(true);
         session.setNickname(nickname);
+
+        log.info("Session nickname is updated");
 
         auditService.log(
                 new SecurityAuditEvent(

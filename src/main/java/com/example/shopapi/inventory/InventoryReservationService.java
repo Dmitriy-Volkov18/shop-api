@@ -4,12 +4,14 @@ import com.example.shopapi.common.config.ShopProperties;
 import com.example.shopapi.order.entities.CustomerOrder;
 import com.example.shopapi.productVariant.entities.ProductVariant;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,6 +36,8 @@ public class InventoryReservationService {
                         .plus(properties.getReservation().getTimeout())
         );
 
+        log.info("Reservation is created");
+
         return repository.save(reservation);
     }
 
@@ -41,6 +45,8 @@ public class InventoryReservationService {
             InventoryReservation reservation
     ) {
         if(!reservation.getStatus().isActive()){
+            log.warn("Reservation status is not active");
+
             return;
         }
 
@@ -49,6 +55,8 @@ public class InventoryReservationService {
                 .confirmReservation(
                         reservation.getQuantity()
                 );
+
+        log.info("Reservation is confirmed");
     }
 
     public void confirmByOrder(
@@ -62,6 +70,8 @@ public class InventoryReservationService {
         for(InventoryReservation reservation : reservations) {
             confirm(reservation);
         }
+
+        log.info("Reservation is confirmed by order");
     }
 
     public void releaseByOrder(
@@ -83,6 +93,8 @@ public class InventoryReservationService {
                             reservation.getQuantity()
                     );
         }
+
+        log.info("Reservation is released by order");
     }
 
     public void releaseExpired() {
@@ -99,5 +111,7 @@ public class InventoryReservationService {
                             reservation.getQuantity()
                     );
         }
+
+        log.info("Reservation release is expired");
     }
 }

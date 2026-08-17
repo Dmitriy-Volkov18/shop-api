@@ -6,11 +6,13 @@ import com.example.shopapi.coupon.dto.UpdateCouponRequest;
 import com.example.shopapi.coupon.entities.Coupon;
 import com.example.shopapi.coupon.CouponMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -40,7 +42,11 @@ public class CouponFacade {
     ) {
         Coupon coupon = couponService.create(request);
 
-        return couponMapper.toResponse(coupon);
+        CouponResponse response = couponMapper.toResponse(coupon);
+
+        log.info("Coupon is created");
+
+        return response;
     }
 
     public CouponResponse update(
@@ -55,7 +61,11 @@ public class CouponFacade {
                         request
                 );
 
-        return couponMapper.toResponse(updated);
+        CouponResponse response = couponMapper.toResponse(updated);
+
+        log.info("Coupon is updated");
+
+        return response;
     }
 
     public void delete(
@@ -63,5 +73,7 @@ public class CouponFacade {
     ) {
         Coupon coupon = couponService.getCoupon(id);
         couponService.delete(coupon);
+
+        log.info("Coupon is deleted");
     }
 }

@@ -8,10 +8,12 @@ import com.example.shopapi.order.mappers.AddressMapper;
 import com.example.shopapi.auth.services.CurrentUserService;
 import com.example.shopapi.user.services.AddressService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AddressFacade {
@@ -36,6 +38,8 @@ public class AddressFacade {
         User user = currentUser();
         UserAddress address = mapper.toEntity(request);
 
+        log.info("User address is created");
+
         return mapper.toResponse(
                 addressService.create(
                         user,
@@ -50,6 +54,8 @@ public class AddressFacade {
     ) {
         UserAddress address = getAddress(id);
 
+        log.info("User address is updated");
+
         return mapper.toResponse(
                 addressService.update(
                         address,
@@ -61,11 +67,15 @@ public class AddressFacade {
     public void delete(Long id){
         UserAddress address = getAddress(id);
         addressService.delete(address);
+
+        log.info("User address is deleted");
     }
 
     public void makePrimary(Long id){
         UserAddress address = getAddress(id);
         addressService.setPrimary(address);
+
+        log.info("User address is made primary");
     }
 
     private User currentUser() {

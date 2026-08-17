@@ -7,8 +7,10 @@ import com.example.shopapi.order.services.OrderWorkflowService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ShipmentFacade {
@@ -40,6 +42,8 @@ public class ShipmentFacade {
     ){
         Shipment shipment = shipmentService.getById(id);
         shipmentService.process(shipment);
+
+        log.info("Shipment is processed");
     }
 
     public void ship(
@@ -53,6 +57,8 @@ public class ShipmentFacade {
                 request.carrier(),
                 request.trackingNumber()
         );
+
+        log.info("Order is shipped");
     }
 
     public void deliver(
@@ -63,6 +69,8 @@ public class ShipmentFacade {
         orderWorkflowService.deliver(
                 shipment.getOrder()
         );
+
+        log.info("Order is delivered");
     }
 
 }

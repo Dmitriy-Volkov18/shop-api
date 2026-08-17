@@ -10,11 +10,13 @@ import com.example.shopapi.productVariant.services.VariantImageService;
 import com.example.shopapi.product.services.ImageUploadService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class VariantImageFacade {
@@ -55,6 +57,8 @@ public class VariantImageFacade {
 
         ImageMetadata metadata = imageUploadService.process(file);
 
+        log.info("Product variant image is uploaded");
+
         return variantImageService.addImage(
                 variant,
                 metadata,
@@ -74,6 +78,8 @@ public class VariantImageFacade {
                         product.getId(),
                         variantId
                 );
+
+        log.info("Product variant images are uploaded");
 
         return variantImageService.addImages(
                 variant,
@@ -99,6 +105,8 @@ public class VariantImageFacade {
                 variant,
                 imageId
         );
+
+        log.info("Product variant image is deleted");
     }
 
 

@@ -49,9 +49,7 @@ public class EmailVerificationService {
         Long userId = redisTokenService.getEmailVerificationUserId(hash);
 
         if (userId == null) {
-            throw new BadRequestException(
-                    "Invalid or expired verification token"
-            );
+            throw new BadRequestException("Invalid or expired verification token");
         }
 
         User user =
@@ -64,13 +62,8 @@ public class EmailVerificationService {
 
         user.setEmailVerified(true);
 
-        redisTokenService.deleteEmailVerificationToken(
-                hash
-        );
-
-        redisTokenService.deleteUserVerificationToken(
-                userId
-        );
+        redisTokenService.deleteEmailVerificationToken(hash);
+        redisTokenService.deleteUserVerificationToken(userId);
 
         return user;
     }

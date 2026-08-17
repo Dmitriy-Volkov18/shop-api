@@ -12,12 +12,14 @@ import com.example.shopapi.common.exception.runtimeExceptions.BadRequestExceptio
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -47,15 +49,20 @@ public class PasswordManagementService {
         User user = currentUserService.getCurrentUserEntity();
 
         if (!passwordEncoder.matches(request.oldPassword(), user.getPassword())) {
+            log.warn("Passwords are different: current password={}, entered password={}", user.getPassword(), request.oldPassword());
+
             throw new BadRequestException("Current password is incorrect");
         }
 
         if (passwordEncoder.matches(request.newPassword(), user.getPassword())) {
-            throw new BadRequestException(
-                    "New password must be different from the current password");
+            log.warn("Passwords are same: current password={}, entered password={}", user.getPassword(), request.newPassword());
+
+            throw new BadRequestException("New password must be different from the current password");
         }
 
         updatePassword(user, request.newPassword());
+
+        log.info("Password is successfully changed");
 
         auditService.log(
                 new SecurityAuditEvent(
@@ -86,6 +93,8 @@ public class PasswordManagementService {
         Optional<User> optionalUser = userRepository.findByEmail(request.email());
 
         if (optionalUser.isEmpty()) {
+            log.warn("User with such email doesn`t exists");
+
             return;
         }
 
@@ -105,6 +114,8 @@ public class PasswordManagementService {
                 Link expires in 15 minutes.
                 """.formatted(token)
         );
+
+        log.info("Password reset requested");
 
         auditService.log(
                 new SecurityAuditEvent(
@@ -126,22 +137,19 @@ public class PasswordManagementService {
             ResetPasswordRequest request,
             SessionMeta meta
     ) {
-        User user =
-                passwordResetService.validateToken(
-                        request.token()
-                );
+        User user = passwordResetService.validateToken(request.token());
 
         if (passwordEncoder.matches(request.newPassword(), user.getPassword())) {
-            throw new BadRequestException(
-                    "New password must be different"
-            );
+            log.warn("Passwords must be different");
+
+            throw new BadRequestException("New password must be different");
         }
 
         updatePassword(user, request.newPassword());
 
-        passwordResetService.deleteToken(
-                request.token()
-        );
+        passwordResetService.deleteToken(request.token());
+
+        log.info("Password updated");
 
         auditService.log(
                 new SecurityAuditEvent(

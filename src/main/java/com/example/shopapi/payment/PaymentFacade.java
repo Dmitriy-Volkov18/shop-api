@@ -3,8 +3,10 @@ package com.example.shopapi.payment;
 import com.example.shopapi.order.services.OrderWorkflowService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentFacade {
@@ -23,6 +25,8 @@ public class PaymentFacade {
         );
 
         orderWorkflowService.pay(payment.getOrder());
+
+        log.info("Order is paid");
     }
 
     public void refund(
@@ -31,6 +35,8 @@ public class PaymentFacade {
         Payment payment = paymentService.getEntity(orderId);
         authorizationService.requireAdmin();
         paymentService.refund(payment);
+
+        log.info("Order is refunded");
     }
 
 }

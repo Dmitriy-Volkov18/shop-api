@@ -17,6 +17,7 @@ import com.example.shopapi.common.exception.conflictExceptions.ReviewAlreadyExis
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -67,6 +69,8 @@ public class ReviewFacadeService {
 
         refreshRating(product);
 
+        log.info("Review is created");
+
         return reviewMapper.toResponse(review);
     }
 
@@ -87,6 +91,8 @@ public class ReviewFacadeService {
 
         refreshRating(review.getProduct());
 
+        log.info("Review is updated");
+
         return reviewMapper.toResponse(review);
     }
 
@@ -98,6 +104,8 @@ public class ReviewFacadeService {
         reviewService.delete(review);
 
         refreshRating(review.getProduct());
+
+        log.info("Review is deleted");
     }
 
     @Transactional(readOnly = true)
@@ -141,6 +149,8 @@ public class ReviewFacadeService {
                 reviewId,
                 files
         );
+
+        log.info("Review images are uploaded");
     }
 
     @Transactional
@@ -154,6 +164,8 @@ public class ReviewFacadeService {
         );
 
         reviewImageService.deleteImage(imageId);
+
+        log.info("Review image is deleted");
     }
 
     private Review getReview(
@@ -166,5 +178,7 @@ public class ReviewFacadeService {
             Product product
     ) {
         productRatingService.refreshRating(product);
+
+        log.info("Review rating is refreshed");
     }
 }

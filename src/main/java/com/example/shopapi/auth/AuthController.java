@@ -476,14 +476,10 @@ public class AuthController {
     public List<SessionResponse> sessions(
             @RequestHeader("Authorization") String authHeader
     ) {
-        String accessToken =
-                jwtService.extractAccessToken(authHeader);
+        String accessToken = jwtService.extractAccessToken(authHeader);
+        String currentJti = jwtService.extractJti(accessToken);
 
-        String currentJti =
-                jwtService.extractJti(accessToken);
-
-        User user =
-                currentUserService.getCurrentUserEntity();
+        User user = currentUserService.getCurrentUserEntity();
 
         return refreshTokenService
                 .getActiveSessions(user.getId())
@@ -511,14 +507,10 @@ public class AuthController {
     public List<SessionResponse> sessionHistory(
             @RequestHeader("Authorization") String authHeader
     ) {
-        String accessToken =
-                jwtService.extractAccessToken(authHeader);
+        String accessToken = jwtService.extractAccessToken(authHeader);
+        String currentJti = jwtService.extractJti(accessToken);
 
-        String currentJti =
-                jwtService.extractJti(accessToken);
-
-        User user =
-                currentUserService.getCurrentUserEntity();
+        User user = currentUserService.getCurrentUserEntity();
 
         return refreshTokenService
                 .getSessionHistory(user.getId())
@@ -544,11 +536,8 @@ public class AuthController {
             @PathVariable String jti,
             HttpServletRequest request
     ) {
-        User user =
-                currentUserService.getCurrentUserEntity();
-
-        SessionMeta meta =
-                sessionMetaProvider.build(request);
+        User user = currentUserService.getCurrentUserEntity();
+        SessionMeta meta = sessionMetaProvider.build(request);
 
         userSessionService.trustSession(
                 user.getId(),
@@ -565,15 +554,12 @@ public class AuthController {
     )
     @PostMapping("/sessions/{jti}/untrust")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void untrustSession(
+    public void unTrustSession(
             @PathVariable String jti,
             HttpServletRequest request
     ) {
-        User user =
-                currentUserService.getCurrentUserEntity();
-
-        SessionMeta meta =
-                sessionMetaProvider.build(request);
+        User user = currentUserService.getCurrentUserEntity();
+        SessionMeta meta = sessionMetaProvider.build(request);
 
         userSessionService.untrustSession(
                 user.getId(),
@@ -595,11 +581,8 @@ public class AuthController {
             @Valid @RequestBody UpdateSessionRequest request,
             HttpServletRequest httpRequest
     ) {
-        User user =
-                currentUserService.getCurrentUserEntity();
-
-        SessionMeta meta =
-                sessionMetaProvider.build(httpRequest);
+        User user = currentUserService.getCurrentUserEntity();
+        SessionMeta meta = sessionMetaProvider.build(httpRequest);
 
         userSessionService.updateSessionNickname(
                 user.getId(),

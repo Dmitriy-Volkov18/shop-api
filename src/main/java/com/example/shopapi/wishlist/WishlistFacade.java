@@ -4,10 +4,12 @@ import com.example.shopapi.product.dto.ProductListResponse;
 import com.example.shopapi.product.mappers.ProductMapper;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class WishlistFacade {
@@ -23,6 +25,8 @@ public class WishlistFacade {
                 currentUserService.getCurrentUserEntity(),
                 productId
         );
+
+        log.info("Product is added to wishlist");
     }
 
     public void remove(
@@ -32,6 +36,8 @@ public class WishlistFacade {
                 currentUserService.getCurrentUserEntity(),
                 productId
         );
+
+        log.info("Product is removed out of wishlist");
     }
 
     public Page<ProductListResponse> getWishlist(

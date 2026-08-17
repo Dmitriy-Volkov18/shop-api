@@ -22,6 +22,7 @@ import com.example.shopapi.checkout.services.CheckoutService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomerOrderFacade {
@@ -89,6 +91,8 @@ public class CustomerOrderFacade {
                         price.total()
                 );
 
+        log.info("Order is reordered");
+
         return new ReorderResult(
                 cartResponse,
                 result.skippedItems()
@@ -120,9 +124,9 @@ public class CustomerOrderFacade {
     public CustomerOrderResponse createOrder(CheckoutRequest request) {
         CustomerOrder order = checkoutService.checkout(request);
 
-        return customerOrderMapper.toResponse(
-                order
-        );
+        log.info("Order is created");
+
+        return customerOrderMapper.toResponse(order);
     }
 
     public void cancelOrder(Long id) {

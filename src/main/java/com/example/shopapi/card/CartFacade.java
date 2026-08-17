@@ -12,10 +12,12 @@ import com.example.shopapi.productVariant.entities.ProductVariant;
 import com.example.shopapi.auth.services.CurrentUserService;
 import com.example.shopapi.user.entities.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -58,6 +60,8 @@ public class CartFacade {
 
         cartService.save(cart);
 
+        log.info("Cart item is added");
+
         return cartResponseBuilder.build(cart);
     }
 
@@ -81,6 +85,8 @@ public class CartFacade {
 
         cartService.save(cart);
 
+        log.info("Cart item is updated");
+
         return cartResponseBuilder.build(cart);
     }
 
@@ -95,6 +101,8 @@ public class CartFacade {
 
         cartService.save(cart);
 
+        log.info("Cart item is removed");
+
         return cartResponseBuilder.build(cart);
     }
 
@@ -103,6 +111,8 @@ public class CartFacade {
         cart.clearItems();
 
         cartService.save(cart);
+
+        log.info("Cart is cleared");
 
         return cartResponseBuilder.build(cart);
     }

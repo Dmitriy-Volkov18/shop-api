@@ -17,6 +17,7 @@ import com.example.shopapi.searchHistory.SearchHistoryService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductFacade {
@@ -56,6 +58,8 @@ public class ProductFacade {
                 );
 
         productListCacheService.evictAll();
+
+        log.info("Product is created");
 
         return productMapper.toDetailResponse(product);
     }
@@ -177,6 +181,8 @@ public class ProductFacade {
         productCacheService.evict(updated.getId());
         productListCacheService.evictAll();
 
+        log.info("Product is updated");
+
         return productMapper.toDetailResponse(updated);
     }
 
@@ -187,6 +193,8 @@ public class ProductFacade {
         productService.deactivate(product);
         productCacheService.evict(product.getId());
         productListCacheService.evictAll();
+
+        log.info("Product is deactivated");
     }
 
     public ProductDetailResponse updateStock(
@@ -204,6 +212,8 @@ public class ProductFacade {
 
         productCacheService.evict(product.getId());
         productListCacheService.evictAll();
+
+        log.info("Product stock is updated");
 
         return productMapper.toDetailResponse(product);
     }

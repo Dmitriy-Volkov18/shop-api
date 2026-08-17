@@ -9,11 +9,13 @@ import com.example.shopapi.user.entities.User;
 import com.example.shopapi.auth.services.AuthorizationService;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ProductDiscountFacade {
@@ -95,6 +97,8 @@ public class ProductDiscountFacade {
                         user
                 );
 
+        log.info("Product discount is created");
+
         return discountMapper.toResponse(discount);
     }
 
@@ -126,6 +130,8 @@ public class ProductDiscountFacade {
                 currentUserService.getCurrentUserEntity()
         );
 
+        log.info("Product discount is updated");
+
         return discountMapper.toResponse(updated);
     }
 
@@ -154,6 +160,8 @@ public class ProductDiscountFacade {
                 discount,
                 currentUserService.getCurrentUserEntity()
         );
+
+        log.info("Product discount is deleted");
     }
 
     private ProductVariant getVariant(

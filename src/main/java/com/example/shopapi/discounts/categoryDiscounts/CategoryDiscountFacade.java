@@ -7,10 +7,12 @@ import com.example.shopapi.discounts.categoryDiscounts.dto.UpdateCategoryDiscoun
 import com.example.shopapi.category.Category;
 import com.example.shopapi.auth.services.CurrentUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CategoryDiscountFacade {
@@ -38,6 +40,8 @@ public class CategoryDiscountFacade {
     ){
         Category category = getCategory(categoryId);
 
+        log.info("Category discount is created");
+
         return mapper.toResponse(
                 discountService.create(
                         category,
@@ -59,6 +63,8 @@ public class CategoryDiscountFacade {
                         category,
                         discountId
                 );
+
+        log.info("Category discount is updated");
 
         return mapper.toResponse(
                 discountService.update(
@@ -85,6 +91,8 @@ public class CategoryDiscountFacade {
                 discount,
                 currentUserService.getCurrentUserEntity()
         );
+
+        log.info("Category discount is deleted");
     }
 
     private Category getCategory(

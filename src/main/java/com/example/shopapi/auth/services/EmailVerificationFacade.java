@@ -8,9 +8,11 @@ import com.example.shopapi.auth.enums.SecurityEventType;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -28,6 +30,8 @@ public class EmailVerificationFacade {
     ) {
         User user = emailVerificationService.verify(token);
 
+        log.info("Email is verified");
+
         auditService.log(
                 new SecurityAuditEvent(
                         user,
@@ -35,7 +39,7 @@ public class EmailVerificationFacade {
                         true,
                         null,
                         null,
-                        "Email verified",
+                        "Email is verified",
                         null,
                         null,
                         ""
@@ -59,10 +63,14 @@ public class EmailVerificationFacade {
                         .orElse(null);
 
         if (user == null || user.isEmailVerified()) {
+            log.warn("User with such email doesn`t exists");
+
             return;
         }
 
         String token = emailVerificationService.recreateToken(user);
+
+        log.info("Verification email is resent");
 
         mailService.send(
                 user.getEmail(),

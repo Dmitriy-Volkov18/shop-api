@@ -17,6 +17,7 @@ import com.example.shopapi.common.exception.runtimeExceptions.BadRequestExceptio
 import com.example.shopapi.common.exception.conflictExceptions.ConflictException;
 import com.example.shopapi.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -133,10 +135,20 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request, SessionMeta meta, RiskLevel riskLevel) {
         if (userRepository.existsByUsername(request.username())) {
+            log.warn(
+                    "Username already exists: username={}",
+                    request.username()
+            );
+
             throw new ConflictException("Username already exists");
         }
 
         if (userRepository.existsByEmail(request.email())) {
+            log.warn(
+                    "Email already exists: username={}",
+                    request.email()
+            );
+
             throw new ConflictException("Email already exists");
         }
 
@@ -164,6 +176,13 @@ public class AuthService {
                 "User registered"
         );
 
+        log.info(
+                "Successful register: userId={}, username={}, ip={}",
+                user.getId(),
+                user.getUsername(),
+                meta.ip()
+        );
+
         return response;
     }
 
@@ -179,6 +198,12 @@ public class AuthService {
                     )
             );
         }catch(AuthenticationException ex){
+            log.warn(
+                    "Login failed: invalid credentials, username={}, ip={}",
+                    request.username(),
+                    meta.ip()
+            );
+
             userRepository.findByUsername(request.username())
                     .ifPresent(user ->
                             auditService.log(
@@ -205,6 +230,12 @@ public class AuthService {
                 .orElseThrow();
 
         if (!user.isEmailVerified()) {
+            log.warn(
+                    "Login blocked: email not verified, userId={}, username={}, ip={}",
+                    user.getId(),
+                    user.getUsername(),
+                    meta.ip()
+            );
 
             auditService.log(
                     new SecurityAuditEvent(
@@ -236,6 +267,13 @@ public class AuthService {
                 );
 
         if (risk.decision() == SecurityDecision.BLOCK) {
+            log.warn(
+                    "Suspicious login blocked: userId={}, username={}, riskLevel={}, ip={}",
+                    user.getId(),
+                    user.getUsername(),
+                    risk.level(),
+                    meta.ip()
+            );
 
             auditService.log(
                     new SecurityAuditEvent(
@@ -257,6 +295,13 @@ public class AuthService {
         }
 
         if (risk.decision() == SecurityDecision.STEP_UP_AUTH) {
+            log.warn(
+                    "Step-up authentication required: userId={}, username={}, riskLevel={}, ip={}",
+                    user.getId(),
+                    user.getUsername(),
+                    risk.level(),
+                    meta.ip()
+            );
 
             auditService.log(
                     new SecurityAuditEvent(
@@ -284,6 +329,13 @@ public class AuthService {
 
         userRepository.save(user);
 
+        log.info(
+                "Successful login: userId={}, username={}, ip={}",
+                user.getId(),
+                user.getUsername(),
+                meta.ip()
+        );
+
         return createSession(
                 user,
                 meta,
@@ -305,6 +357,8 @@ public class AuthService {
         User user = session.getUser();
 
         refreshTokenService.revoke(session);
+
+        log.info("Session revoked successfully");
 
         return createSession(
                 user,

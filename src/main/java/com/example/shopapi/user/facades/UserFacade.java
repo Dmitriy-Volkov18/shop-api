@@ -13,10 +13,12 @@ import com.example.shopapi.user.services.UserService;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserFacade {
@@ -29,6 +31,8 @@ public class UserFacade {
 
     public UserResponse create(UserCreateRequest request) {
         User user = userService.create(request);
+
+        log.info("User is created");
 
         return userMapper.toResponse(user);
     }
@@ -56,6 +60,8 @@ public class UserFacade {
         authorizationService.requireUserAccess(user);
         User updated = userService.update(user, request);
 
+        log.info("User is uodated");
+
         return userMapper.toResponse(updated);
     }
 
@@ -63,6 +69,8 @@ public class UserFacade {
         User user = userService.getUser(id);
         authorizationService.requireUserAccess(user);
         userService.delete(user);
+
+        log.info("User is deleted");
     }
 
     public UserProfileResponse getMyProfile() {
@@ -73,6 +81,8 @@ public class UserFacade {
 
     public UserProfileResponse updateMyProfile(UpdateUserProfileRequest request) {
         Long userId = currentUserService.getCurrentUserId();
+
+        log.info("User profile is updated");
 
         return userProfileService.updateMyProfile(userId, request);
     }

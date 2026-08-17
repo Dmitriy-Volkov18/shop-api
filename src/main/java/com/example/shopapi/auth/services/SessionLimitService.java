@@ -6,10 +6,12 @@ import com.example.shopapi.auth.entities.RefreshToken;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.auth.enums.SecurityEventType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SessionLimitService {
@@ -35,6 +37,8 @@ public class SessionLimitService {
         refreshTokenService.revoke(
                 removed
         );
+
+        log.info("Oldest session is removed due to limit exceeded");
 
         auditService.log(
                 new SecurityAuditEvent(

@@ -8,11 +8,13 @@ import com.example.shopapi.common.exception.runtimeExceptions.BadRequestExceptio
 import com.example.shopapi.common.exception.conflictExceptions.ConflictException;
 import com.example.shopapi.product.cache.ProductListCacheService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -43,6 +45,8 @@ public class CategoryFacade {
 
         Category saved = categoryService.create(category);
         categoryCacheService.evictTree();
+
+        log.info("Category is created");
 
         return mapper.toResponse(saved);
     }
@@ -108,6 +112,8 @@ public class CategoryFacade {
         categoryCacheService.evictAll(saved.getId());
         productListCacheService.evictAll();
 
+        log.info("Category is updated");
+
         return mapper.toResponse(saved);
     }
 
@@ -143,6 +149,8 @@ public class CategoryFacade {
 
         categoryService.delete(category);
         categoryCacheService.evictAll(category.getId());
+
+        log.info("Category is deleted");
     }
 
     @Transactional(readOnly = true)

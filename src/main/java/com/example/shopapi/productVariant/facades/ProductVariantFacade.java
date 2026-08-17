@@ -10,10 +10,12 @@ import com.example.shopapi.productVariant.services.ProductVariantResponseService
 import com.example.shopapi.productVariant.services.ProductVariantService;
 import com.example.shopapi.auth.services.AuthorizationService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductVariantFacade {
@@ -35,6 +37,8 @@ public class ProductVariantFacade {
                         product,
                         request
                 );
+
+        log.info("Product variant is created");
 
         return productVariantResponseService.toResponse(variant);
     }
@@ -68,6 +72,8 @@ public class ProductVariantFacade {
                         request
                 );
 
+        log.info("Product variant is updated");
+
         return productVariantResponseService.toResponse(updated);
     }
 
@@ -88,6 +94,8 @@ public class ProductVariantFacade {
                 product,
                 variant
         );
+
+        log.info("Product variant is deleted");
     }
 
     public ProductVariantResponse getBySku(

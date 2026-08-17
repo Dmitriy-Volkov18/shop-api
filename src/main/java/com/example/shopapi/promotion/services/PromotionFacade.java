@@ -6,11 +6,13 @@ import com.example.shopapi.promotion.dto.CreatePromotionRequest;
 import com.example.shopapi.promotion.dto.PromotionResponse;
 import com.example.shopapi.promotion.dto.UpdatePromotionRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -38,6 +40,8 @@ public class PromotionFacade {
     public PromotionResponse create(
             CreatePromotionRequest request
     ) {
+        log.info("Promotion is created");
+
         return promotionMapper.toResponse(
                 promotionService.create(request)
         );
@@ -49,6 +53,8 @@ public class PromotionFacade {
             UpdatePromotionRequest request
     ) {
         Promotion promotion = promotionService.getPromotion(id);
+
+        log.info("Promotion is updated");
 
         return promotionMapper.toResponse(
                 promotionService.update(
@@ -65,6 +71,8 @@ public class PromotionFacade {
         promotionService.delete(
                 promotionService.getPromotion(id)
         );
+
+        log.info("Promotion is deleted");
     }
 
     public PromotionResponse publish(
@@ -76,6 +84,8 @@ public class PromotionFacade {
                 );
 
         promotionService.publish(promotion);
+
+        log.info("Promotion is published");
 
         return promotionMapper.toResponse(
                 promotion
@@ -94,6 +104,8 @@ public class PromotionFacade {
                 promotion
         );
 
+        log.info("Promotion is paused");
+
         return promotionMapper.toResponse(
                 promotion
         );
@@ -108,6 +120,8 @@ public class PromotionFacade {
                 );
 
         promotionService.activate(promotion);
+
+        log.info("Promotion is activated");
 
         return promotionMapper.toResponse(promotion);
     }

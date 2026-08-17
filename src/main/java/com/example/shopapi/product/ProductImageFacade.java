@@ -8,11 +8,13 @@ import com.example.shopapi.product.services.ImageUploadService;
 import com.example.shopapi.product.services.ProductImageService;
 import com.example.shopapi.product.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductImageFacade {
@@ -36,6 +38,8 @@ public class ProductImageFacade {
         Product product = loadAuthorizedProduct(productId);
         ImageMetadata metadata = imageUploadService.process(file);
 
+        log.info("Product image is uploaded");
+
         return productImageService.addImage(
                 product,
                 metadata,
@@ -48,6 +52,8 @@ public class ProductImageFacade {
             List<MultipartFile> files
     ){
         Product product = loadAuthorizedProduct(productId);
+
+        log.info("Product images are uploaded");
 
         return productImageService
                 .addImages(
@@ -66,6 +72,8 @@ public class ProductImageFacade {
                 product,
                 imageId
         );
+
+        log.info("Product image is deleted");
     }
 
     private Product loadAuthorizedProduct(Long productId) {

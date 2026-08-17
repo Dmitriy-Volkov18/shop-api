@@ -4,11 +4,13 @@ import com.example.shopapi.brand.dto.BrandResponse;
 import com.example.shopapi.brand.dto.CreateBrandRequest;
 import com.example.shopapi.brand.dto.UpdateBrandRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BrandFacade {
@@ -36,20 +38,18 @@ public class BrandFacade {
     public BrandResponse getBrand(
             Long id
     ) {
-        return mapper.toResponse(
-                brandService.getBrand(id)
-        );
+        return mapper.toResponse(brandService.getBrand(id));
     }
 
     @Transactional
     public BrandResponse create(
             CreateBrandRequest request
     ) {
-        return mapper.toResponse(
-                brandService.create(
-                        request
-                )
-        );
+        BrandResponse response = mapper.toResponse(brandService.create(request));
+
+        log.info("Brand is created");
+
+        return response;
     }
 
     @Transactional
@@ -57,58 +57,41 @@ public class BrandFacade {
             Long id,
             UpdateBrandRequest request
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        id
-                );
+        Brand brand = brandService.getBrand(id);
+        BrandResponse response = mapper.toResponse(brandService.update(brand, request));
 
-        return mapper.toResponse(
-                brandService.update(
-                        brand,
-                        request
-                )
-        );
+        log.info("Brand is updated");
+
+        return response;
     }
 
     @Transactional
     public void delete(
             Long id
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        id
-                );
+        Brand brand = brandService.getBrand(id);
+        brandService.delete(brand);
 
-        brandService.delete(
-                brand
-        );
+        log.info("Brand is deleted");
     }
 
     @Transactional
     public void activate(
             Long id
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        id
-                );
+        Brand brand = brandService.getBrand(id);
+        brandService.activate(brand);
 
-        brandService.activate(
-                brand
-        );
+        log.info("Brand is activated");
     }
 
     @Transactional
     public void deactivate(
             Long id
     ) {
-        Brand brand =
-                brandService.getBrand(
-                        id
-                );
+        Brand brand = brandService.getBrand(id);
+        brandService.deactivate(brand);
 
-        brandService.deactivate(
-                brand
-        );
+        log.info("Brand is deactivated");
     }
 }

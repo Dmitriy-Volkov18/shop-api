@@ -9,11 +9,13 @@ import com.example.shopapi.returnProducts.dto.ReturnResponse;
 import com.example.shopapi.returnProducts.services.ReturnService;
 import com.example.shopapi.returnProducts.services.ReturnWorkflowService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReturnFacade {
@@ -66,6 +68,8 @@ public class ReturnFacade {
                         request.reason()
                 );
 
+        log.info("Return is requested");
+
         return mapper.toResponse(
                 returnRequest
         );
@@ -74,15 +78,21 @@ public class ReturnFacade {
     public void approve(Long id){
         ReturnRequest request = returnService.getById(id);
         workflowService.approve(request);
+
+        log.info("Return is approved");
     }
 
     public void reject(Long id){
         ReturnRequest request = returnService.getById(id);
         workflowService.reject(request);
+
+        log.info("Return is rejected");
     }
 
     public void complete(Long id){
         ReturnRequest request = returnService.getById(id);
         workflowService.complete(request);
+
+        log.info("Return is completed");
     }
 }

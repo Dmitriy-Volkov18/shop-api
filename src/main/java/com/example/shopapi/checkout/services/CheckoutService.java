@@ -22,9 +22,11 @@ import com.example.shopapi.auth.services.CurrentUserService;
 import com.example.shopapi.user.entities.User;
 import com.example.shopapi.user.entities.UserAddress;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -97,6 +99,8 @@ public class CheckoutService {
         );
 
         order.setCoupon(result.coupon());
+
+        log.info("Coupon is applied");
     }
 
     private void attachShippingAddress(
@@ -114,6 +118,8 @@ public class CheckoutService {
                 );
 
         order.setShippingAddress(snapshot);
+
+        log.info("Shipping address is attached");
     }
 
     private void createPayment(
@@ -127,6 +133,8 @@ public class CheckoutService {
                 );
 
         order.setPayment(payment);
+
+        log.info("Payment is created");
     }
 
     private void createShipment(
@@ -134,6 +142,8 @@ public class CheckoutService {
     ) {
         Shipment shipment = shipmentFactory.create(order);
         order.setShipment(shipment);
+
+        log.info("Shipment is created");
     }
 
     private void reserveInventory(
@@ -147,5 +157,7 @@ public class CheckoutService {
                     item.getQuantity()
             );
         }
+
+        log.info("Items are reserved");
     }
 }
